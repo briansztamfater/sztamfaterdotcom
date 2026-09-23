@@ -2,6 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import { getThoughts, thoughtUrl, excerptOf } from '../../lib/thoughts';
 import { stamp, iso } from '../../lib/dates';
+import { SITE } from '../../site.config';
+import { graph, person } from '../../lib/seo';
 
 const thoughts = await getThoughts();
 
@@ -10,7 +12,22 @@ const years = [...new Set(thoughts.map((t) => t.data.date.getUTCFullYear()))];
 const byYear = years.map((y) => ({ year: y, items: thoughts.filter((t) => t.data.date.getUTCFullYear() === y) }));
 ---
 
-<Base title="Thoughts" description="Things Brian Sztamfater is thinking about, written down before he changes his mind.">
+<Base
+  title="Thoughts"
+  description="Things Brian Sztamfater is thinking about, written down before he changes his mind."
+  image="/og/thoughts.png"
+  jsonLd={graph(
+    {
+      '@type': 'Blog',
+      '@id': `${SITE.url}/thoughts/#blog`,
+      name: `${SITE.name}: thoughts`,
+      url: `${SITE.url}/thoughts/`,
+      author: { '@id': `${SITE.url}/#person` },
+      blogPost: thoughts.map((t) => ({ '@id': `${SITE.url}${thoughtUrl(t)}#post` })),
+    },
+    person(),
+  )}
+>
   <header class="page-head margin-layout">
     <p class="in-margin kicker ui">~/thoughts</p>
     <h1>Thoughts</h1>

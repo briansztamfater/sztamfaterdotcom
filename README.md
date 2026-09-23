@@ -18,7 +18,8 @@ npm run preview
 | change name, links, Moby URL      | `src/site.config.ts`                    |
 | add a section (things, uses, …)   | new page in `src/pages/`, one line in `NAV` |
 | tweak colors / type               | tokens at the top of `src/styles/global.css` |
-| regenerate favicon + OG image     | `node scripts/make-images.mjs`          |
+| regenerate favicon                | `node scripts/make-images.mjs`          |
+| social preview (OG) images        | automatic, see `src/pages/og/` + `src/lib/og.ts` |
 | visitor counter                   | `netlify/functions/hits.mts`            |
 | add a GIF                         | drop it in `public/gifs/`, add a line to `src/data/gifs.ts` |
 | redraw the pixel-art GIFs         | `node scripts/make-gifs.mjs`            |

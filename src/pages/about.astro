@@ -1,9 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, SOCIALS } from '../site.config';
+import { graph, person } from '../lib/seo';
 ---
 
-<Base title="About" description="Brian Sztamfater is a software engineer and builder from Buenos Aires. Currently building Moby.">
+<Base
+  title="About"
+  description="Brian Sztamfater is a software engineer and builder from Buenos Aires. Currently building Moby."
+  image="/og/about.png"
+  jsonLd={graph({ '@type': 'ProfilePage', url: `${SITE.url}/about/`, mainEntity: { '@id': `${SITE.url}/#person` } }, person())}
+>
   <div class="about margin-layout">
     <p class="in-margin hi pixel" aria-hidden="true">hello!</p>
     <h1 class="sr-only">About</h1>

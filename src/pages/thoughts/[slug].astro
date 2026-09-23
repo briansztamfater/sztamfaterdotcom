@@ -3,7 +3,8 @@ import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import { SOCIALS } from '../../site.config';
+import { SITE, SOCIALS } from '../../site.config';
+import { graph, person } from '../../lib/seo';
 import { getThoughts, thoughtUrl, excerptOf, readingMinutes, type Thought } from '../../lib/thoughts';
 import { longDate, stamp, iso } from '../../lib/dates';
 
@@ -25,7 +26,26 @@ const { thought, newer, older } = Astro.props;
 const { Content } = await render(thought);
 const { title, date, tags, cover, coverAlt } = thought.data;
 
-const ogImage = cover ? (await getImage({ src: cover, width: 1200, height: 630, fit: 'cover', format: 'png' })).src : undefined;
+const ogImage = cover
+  ? (await getImage({ src: cover, width: 1200, height: 630, fit: 'cover', format: 'png' })).src
+  : `/og/thoughts/${thought.id}.png`;
+const url = `${SITE.url}${thoughtUrl(thought)}`;
+const jsonLd = graph(
+  {
+    '@type': 'BlogPosting',
+    '@id': `${url}#post`,
+    headline: title,
+    description: excerptOf(thought),
+    datePublished: date.toISOString(),
+    url,
+    mainEntityOfPage: url,
+    image: new URL(ogImage, SITE.url).href,
+    keywords: tags,
+    inLanguage: 'en',
+    author: { '@id': `${SITE.url}/#person` },
+  },
+  person(),
+);
 const x = SOCIALS.find((s) => s.label === 'X');
 ---
 
@@ -35,7 +55,8 @@ const x = SOCIALS.find((s) => s.label === 'X');
   type="article"
   publishedTime={date}
   image={ogImage}
-  imageAlt={cover ? coverAlt : undefined}
+  imageAlt={cover ? coverAlt : `${title}, a thought by ${SITE.name}`}
+  jsonLd={jsonLd}
 >
   <article class="thought">
     <header class="margin-layout head">

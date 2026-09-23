@@ -7,7 +7,7 @@ export const SITE = {
   domain: 'sztamfater.com',
   url: 'https://sztamfater.com',
   description:
-    'Personal website of Brian Sztamfater. I build things, think about things, and occasionally get obsessed with them.',
+    'The personal homepage of Brian Sztamfater, a software engineer and builder from Buenos Aires. Thoughts, a /now page, GIFs, and whatever else. Currently building Moby.',
   locale: 'en',
   basedIn: 'Buenos Aires',
   since: 2026,
