@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+import { NOW } from '../data/now';
+import { longDate, monthYear, iso } from '../lib/dates';
+
+const { updated, items } = NOW;
+---
+
+<Base title="Now" description={`What Brian Sztamfater is up to right now, as of ${monthYear(updated)}.`}>
+  <div class="now-page">
+    <header>
+      <p class="ui muted">status report</p>
+      <h1>Now</h1>
+      <p class="month">{monthYear(updated)}</p>
+    </header>
+
+    <div class="stamp" aria-hidden="true">
+      <span class="pixel">last updated</span>
+      <span class="d">{longDate(updated)}</span>
+    </div>
+
+    <dl class="board">
+      {
+        items.map((item, i) => (
+          <div class:list={['cell', { empty: item.value === null }]}>
+            <dt class="pixel">
+              <span class="idx">{String(i + 1).padStart(2, '0')}</span> {item.label}
+            </dt>
+            <dd>
+              {item.value === null ? (
+                <span class="tbd">
+                  … <span class="ui">(still deciding)</span>
+                </span>
+              ) : (
+                <>
+                  <span class="v">{item.href ? <a href={item.href}>{item.value}</a> : item.value}</span>
+                  {item.note && <span class="note">{item.note}</span>}
+                </>
+              )}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <p class="updated ui">
+      Last updated <time datetime={iso(updated)}>{longDate(updated)}</time>.
+    </p>
+    <p class="about-now muted">
+      This is a <a href="https://nownownow.com/about">now page</a>: a snapshot of what I'm focused on at this point in
+      my life. If it looks stale, I'm probably too busy doing the things on it.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .now-page {
+    position: relative;
+    max-width: 50rem;
+    padding-top: 0.25rem;
+  }
+
+  header p {
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--pixel);
+    font-weight: 400;
+    font-size: clamp(3.5rem, 2rem + 8vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--red);
+    margin: 0.5rem 0 0.4rem;
+  }
+
+  .month {
+    font-family: var(--text);
+    font-style: italic;
+    font-size: var(--step-2);
+  }
+
+  /* a rubber stamp someone pressed a bit too hard */
+  .stamp {
+    position: absolute;
+    top: 1rem;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.55rem 0.8rem;
+    border: 3px double var(--accent-ink);
+    color: var(--accent-ink);
+    transform: rotate(6deg);
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+  }
+
+  .stamp .d {
+    font-family: var(--ui);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 2.5rem 0 2rem;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .cell {
+    padding: 1rem 1.1rem 1.25rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cell:first-child {
+    grid-column: 1 / -1;
+    background: var(--khaki);
+  }
+
+  /* an odd one out at the end gets the whole row */
+  .cell:last-child:nth-child(even) {
+    grid-column: 1 / -1;
+  }
+
+  .cell:first-child .v {
+    font-size: var(--step-3);
+  }
+
+  dt {
+    font-size: 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .idx {
+    color: var(--accent-ink);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .v {
+    display: block;
+    font-family: var(--text);
+    font-size: var(--step-2);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .note {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--ink-2);
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  .tbd {
+    font-family: var(--text);
+    font-size: var(--step-2);
+    color: var(--ink-3);
+  }
+
+  .tbd .ui {
+    font-size: var(--step--2);
+    vertical-align: 0.3em;
+  }
+
+  .updated {
+    margin-bottom: 0.5rem;
+  }
+
+  .about-now {
+    font-size: 1rem;
+    max-width: 32rem;
+  }
+
+  @media (max-width: 36rem) {
+    .board {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stamp {
+      position: static;
+      display: inline-flex;
+      margin-top: 1.5rem;
+      transform: rotate(-3deg);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .stamp {
+      mix-blend-mode: normal;
+    }
+  }
+</style>

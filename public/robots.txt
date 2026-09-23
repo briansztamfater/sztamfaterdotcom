@@ -1,0 +1,5 @@
+# hello, robot. be nice.
+User-agent: *
+Allow: /
+
+Sitemap: https://sztamfater.com/sitemap-index.xml

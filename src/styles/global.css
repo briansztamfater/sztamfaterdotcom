@@ -1,0 +1,473 @@
+/* ==========================================================================
+   sztamfater.com
+   plain html web. white page, black verdana, navy links that turn
+   highlighter-yellow on hover, khaki panels, gray boxes, red headings.
+   palette lifted from gamewinners.com, circa 2003.
+   ========================================================================== */
+
+:root {
+  --paper: #ffffff;
+  --paper-2: #f0f0f0;
+  --khaki: #eeeecc;
+  --khaki-line: #bbbb99;
+  --cream: #f9f9ee;
+  --ink: #000000;
+  --ink-2: #444444;
+  --ink-3: #666666;
+  --line: #999999;
+  --soft-line: #cccccc;
+  --red: #cc0000;
+  --nav: #555577;
+  --teal: #266666;
+  --link: #000090;
+  --visited: #551a8b;
+  --hover: #ffff00;
+
+  /* older names, kept so components read naturally */
+  --accent: var(--red);
+  --accent-ink: var(--red);
+  --title: var(--red);
+  --mark: var(--hover);
+  --mark-ink: var(--ink);
+  --note: var(--cream);
+
+  --text: Verdana, 'DejaVu Sans', 'Bitstream Vera Sans', Tahoma, Geneva, Arial, sans-serif;
+  --ui: var(--text);
+  --serif: Georgia, 'Times New Roman', serif;
+  --pixel: 'Silkscreen', var(--text);
+
+  --step--2: 0.6875rem;
+  --step--1: 0.75rem;
+  --step-0: 0.875rem;
+  --step-1: 1rem;
+  --step-2: 1.25rem;
+  --step-3: 1.6rem;
+  --step-4: 2rem;
+
+  --gutter: clamp(0.9rem, 3vw, 1.5rem);
+  --measure: 38rem;
+  --margin-col: 8rem;
+
+  color-scheme: light;
+}
+
+/* ---- reset-ish ---------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 1.5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: var(--step-0);
+  line-height: 1.6;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--text);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+::selection {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+/* ---- links: navy, underlined, yellow on hover. that's it. --------------- */
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+a:visited {
+  color: var(--visited);
+}
+
+a:hover {
+  background-color: var(--hover);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a:active {
+  color: var(--red);
+}
+
+a[href^='http']:not(.plain)::after {
+  content: '↗';
+  font-size: 0.7em;
+  margin-left: 0.1em;
+  vertical-align: 0.3em;
+}
+
+:focus-visible {
+  outline: 2px dotted var(--ink);
+  outline-offset: 2px;
+}
+
+a:focus-visible {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+/* ---- utilities --------------------------------------------------------- */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: absolute;
+  left: 0.5rem;
+  top: -3rem;
+  z-index: 10;
+  padding: 0.3rem 0.6rem;
+  background: var(--hover);
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+
+.skip:focus {
+  top: 0.5rem;
+}
+
+.ui {
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+
+.pixel {
+  font-family: var(--pixel);
+  font-size: 0.5rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: var(--ink-2);
+}
+
+.pixelated {
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+/* khaki panel and gray box: the two containers of the plain web */
+.panel {
+  background: var(--khaki);
+  border: 1px solid var(--khaki-line);
+}
+
+.box {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+}
+
+/* ---- page frame (no frame, just a sensible width) ---------------------- */
+
+.site {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.frame {
+  padding: 0 var(--gutter);
+}
+
+/* Two-column "margin notes" layout: a narrow gutter for dates and labels,
+   then a reading column. Collapses gracefully on small screens. */
+.margin-layout {
+  display: grid;
+  grid-template-columns: var(--margin-col) minmax(0, var(--measure));
+  column-gap: clamp(1rem, 3vw, 2rem);
+}
+
+.margin-layout > * {
+  grid-column: 2;
+}
+
+.margin-layout > .in-margin {
+  grid-column: 1;
+}
+
+@media (max-width: 46rem) {
+  .margin-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .margin-layout > *,
+  .margin-layout > .in-margin {
+    grid-column: 1;
+  }
+}
+
+main {
+  display: block;
+  padding-bottom: 2.5rem;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ---- rules ------------------------------------------------------------- */
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--ink);
+  margin: 2rem 0;
+}
+
+hr.dotted {
+  border-top: 1px dotted var(--line);
+}
+
+/* Thoughts                                                     (all 3)
+   ─────────────────────────────────────────────────────────────────── */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--ink);
+}
+
+.section-head h2 {
+  font-size: var(--step-2);
+  color: var(--red);
+}
+
+.section-head .fill {
+  flex: 1;
+}
+
+.section-head a {
+  font-size: var(--step--1);
+  text-transform: uppercase;
+}
+
+/* ---- tiny blinking cursor --------------------------------------------- */
+
+.cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 0.15em;
+  background: var(--red);
+  vertical-align: -0.12em;
+  animation: blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---- prose (thought bodies) ------------------------------------------- */
+
+.prose {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote,
+.prose pre,
+.prose figure,
+.prose aside {
+  margin: 0 0 1.2em;
+}
+
+.prose h2,
+.prose h3 {
+  margin: 1.8em 0 0.5em;
+  color: var(--red);
+}
+
+.prose h2 {
+  font-size: var(--step-1);
+}
+
+.prose h3 {
+  font-size: var(--step-0);
+}
+
+.prose ul {
+  padding-left: 1.4em;
+  list-style: square;
+}
+
+.prose ul > li::marker {
+  color: var(--red);
+}
+
+.prose li {
+  margin-bottom: 0.3em;
+}
+
+/* a list of short "Term. explanation" items gets a bit more air and a rule between */
+.prose ul:has(> li > strong:first-child) {
+  padding: 0.3em 1em 0.3em 2.2em;
+  background: var(--cream);
+  border: 1px solid var(--khaki-line);
+}
+
+.prose ul:has(> li > strong:first-child) > li {
+  margin: 0;
+  padding: 0.5em 0;
+}
+
+.prose ul:has(> li > strong:first-child) > li + li {
+  border-top: 1px dotted var(--khaki-line);
+}
+
+.prose li > strong:first-child {
+  color: var(--red);
+}
+
+/* the opening paragraph is a touch bigger, like a lede */
+.prose > p:first-child {
+  font-size: 1.0625rem;
+}
+
+.prose mark {
+  padding: 0 0.15em;
+  background: var(--hover);
+  color: var(--ink);
+}
+
+.prose ol {
+  padding-left: 1.6em;
+}
+
+.prose blockquote {
+  margin-left: 0;
+  padding: 0.6em 1em;
+  border: 1px solid var(--khaki-line);
+  background: var(--cream);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+.prose blockquote > :last-child,
+.prose aside > :last-child {
+  margin-bottom: 0;
+}
+
+.prose aside,
+.prose .note {
+  display: block;
+  padding: 0.7em 1em;
+  border: 1px solid var(--khaki-line);
+  background: var(--khaki);
+  font-weight: 700;
+}
+
+.prose aside:not(:has(> p))::before,
+.prose .note:not(:has(> p))::before,
+.prose aside > p:first-child::before,
+.prose .note > p:first-child::before {
+  content: 'NOTE: ';
+  color: var(--red);
+}
+
+.prose code {
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 0.95em;
+  padding: 0 0.2em;
+  background: var(--paper-2);
+}
+
+.prose pre {
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--paper-2) !important;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+}
+
+.prose img {
+  border: 1px solid var(--ink);
+}
+
+.prose figcaption {
+  margin-top: 0.3em;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.prose hr {
+  margin: 2em 0;
+  border: 0;
+  text-align: center;
+}
+
+.prose hr::after {
+  content: '* * *';
+  color: var(--red);
+  letter-spacing: 0.6em;
+  font-weight: 700;
+}
+
+/* ---- motion preferences ------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

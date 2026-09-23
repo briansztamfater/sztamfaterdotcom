@@ -1,0 +1,113 @@
+---
+/** The latest thoughts, as a good old table. */
+import { stamp, iso } from '../lib/dates';
+import { thoughtUrl, type Thought } from '../lib/thoughts';
+import NewBadge from './NewBadge.astro';
+
+interface Props {
+  thoughts: Thought[];
+}
+
+const { thoughts } = Astro.props;
+const FRESH_DAYS = 14;
+const isFresh = (d: Date) => Date.now() - d.valueOf() < FRESH_DAYS * 864e5;
+---
+
+<table class="thought-table">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Thought</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      thoughts.map((t, i) => {
+        const fresh = i === 0 && isFresh(t.data.date);
+        return (
+        <tr>
+          <td class="d">
+            <time datetime={iso(t.data.date)}>{stamp(t.data.date)}</time>
+          </td>
+          <td class:list={{ fresh }}>
+            <a href={thoughtUrl(t)}>{t.data.title}</a>
+            {fresh && (
+              <span class="stick">
+                <NewBadge />
+              </span>
+            )}
+            {t.data.tags.length > 0 && <span class="tags">{t.data.tags.map((tag) => `#${tag}`).join(' ')}</span>}
+          </td>
+        </tr>
+        );
+      })
+    }
+  </tbody>
+</table>
+
+<style>
+  .thought-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--khaki-line);
+    font-size: var(--step-0);
+  }
+
+  th {
+    padding: 0.25rem 0.6rem;
+    background: #cccccc;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.625rem;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  td {
+    padding: 0.55rem 0.6rem;
+    vertical-align: top;
+    border-top: 1px solid var(--khaki-line);
+  }
+
+  tbody tr:nth-child(odd) {
+    background: var(--cream);
+  }
+
+  tbody tr:hover {
+    background: var(--khaki);
+  }
+
+  .d {
+    width: 5.5rem;
+    white-space: nowrap;
+    font-size: var(--step--2);
+    color: var(--ink-2);
+    padding-top: 0.7rem;
+  }
+
+  a {
+    font-weight: 700;
+  }
+
+  .fresh {
+    position: relative;
+    padding-right: 3.6rem;
+  }
+
+  .stick {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.35rem;
+  }
+
+  .stick :global(.burst) {
+    margin: 0;
+  }
+
+  .tags {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.625rem;
+    color: var(--teal);
+  }
+</style>

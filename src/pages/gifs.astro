@@ -1,0 +1,177 @@
+---
+import Base from '../layouts/Base.astro';
+import { GIF_CATEGORIES } from '../data/gifs';
+import { getGifs } from '../lib/gifs';
+
+const gifs = await getGifs();
+
+const sections = GIF_CATEGORIES.map((c) => ({ ...c, items: gifs.filter((g) => g.category === c.id) })).filter(
+  (s) => s.items.length,
+);
+---
+
+<Base title="GIFs" description="A small collection of animated GIFs: computers, consoles, games and the old web.">
+  <header class="page-head">
+    <h1>GIFs</h1>
+    <p class="lede">
+      A small collection of animated GIFs, the way every homepage used to have one. Computers, consoles, games, and
+      the old web.
+    </p>
+    <p class="fine">
+      The pixel art here was drawn for this site (with an AI holding the pencil). They're tributes, not official
+      sprites. Click one to see the file.
+    </p>
+    <nav class="jump" aria-label="GIF categories">
+      {
+        sections.map((s, i) => (
+          <>
+            {i > 0 && <span aria-hidden="true"> | </span>}
+            <a href={`#${s.id}`}>{s.label}</a> <span class="count">({s.items.length})</span>
+          </>
+        ))
+      }
+    </nav>
+  </header>
+
+  {
+    sections.map((s) => (
+      <section class="cat" id={s.id} aria-labelledby={`${s.id}-h`}>
+        <div class="section-head">
+          <h2 id={`${s.id}-h`}>{s.label}</h2>
+          <span class="fill" aria-hidden="true" />
+          <a href="#content">top ↑</a>
+        </div>
+        <ul class="grid">
+          {s.items.map((g) => (
+            <li>
+              <figure class="cell">
+                <a class="plain shot" href={g.src} title={`Open ${g.file}`}>
+                  <img
+                    src={g.src}
+                    width={g.w * g.scale}
+                    height={g.h * g.scale}
+                    alt={g.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+                <figcaption>
+                  <b>{g.title}</b>
+                  {g.note && <span class="note">{g.note}</span>}
+                  <span class="meta">
+                    {g.file} · {g.kb} KB · {g.w}×{g.h}
+                    {g.frames > 1 && <> · {g.frames} frames</>}
+                  </span>
+                  {g.credit && (
+                    <span class="meta">
+                      via {g.creditUrl ? <a href={g.creditUrl}>{g.credit}</a> : g.credit}
+                    </span>
+                  )}
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .page-head {
+    padding: 0.25rem 0 1.25rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  h1 {
+    font-size: var(--step-4);
+    color: var(--red);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0.7rem;
+  }
+
+  .lede {
+    font-size: 0.9375rem;
+    max-width: 40rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .fine {
+    font-size: var(--step--1);
+    color: var(--ink-2);
+    max-width: 40rem;
+  }
+
+  .jump {
+    font-size: var(--step--1);
+    font-weight: 700;
+  }
+
+  .count {
+    font-weight: 400;
+    color: var(--ink-3);
+  }
+
+  .cat {
+    margin-bottom: 2.25rem;
+    scroll-margin-top: 1rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    background: var(--paper);
+    border: 1px solid var(--khaki-line);
+  }
+
+  .shot {
+    display: grid;
+    place-items: center;
+    min-height: 9.5rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--khaki-line);
+    /* a faint checkerboard, like an image editor's transparent background */
+    background: repeating-conic-gradient(#f4f4ec 0% 25%, #ffffff 0% 50%) 0 0 / 12px 12px;
+  }
+
+  .shot:hover {
+    background: var(--hover);
+  }
+
+  .shot img {
+    image-rendering: pixelated;
+  }
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.45rem 0.55rem 0.55rem;
+    background: var(--cream);
+    font-size: var(--step--1);
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .note {
+    color: var(--ink-2);
+  }
+
+  .meta {
+    font-size: 0.625rem;
+    color: var(--ink-3);
+  }
+</style>

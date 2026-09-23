@@ -1,0 +1,76 @@
+---
+/** The spiky "NEW!" sticker every homepage had in 2001. */
+interface Props {
+  label?: string;
+}
+const { label = 'new!' } = Astro.props;
+---
+
+<span class="burst" title="fresh off the keyboard"><span class="txt">{label}</span></span>
+
+<style>
+  .burst {
+    --spikes: polygon(
+      50% 0%, 59.3% 15.2%, 75% 6.7%, 75.5% 24.5%, 93.3% 25%, 84.8% 40.7%, 100% 50%, 84.8% 59.3%,
+      93.3% 75%, 75.5% 75.5%, 75% 93.3%, 59.3% 84.8%, 50% 100%, 40.7% 84.8%, 25% 93.3%, 24.5% 75.5%,
+      6.7% 75%, 15.2% 59.3%, 0% 50%, 15.2% 40.7%, 6.7% 25%, 24.5% 24.5%, 25% 6.7%, 40.7% 15.2%
+    );
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin: -0.8rem 0 -0.8rem 0.3rem;
+    vertical-align: middle;
+    transform: rotate(-14deg);
+    animation: wobble 2.4s ease-in-out infinite;
+  }
+
+  /* outer burst = the red "border", inner burst = the yellow fill */
+  .burst::before,
+  .burst::after {
+    content: '';
+    position: absolute;
+    clip-path: var(--spikes);
+  }
+
+  .burst::before {
+    inset: 0;
+    background: #d91a1a;
+  }
+
+  .burst::after {
+    inset: 4px;
+    background: #ffee00;
+  }
+
+  .txt {
+    position: relative;
+    z-index: 1;
+    font-family: var(--ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #d91a1a;
+    animation: flash 0.9s steps(1, end) infinite;
+  }
+
+  @keyframes wobble {
+    0%,
+    100% {
+      transform: rotate(-14deg) scale(1);
+    }
+    50% {
+      transform: rotate(-6deg) scale(1.08);
+    }
+  }
+
+  @keyframes flash {
+    50% {
+      color: #1d3d6b;
+    }
+  }
+</style>

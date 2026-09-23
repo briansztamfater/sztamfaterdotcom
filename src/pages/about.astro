@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, SOCIALS } from '../site.config';
+---
+
+<Base title="About" description="Brian Sztamfater is a software engineer and builder from Buenos Aires. Currently building Moby.">
+  <div class="about margin-layout">
+    <p class="in-margin hi pixel" aria-hidden="true">hello!</p>
+    <h1 class="sr-only">About</h1>
+
+    <div class="words">
+      <p class="big">I'm Brian, a software engineer and builder from Buenos Aires.</p>
+      <p>
+        I've spent most of my life making things with computers, from mobile apps and startups to games, crypto products
+        and increasingly weird experiments with AI.
+      </p>
+      <p>
+        I like products with personality, interfaces that feel good to use, old games, new technology, and ideas that
+        are just slightly too ambitious.
+      </p>
+      <p>
+        Currently building{' '}
+        <strong>{SITE.moby.url ? <a href={SITE.moby.url}>{SITE.moby.name}</a> : SITE.moby.name}</strong>.
+      </p>
+    </div>
+
+    <h2 class="in-margin label pixel">elsewhere</h2>
+    <ul class="links">
+      {
+        SOCIALS.map((s) => (
+          <li>
+            <a href={s.href} rel="me">
+              {s.label}
+            </a>
+            <span class="ui muted">{s.handle}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="in-margin label pixel">this site</h2>
+    <p class="colophon">
+      Built with <a href="https://astro.build">Astro</a>, pair-programmed with an AI (I had the
+      opinions, it did most of the typing). Set in Verdana, like it's 2003, with a
+      little Silkscreen for the tiny pixel bits. No cookies, no analytics, no tracking. Just HTML, CSS, and a few lines of JavaScript.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .about {
+    padding-top: 0.25rem;
+    row-gap: 0;
+  }
+
+  .hi {
+    font-size: 0.7rem;
+    color: var(--accent-ink);
+    justify-self: start;
+    align-self: start;
+    margin-top: 0.8rem;
+    transform: rotate(-4deg);
+  }
+
+  .words {
+    margin-bottom: 3rem;
+  }
+
+  .words p {
+    font-size: var(--step-1);
+    line-height: 1.45;
+  }
+
+  .words .big {
+    font-family: var(--text);
+    font-size: var(--step-3);
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+  }
+
+  .label {
+    font-size: 0.6rem;
+    padding-top: 0.45rem;
+    color: var(--ink-2);
+  }
+
+  .links {
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .links a {
+    font-size: var(--step-1);
+  }
+
+  .colophon {
+    font-size: 1rem;
+    color: var(--ink-2);
+    border-top: 1px solid var(--line);
+    padding-top: 0.5rem;
+  }
+
+  @media (max-width: 46rem) {
+    .hi {
+      margin-bottom: 1rem;
+    }
+
+    .label {
+      margin-bottom: 0.4rem;
+    }
+  }
+</style>

@@ -1,0 +1,332 @@
+---
+import Pixel from './Pixel.astro';
+import { NAV, SITE } from '../site.config';
+
+const path = Astro.url.pathname;
+const isHome = path === '/';
+const isCurrent = (href: string) => path.startsWith(href) || `${path}/` === href;
+const Logo = isHome ? 'h1' : 'p';
+const buildDate = new Date().toLocaleDateString('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'America/Argentina/Buenos_Aires',
+});
+---
+
+<header class="top frame">
+  <div class="strip">
+    <span data-today>{buildDate}</span>
+    <span class="bookmark" aria-hidden="true">
+      press <kbd data-bookmark-key>ctrl-d</kbd> to bookmark this site!
+    </span>
+  </div>
+
+  <div class="panel head">
+    <a class="brand plain" href="/">
+      <Pixel name="computer" scale={4} class="brand-icon" />
+      <div class="words">
+        <Logo class="logo">
+          <span aria-hidden="true">{SITE.domain.toUpperCase()}</span>
+          <span class="sr-only">{SITE.name}, personal homepage</span>
+        </Logo>
+        <span class="slogan">the internet's #1 source of brian sztamfater since 1991</span>
+      </div>
+    </a>
+
+    <div class="box callout">
+      <p class="cb">currently building...</p>
+      <p class="moby">{SITE.moby.name.toUpperCase()}</p>
+      <p class="blurb">{SITE.moby.short}</p>
+      {
+        SITE.moby.url && (
+          <a class="plain go" href={SITE.moby.url}>
+            » CHECK IT OUT «
+          </a>
+        )
+      }
+    </div>
+  </div>
+
+  <nav aria-label="Main" class="nav">
+    <ul>
+      <li><a href="/" aria-current={isHome ? 'page' : undefined}>HOME</a></li>
+      {
+        NAV.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {item.label.toUpperCase()}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script is:inline>
+  (function () {
+    try {
+      var d = document.querySelector('[data-today]');
+      if (d)
+        d.textContent = new Date().toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        });
+      var k = document.querySelector('[data-bookmark-key]');
+      if (k && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) k.textContent = '⌘-d';
+    } catch (e) {}
+  })();
+</script>
+
+<style>
+  .top {
+    padding-top: 0.6rem;
+    padding-bottom: 1.25rem;
+  }
+
+  /* --- the thin strip above everything --- */
+
+  .strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.2rem 1rem;
+    padding: 0 0.1rem 0.3rem;
+    font-size: 0.625rem;
+    color: var(--nav);
+  }
+
+  .bookmark {
+    color: var(--red);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  kbd {
+    font-family: inherit;
+    padding: 0 0.25em;
+    border: 1px solid currentColor;
+    border-bottom-width: 2px;
+    background: var(--paper);
+  }
+
+  /* --- the big panel --- */
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    padding: 1rem 1.1rem;
+    border-bottom: 0;
+    /* a little checkerboard in the panel's corner, because why not */
+    background:
+      conic-gradient(from 90deg at 1px 1px, transparent 25%, color-mix(in srgb, var(--khaki-line) 35%, transparent) 0) 0 0 / 6px 6px,
+      var(--khaki);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--ink);
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  .brand:hover {
+    background: none;
+  }
+
+  .brand :global(.brand-icon) {
+    flex: none;
+    transition: transform 200ms cubic-bezier(0.3, 1.6, 0.6, 1);
+  }
+
+  .brand:hover :global(.brand-icon) {
+    transform: rotate(-8deg) scale(1.08);
+  }
+
+  .words {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  /* chunky extruded logo, like a GIF someone made in Paint Shop Pro */
+  .logo {
+    margin: 0;
+    font-family: var(--pixel);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 0.7rem + 2.6vw, 2.35rem);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: #ffcc00;
+    text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      2px 2px 0 #cc0000,
+      3px 3px 0 #cc0000,
+      4px 4px 0 #cc0000,
+      5px 5px 0 #000;
+    white-space: nowrap;
+  }
+
+  .brand:hover .logo {
+    color: #ffff66;
+  }
+
+  .slogan {
+    margin-top: 0.45rem;
+    font-size: 0.6875rem;
+    font-style: italic;
+    font-weight: 700;
+    color: var(--nav);
+  }
+
+  /* --- the gray callout box --- */
+
+  .callout {
+    flex: none;
+    width: 12.5rem;
+    padding: 0.45rem 0.6rem 0.5rem;
+    text-align: center;
+    font-size: 0.625rem;
+    line-height: 1.35;
+    box-shadow: 2px 2px 0 var(--line);
+  }
+
+  .callout p {
+    margin: 0;
+  }
+
+  .cb {
+    text-transform: uppercase;
+  }
+
+  .moby {
+    margin: 0.1rem 0 !important;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--link);
+  }
+
+  .blurb {
+    color: var(--ink-2);
+  }
+
+  .go {
+    display: block;
+    margin-top: 0.4rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid var(--line);
+    color: var(--red);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .go:visited {
+    color: var(--red);
+  }
+
+  .go {
+    animation: throb 1.6s steps(1, end) infinite;
+  }
+
+  @keyframes throb {
+    50% {
+      color: var(--link);
+    }
+  }
+
+  /* --- chunky raised buttons --- */
+
+  .nav {
+    padding: 0.4rem 0.6rem;
+    background: var(--khaki-line);
+    border: 1px solid var(--khaki-line);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav a {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    background: #e8e8e8;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    color: var(--ink);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .nav a:hover {
+    background: var(--hover);
+  }
+
+  .nav a:active,
+  .nav a[aria-current='page'] {
+    border-color: #808080 #ffffff #ffffff #808080;
+    background: #d4d4d4;
+    color: var(--red);
+  }
+
+  @media (max-width: 44rem) {
+    .head {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .callout {
+      width: auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      text-align: left;
+      column-gap: 0.8rem;
+    }
+
+    .callout .moby {
+      grid-row: 2;
+    }
+
+    .blurb {
+      grid-row: 3;
+    }
+
+    .go {
+      grid-column: 2;
+      grid-row: 1 / 4;
+      margin: 0;
+      padding: 0 0 0 0.8rem;
+      border-top: 0;
+      border-left: 1px solid var(--line);
+    }
+
+    .brand :global(.brand-icon) {
+      width: 36px;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .bookmark {
+      display: none;
+    }
+  }
+</style>

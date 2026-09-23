@@ -1,0 +1,465 @@
+---
+import Base from '../layouts/Base.astro';
+import Pixel from '../components/Pixel.astro';
+import ThoughtIndex from '../components/ThoughtIndex.astro';
+import NowList from '../components/NowList.astro';
+import { SITE, SOCIALS } from '../site.config';
+import { NOW } from '../data/now';
+import { getThoughts } from '../lib/thoughts';
+import { stamp, iso } from '../lib/dates';
+
+const thoughts = await getThoughts();
+const recent = thoughts.slice(0, 8);
+const nowItems = NOW.items.filter((i) => i.onHome);
+
+const lastUpdated = new Date(
+  Math.max(NOW.updated.valueOf(), ...thoughts.map((t) => t.data.date.valueOf())),
+);
+
+const ticker = [
+  'welcome to my little corner of the internet',
+  'under construction, forever',
+  'no cookies, no pop-ups, no newsletter',
+  'thoughts added whenever',
+  `made in ${SITE.basedIn.toLowerCase()}`,
+  'thanks for stopping by',
+];
+
+/** Sections that don't exist yet. Just a promise, not a page. */
+const soon = ['things', 'experiments', 'games', 'uses'];
+---
+
+<Base>
+  <div class="portal">
+    <!-- ============ main column ============ -->
+    <div class="center">
+      <section class="panel welcome" aria-labelledby="welcome-h">
+        <Pixel name="sparkle" scale={3} class="spark s1" />
+        <Pixel name="sparkle" scale={2} class="spark s2" />
+        <h2 id="welcome-h">Welcome to my homepage!</h2>
+        <p class="tagline">
+          I build things, think about things, and occasionally get obsessed with them. This is where I put some of it.
+        </p>
+        <p class="currently">
+          <span class="lbl">CURRENTLY:</span> building{' '}
+          {
+            SITE.moby.url ? (
+              <a class="plain" href={SITE.moby.url}>
+                <b>{SITE.moby.name}</b>
+              </a>
+            ) : (
+              <b>{SITE.moby.name}</b>
+            )
+          }, {SITE.moby.blurb}.<span class="cursor" aria-hidden="true"></span>
+        </p>
+        <p class="updated">
+          <span class="flash">UPDATED!</span> last update:{' '}
+          <time datetime={iso(lastUpdated)}>{stamp(lastUpdated)}</time>
+        </p>
+      </section>
+
+      <div class="ticker" role="marquee" aria-label={ticker.join('. ')}>
+        <div class="track" aria-hidden="true">
+          {[0, 1].map(() => <span>{ticker.map((t) => <>{t} <b>✶</b> </>)}</span>)}
+        </div>
+      </div>
+
+      <section aria-labelledby="thoughts-h">
+        <div class="section-head">
+          <h2 id="thoughts-h">Latest Thoughts</h2>
+          <span class="fill" aria-hidden="true"></span>
+          <a href="/thoughts/">view all »</a>
+        </div>
+        {recent.length ? <ThoughtIndex thoughts={recent} /> : <p class="muted">Nothing yet. Soon.</p>}
+      </section>
+    </div>
+
+    <!-- ============ sidebar ============ -->
+    <aside class="side" aria-label="Sidebar">
+      <section class="box">
+        <h2 class="bar">Site Stats</h2>
+        <div class="pad">
+          <p class="odo-label">you are visitor no.</p>
+          <p class="odometer">
+            <span data-odometer>------</span>
+          </p>
+          <p class="odo-label muted">(one number, no tracking)</p>
+          <dl class="stats">
+            <div><dt>local time</dt><dd data-ba-time>{SITE.basedIn}</dd></div>
+            <div><dt>thoughts</dt><dd>{String(thoughts.length).padStart(3, '0')}</dd></div>
+            <div><dt>online since</dt><dd>{SITE.since}</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="panel now">
+        <h2 class="bar">Right Now</h2>
+        <div class="pad">
+          <NowList items={nowItems} />
+          <p class="more"><a href="/now/">more on my /now page »</a></p>
+        </div>
+      </section>
+
+      <section class="box">
+        <h2 class="bar">Coming Soon</h2>
+        <ul class="links soon">
+          {soon.map((s) => <li>{s}</li>)}
+        </ul>
+        <p class="uc">
+          <img src="/gifs/construction.gif" width="44" height="56" alt="" />
+          <span>these sections are<br /><b>under construction</b></span>
+        </p>
+      </section>
+
+      <section class="box">
+        <h2 class="bar">Elsewhere</h2>
+        <ul class="links">
+          {
+            SOCIALS.map((s) => (
+              <li>
+                <a class="plain" href={s.href} rel="me">
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      <section class="about-site">
+        <h2>About this site</h2>
+        <p>This is my little corner of the internet. No particular purpose. Just somewhere to put things.</p>
+      </section>
+    </aside>
+  </div>
+</Base>
+
+<script is:inline>
+  (function () {
+    // "6:07pm in BA", updated every half minute.
+    var el = document.querySelector('[data-ba-time]');
+    if (el) {
+      var fmt = new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'America/Argentina/Buenos_Aires',
+      });
+      var tick = function () {
+        el.textContent = fmt.format(new Date()).toLowerCase().replace(' ', '') + ' in BA';
+      };
+      tick();
+      setInterval(tick, 30000);
+    }
+  })();
+</script>
+
+<style>
+  .portal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .side {
+    display: grid;
+    gap: 1rem;
+  }
+
+  /* box title bar: the gray header row every portal box had */
+  .bar {
+    margin: 0;
+    padding: 0.2rem 0.55rem;
+    background: #cccccc;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .panel .bar {
+    background: var(--khaki-line);
+    border-bottom-color: var(--khaki-line);
+  }
+
+  .bar::before {
+    content: '■ ';
+    color: var(--red);
+  }
+
+  .pad {
+    padding: 0.55rem 0.65rem 0.65rem;
+  }
+
+  /* --- sidebar link lists --- */
+
+  .links {
+    margin: 0;
+    padding: 0.45rem 0.65rem 0.55rem;
+    list-style: none;
+    font-size: var(--step--1);
+    line-height: 1.9;
+  }
+
+  .links li::before {
+    content: '» ';
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  .links a {
+    font-weight: 700;
+  }
+
+  .soon li {
+    color: var(--ink-3);
+    text-decoration: line-through;
+    text-decoration-color: var(--red);
+  }
+
+  .uc {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.5rem 0.65rem 0.65rem;
+    border-top: 1px dashed var(--line);
+    font-size: 0.625rem;
+    line-height: 1.35;
+  }
+
+  .uc img {
+    image-rendering: pixelated;
+  }
+
+  .uc :global(svg) {
+    flex: none;
+    animation: wiggle 2s ease-in-out infinite;
+  }
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    25% {
+      transform: rotate(-8deg);
+    }
+    75% {
+      transform: rotate(8deg);
+    }
+  }
+
+  /* --- welcome --- */
+
+  .welcome {
+    position: relative;
+    padding: 1rem 1.1rem 0.9rem;
+  }
+
+  .welcome h2 {
+    font-size: clamp(1.35rem, 1rem + 1.2vw, 1.75rem);
+    color: var(--red);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 0 #fff;
+  }
+
+  .welcome :global(.spark) {
+    position: absolute;
+    animation: twinkle 2.4s ease-in-out infinite;
+  }
+
+  .welcome :global(.s1) {
+    top: 0.6rem;
+    right: 0.9rem;
+  }
+
+  .welcome :global(.s2) {
+    top: 2rem;
+    right: 2.4rem;
+    animation-delay: -1.2s;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(0.5) rotate(45deg);
+      opacity: 0.5;
+    }
+  }
+
+  .tagline {
+    font-size: 0.9375rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .currently {
+    margin-bottom: 0.6rem;
+  }
+
+  .lbl {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 0.06em;
+  }
+
+  .currently a,
+  .currently a:visited {
+    color: var(--link);
+    text-decoration: underline;
+  }
+
+  .updated {
+    margin: 0;
+    font-size: 0.625rem;
+    color: var(--ink-2);
+    text-transform: uppercase;
+  }
+
+  .flash {
+    display: inline-block;
+    padding: 0.05rem 0.3rem;
+    margin-right: 0.3rem;
+    background: var(--red);
+    color: #fff;
+    font-weight: 700;
+    animation: flash 1s steps(1, end) infinite;
+  }
+
+  @keyframes flash {
+    50% {
+      background: #ffff00;
+      color: var(--red);
+    }
+  }
+
+  /* --- ticker --- */
+
+  .ticker {
+    margin: 1rem 0 1.5rem;
+    overflow: hidden;
+    padding: 0.3rem 0;
+    background: var(--link);
+    border: 1px solid #000;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: #ffff00;
+  }
+
+  .track {
+    display: inline-flex;
+    animation: scroll 50s linear infinite;
+  }
+
+  .track span {
+    padding-right: 0.5ch;
+  }
+
+  .track b {
+    color: #ffffff;
+    padding: 0 1.2ch;
+  }
+
+  .ticker:hover .track {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* --- right sidebar --- */
+
+  .odo-label {
+    margin: 0;
+    font-size: 0.625rem;
+    text-align: center;
+  }
+
+  .odometer {
+    display: flex;
+    justify-content: center;
+    margin: 0.3rem 0;
+  }
+
+  .odometer span {
+    padding: 0.1rem 0.35rem;
+    background: #000;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    color: #33ff33;
+    font-family: 'Courier New', ui-monospace, monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    line-height: 1.2;
+    text-shadow: 0 0 4px #33ff33;
+  }
+
+  .stats {
+    margin: 0.6rem 0 0;
+    padding-top: 0.45rem;
+    border-top: 1px dashed var(--line);
+    font-size: var(--step--2);
+  }
+
+  .stats div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .stats dt {
+    color: var(--ink-2);
+  }
+
+  .stats dd {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .more {
+    margin: 0.5rem 0 0;
+    font-size: var(--step--2);
+    text-align: right;
+  }
+
+  .about-site {
+    padding: 0 0.15rem;
+    font-size: var(--step--1);
+  }
+
+  .about-site h2 {
+    margin-bottom: 0.3rem;
+    font-size: var(--step--1);
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* --- smaller screens --- */
+
+  @media (max-width: 44rem) {
+    .welcome :global(.s2) {
+      display: none;
+    }
+
+    .welcome h2 {
+      padding-right: 1.5rem;
+    }
+
+    .portal {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

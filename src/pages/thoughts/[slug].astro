@@ -1,0 +1,198 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { SOCIALS } from '../../site.config';
+import { getThoughts, thoughtUrl, excerptOf, readingMinutes, type Thought } from '../../lib/thoughts';
+import { longDate, stamp, iso } from '../../lib/dates';
+
+export const getStaticPaths = (async () => {
+  const thoughts = await getThoughts();
+  return thoughts.map((thought, i) => ({
+    params: { slug: thought.id },
+    props: { thought, newer: thoughts[i - 1], older: thoughts[i + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  thought: Thought;
+  newer?: Thought;
+  older?: Thought;
+}
+
+const { thought, newer, older } = Astro.props;
+const { Content } = await render(thought);
+const { title, date, tags, cover, coverAlt } = thought.data;
+
+const ogImage = cover ? (await getImage({ src: cover, width: 1200, height: 630, fit: 'cover', format: 'png' })).src : undefined;
+const x = SOCIALS.find((s) => s.label === 'X');
+---
+
+<Base
+  title={title}
+  description={excerptOf(thought)}
+  type="article"
+  publishedTime={date}
+  image={ogImage}
+  imageAlt={cover ? coverAlt : undefined}
+>
+  <article class="thought">
+    <header class="margin-layout head">
+      <p class="in-margin crumbs ui"><a href="/thoughts/">← thoughts</a></p>
+      <h1>{title}</h1>
+    </header>
+
+    <div class="margin-layout">
+      <aside class="in-margin meta ui" aria-label="About this post">
+        <time datetime={iso(date)} title={longDate(date)}>{stamp(date)}</time>
+        <span>{readingMinutes(thought)} min read</span>
+        {tags.length > 0 && <span class="tags">{tags.map((t) => `#${t}`).join(' ')}</span>}
+      </aside>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <footer class="end">
+        <p class="sign">
+          <span aria-hidden="true">—</span> Brian, {longDate(date)}
+        </p>
+        {
+          x && (
+            <p class="reply ui">
+              thoughts on this? <a href={x.href}>tell me on x</a>
+            </p>
+          )
+        }
+      </footer>
+    </div>
+  </article>
+
+  {
+    (newer || older) && (
+      <nav class="more margin-layout" aria-label="More thoughts">
+        <h2 class="in-margin pixel">keep reading</h2>
+        <ul>
+          {older && (
+            <li>
+              <span class="ui muted">older · {stamp(older.data.date)}</span>
+              <a href={thoughtUrl(older)}>{older.data.title}</a>
+            </li>
+          )}
+          {newer && (
+            <li>
+              <span class="ui muted">newer · {stamp(newer.data.date)}</span>
+              <a href={thoughtUrl(newer)}>{newer.data.title}</a>
+            </li>
+          )}
+        </ul>
+      </nav>
+    )
+  }
+</Base>
+
+<style>
+  .head {
+    padding: 0.25rem 0 1.5rem;
+  }
+
+  .crumbs {
+    margin: 0;
+    padding-top: 0.9rem;
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.35rem;
+    color: var(--ink-2);
+    font-size: var(--step--2);
+    line-height: 1.4;
+    border-top: 1px solid var(--line);
+    align-self: start;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .meta time {
+    color: var(--ink);
+    font-size: var(--step--1);
+  }
+
+  .tags {
+    color: var(--ink-3);
+  }
+
+  .end {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .sign {
+    font-family: var(--text);
+    font-style: italic;
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
+  }
+
+  .reply {
+    color: var(--ink-2);
+  }
+
+  .more {
+    margin-top: 3.5rem;
+  }
+
+  .more h2 {
+    font-size: 0.65rem;
+    padding-top: 0.3rem;
+  }
+
+  .more ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .more li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .more a {
+    font-family: var(--text);
+    font-size: var(--step-1);
+    line-height: 1.25;
+  }
+
+  @media (max-width: 46rem) {
+    .crumbs {
+      padding: 0 0 1rem;
+    }
+
+    .meta {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.25rem 1rem;
+      margin-bottom: 1.6rem;
+      padding-top: 0.5rem;
+    }
+
+    .more h2 {
+      margin-bottom: 1rem;
+    }
+  }
+</style>

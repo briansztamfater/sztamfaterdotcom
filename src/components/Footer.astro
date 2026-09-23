@@ -1,0 +1,249 @@
+---
+import Pixel from './Pixel.astro';
+import { SITE, SOCIALS } from '../site.config';
+
+const year = new Date().getFullYear();
+const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
+---
+
+<footer class="site-footer frame">
+  <hr class="dotted" />
+
+  <div class="cols">
+    <div class="colophon">
+      <p>
+        © {SITE.name}<br />
+        <span class="muted">{SITE.basedIn} · {years}</span>
+      </p>
+      <p class="handmade">
+        built by a human and an AI.<br />
+        the opinions are all human.
+        <Pixel name="heart" scale={2} class="heart" />
+      </p>
+      <p class="visits ui muted" data-visits hidden></p>
+    </div>
+
+    <div class="elsewhere">
+      <ul class="socials ui" aria-label="Elsewhere">
+        {
+          SOCIALS.map((s) => (
+            <li>
+              <a href={s.href} rel="me">
+                {s.label.toLowerCase()}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <ul class="badges" aria-label="Badges">
+        <li>
+          <a class="badge plain" href="/rss.xml">
+            <span class="l">RSS</span><span class="r">feed</span>
+          </a>
+        </li>
+        <li>
+          <span class="badge"><span class="l">human</span><span class="r">+ AI</span></span>
+        </li>
+        <li>
+          <span class="badge"><span class="l">zero</span><span class="r">trackers</span></span>
+        </li>
+        <li>
+          <span class="badge" title="Viewable with any browser. Remember those?">
+            <span class="l">any</span><span class="r">browser</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script is:inline>
+  (function () {
+    // 1) Your personal visit count. Stored in your own browser, never sent anywhere.
+    try {
+      var el = document.querySelector('[data-visits]');
+      var n = Number(localStorage.getItem('sz:visits') || 0);
+      if (!sessionStorage.getItem('sz:counted')) {
+        n += 1;
+        localStorage.setItem('sz:visits', String(n));
+        sessionStorage.setItem('sz:counted', '1');
+      }
+      if (el && n > 0) {
+        el.textContent = n === 1 ? 'first time here? hi.' : 'welcome back. this is visit no. ' + String(n).padStart(4, '0') + '.';
+        el.hidden = false;
+      }
+    } catch (e) {}
+
+    // 2) The global visitor counter (netlify/functions/hits.mts). One POST per browser session,
+    //    no cookies, no ids: the server only ever stores a single number.
+    try {
+      var odo = document.querySelector('[data-odometer]');
+      var show = function (count) {
+        if (odo && count > 0) odo.textContent = String(count).padStart(6, '0');
+      };
+      var mine = Number(sessionStorage.getItem('sz:visitor') || 0);
+      if (mine) {
+        show(mine);
+      } else if (!sessionStorage.getItem('sz:hit')) {
+        sessionStorage.setItem('sz:hit', '1');
+        fetch('/api/hits', { method: 'POST' })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (d) {
+            sessionStorage.setItem('sz:visitor', String(d.count));
+            show(d.count);
+          })
+          .catch(function () {});
+      }
+    } catch (e) {}
+
+    console.log(
+      '%chi there.%c\nyou opened the console on a personal website. respect.\nthe source is plain html and css, go look around.',
+      'font: 600 16px Georgia, serif',
+      'font: 12px monospace',
+    );
+  })();
+</script>
+
+<style>
+  .site-footer {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+    font-size: var(--step--1);
+    line-height: 1.5;
+  }
+
+  .site-footer hr {
+    margin: 0 0 1.75rem;
+  }
+
+  .cols {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+  }
+
+  .colophon p {
+    margin: 0 0 0.9rem;
+  }
+
+  .handmade {
+    font-family: var(--text);
+    font-style: italic;
+    font-size: 0.8125rem;
+  }
+
+  .handmade :global(.heart) {
+    display: inline-block;
+    margin-left: 0.3rem;
+    vertical-align: -1px;
+    animation: beat 2.4s ease-in-out infinite;
+  }
+
+  @keyframes beat {
+    0%,
+    30%,
+    100% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(1.25);
+    }
+    20% {
+      transform: scale(1.1);
+    }
+  }
+
+  .visits {
+    font-size: var(--step--2);
+  }
+
+  .elsewhere {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .socials {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+
+  /* 88×31, the only correct badge size */
+  .badge {
+    display: flex;
+    width: 88px;
+    height: 31px;
+    border: 1px solid var(--ink);
+    font-family: var(--pixel);
+    font-size: 8px;
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--paper);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--paper) 50%, white),
+      inset -1px -1px 0 color-mix(in srgb, var(--ink) 25%, transparent);
+    user-select: none;
+  }
+
+  .badge .l,
+  .badge .r {
+    display: grid;
+    place-items: center;
+    padding: 0 4px;
+  }
+
+  .badge .l {
+    background: var(--ink);
+    color: var(--paper);
+    min-width: 32px;
+  }
+
+  .badge .r {
+    flex: 1;
+    text-align: center;
+  }
+
+  a.badge .l {
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  a.badge:visited {
+    color: var(--ink);
+  }
+
+  a.badge:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  @media (max-width: 40rem) {
+    .elsewhere {
+      align-items: flex-start;
+    }
+
+    .badges {
+      justify-content: flex-start;
+    }
+  }
+</style>

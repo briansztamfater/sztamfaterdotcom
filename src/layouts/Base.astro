@@ -1,0 +1,39 @@
+---
+import '@fontsource/silkscreen/400.css';
+import '../styles/global.css';
+
+import Head, { type Props as HeadProps } from '../components/Head.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+type Props = HeadProps & { bodyClass?: string };
+
+const { bodyClass, ...head } = Astro.props;
+
+const hello = `
+<!--
+  hi, view-source reader.
+
+  this site was built by a human and an AI, pair-programming.
+  the human had the opinions. the AI typed faster.
+  if you're reading this, we'd probably get along.
+-->`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head {...head} />
+  </head>
+  <body class={bodyClass}>
+    <Fragment set:html={hello} />
+    <a class="skip" href="#content">skip to content</a>
+    <div class="site">
+      <Header />
+      <main id="content" class="frame" tabindex="-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

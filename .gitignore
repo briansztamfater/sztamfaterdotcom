@@ -1,0 +1,22 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# env
+.env
+.env.*
+
+# os / editors
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Local Netlify folder
+.netlify

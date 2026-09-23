@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Pixel from '../components/Pixel.astro';
+---
+
+<Base title="Not found" description="This page wandered off." noindex>
+  <div class="lost">
+    <Pixel name="computer" scale={6} class="icon" />
+    <p class="pixel code">error 404</p>
+    <h1>This page wandered off.</h1>
+    <p>
+      It might have never existed, or I moved it and forgot to leave a note. Sorry about that. Try the <a href="/"
+        >front page</a
+      >, or the <a href="/thoughts/">thoughts</a>.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .lost {
+    max-width: 32rem;
+    padding: clamp(2rem, 8vw, 6rem) 0 2rem;
+  }
+
+  .lost :global(.icon) {
+    margin-bottom: 1.5rem;
+    animation: shake 4s ease-in-out infinite;
+  }
+
+  @keyframes shake {
+    0%,
+    90%,
+    100% {
+      transform: rotate(0);
+    }
+    92% {
+      transform: rotate(-6deg);
+    }
+    96% {
+      transform: rotate(6deg);
+    }
+  }
+
+  .code {
+    font-size: 0.7rem;
+    color: var(--accent-ink);
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    margin-bottom: 1rem;
+  }
+</style>
