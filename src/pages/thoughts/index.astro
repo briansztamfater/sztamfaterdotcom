@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getThoughts, thoughtUrl, excerptOf } from '../../lib/thoughts';
+import { getThoughts, thoughtUrl, excerptOf, isNew, newUntil } from '../../lib/thoughts';
+import NewBadge from '../../components/NewBadge.astro';
 import { stamp, iso } from '../../lib/dates';
 import { SITE } from '../../site.config';
 import { graph, person } from '../../lib/seo';
@@ -52,6 +53,7 @@ const byYear = years.map((y) => ({ year: y, items: thoughts.filter((t) => t.data
                 </time>
                 <h3>
                   <a href={thoughtUrl(t)}>{t.data.title}</a>
+                  {isNew(t) && <NewBadge until={newUntil(t)} />}
                 </h3>
                 <p class="excerpt">{excerptOf(t)}</p>
                 <p class="foot ui">

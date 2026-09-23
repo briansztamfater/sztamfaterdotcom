@@ -1,7 +1,7 @@
 ---
 /** The latest thoughts, as a good old table. */
 import { stamp, iso } from '../lib/dates';
-import { thoughtUrl, type Thought } from '../lib/thoughts';
+import { thoughtUrl, isNew, newUntil, type Thought } from '../lib/thoughts';
 import NewBadge from './NewBadge.astro';
 
 interface Props {
@@ -9,8 +9,6 @@ interface Props {
 }
 
 const { thoughts } = Astro.props;
-const FRESH_DAYS = 14;
-const isFresh = (d: Date) => Date.now() - d.valueOf() < FRESH_DAYS * 864e5;
 ---
 
 <table class="thought-table">
@@ -22,25 +20,18 @@ const isFresh = (d: Date) => Date.now() - d.valueOf() < FRESH_DAYS * 864e5;
   </thead>
   <tbody>
     {
-      thoughts.map((t, i) => {
-        const fresh = i === 0 && isFresh(t.data.date);
-        return (
+      thoughts.map((t) => (
         <tr>
           <td class="d">
             <time datetime={iso(t.data.date)}>{stamp(t.data.date)}</time>
           </td>
-          <td class:list={{ fresh }}>
+          <td>
             <a href={thoughtUrl(t)}>{t.data.title}</a>
-            {fresh && (
-              <span class="stick">
-                <NewBadge />
-              </span>
-            )}
+            {isNew(t) && <NewBadge until={newUntil(t)} />}
             {t.data.tags.length > 0 && <span class="tags">{t.data.tags.map((tag) => `#${tag}`).join(' ')}</span>}
           </td>
         </tr>
-        );
-      })
+      ))
     }
   </tbody>
 </table>
@@ -87,21 +78,6 @@ const isFresh = (d: Date) => Date.now() - d.valueOf() < FRESH_DAYS * 864e5;
 
   a {
     font-weight: 700;
-  }
-
-  .fresh {
-    position: relative;
-    padding-right: 3.6rem;
-  }
-
-  .stick {
-    position: absolute;
-    top: 0.2rem;
-    right: 0.35rem;
-  }
-
-  .stick :global(.burst) {
-    margin: 0;
   }
 
   .tags {

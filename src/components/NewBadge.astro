@@ -1,12 +1,26 @@
 ---
-/** The spiky "NEW!" sticker every homepage had in 2001. */
+/**
+ * The spiky "NEW!" sticker every homepage had in 2001.
+ * Pass `until` and it quietly disappears after that date, even if the site
+ * hasn't been rebuilt since.
+ */
 interface Props {
   label?: string;
+  until?: Date;
+  class?: string;
 }
-const { label = 'new!' } = Astro.props;
+const { label = 'new!', until, class: className } = Astro.props;
 ---
 
-<span class="burst" title="fresh off the keyboard"><span class="txt">{label}</span></span>
+<span class:list={['burst', className]} title="fresh off the keyboard" data-new-until={until?.toISOString()}
+  ><span class="txt">{label}</span></span
+>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLElement>('[data-new-until]')) {
+    if (Date.now() > Date.parse(el.dataset.newUntil ?? '')) el.remove();
+  }
+</script>
 
 <style>
   .burst {
@@ -18,9 +32,9 @@ const { label = 'new!' } = Astro.props;
     position: relative;
     display: inline-grid;
     place-items: center;
-    width: 3rem;
-    height: 3rem;
-    margin: -0.8rem 0 -0.8rem 0.3rem;
+    width: 1.65rem;
+    height: 1.65rem;
+    margin: -0.5rem 0 -0.5rem 0.2rem;
     vertical-align: middle;
     transform: rotate(-14deg);
     animation: wobble 2.4s ease-in-out infinite;
@@ -40,7 +54,7 @@ const { label = 'new!' } = Astro.props;
   }
 
   .burst::after {
-    inset: 4px;
+    inset: 2px;
     background: #ffee00;
   }
 
@@ -48,7 +62,7 @@ const { label = 'new!' } = Astro.props;
     position: relative;
     z-index: 1;
     font-family: var(--ui);
-    font-size: 0.62rem;
+    font-size: 0.38rem;
     font-weight: 700;
     font-style: italic;
     line-height: 1;

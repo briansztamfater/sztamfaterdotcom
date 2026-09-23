@@ -8,6 +8,18 @@ export async function getThoughts(): Promise<Thought[]> {
   return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
+/** Thoughts younger than this get the "NEW!" sticker. */
+export const NEW_DAYS = 30;
+
+/** When a thought stops being new. */
+export function newUntil(thought: Thought): Date {
+  return new Date(thought.data.date.valueOf() + NEW_DAYS * 864e5);
+}
+
+export function isNew(thought: Thought, now = Date.now()): boolean {
+  return now < newUntil(thought).valueOf();
+}
+
 export function thoughtUrl(thought: Thought): string {
   return `/thoughts/${thought.id}/`;
 }

@@ -286,24 +286,6 @@ hr.dotted {
   text-transform: uppercase;
 }
 
-/* ---- tiny blinking cursor --------------------------------------------- */
-
-.cursor {
-  display: inline-block;
-  width: 0.5em;
-  height: 1em;
-  margin-left: 0.15em;
-  background: var(--red);
-  vertical-align: -0.12em;
-  animation: blink 1.1s steps(1, end) infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
 /* ---- prose (thought bodies) ------------------------------------------- */
 
 .prose {
