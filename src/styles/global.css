@@ -74,6 +74,30 @@ body {
   line-height: 1.6;
 }
 
+/* ---- cursors: the arrow and the white glove, like 2001 --------------- */
+/* plain url first as a fallback, then crisp 2x versions where supported */
+
+html {
+  cursor: url('/cursors/arrow.png') 0 0, auto;
+  cursor: -webkit-image-set(url('/cursors/arrow.png') 1x, url('/cursors/arrow@2x.png') 2x) 0 0, auto;
+  cursor: image-set(url('/cursors/arrow.png') 1x, url('/cursors/arrow@2x.png') 2x) 0 0, auto;
+}
+
+a[href],
+button,
+summary,
+label[for],
+[role='button'] {
+  cursor: url('/cursors/hand.png') 5 0, pointer;
+  cursor: -webkit-image-set(url('/cursors/hand.png') 1x, url('/cursors/hand@2x.png') 2x) 5 0, pointer;
+  cursor: image-set(url('/cursors/hand.png') 1x, url('/cursors/hand@2x.png') 2x) 5 0, pointer;
+}
+
+input,
+textarea {
+  cursor: text;
+}
+
 img,
 svg {
   display: block;

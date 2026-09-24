@@ -1,10 +1,10 @@
 /**
- * Regenerates public/favicon.svg and public/apple-touch-icon.png.
+ * Regenerates public/favicon.svg, public/apple-touch-icon.png and the cursors in public/cursors/.
  * Run with: node scripts/make-images.mjs
  *
  * (Social preview images are generated at build time by src/pages/og/.)
  */
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 
 const KHAKI = '#eeeecc';
@@ -55,4 +55,70 @@ await sharp(Buffer.from(touch), { density: 1200 })
   .png()
   .toFile('public/apple-touch-icon.png');
 
-console.log('wrote favicon.svg, apple-touch-icon.png');
+// cursors: the classic arrow and the white-glove pointing hand, at 1x and 2x
+const CURSORS = {
+  arrow: [
+    'k..........',
+    'kk.........',
+    'kwk........',
+    'kwwk.......',
+    'kwwwk......',
+    'kwwwwk.....',
+    'kwwwwwk....',
+    'kwwwwwwk...',
+    'kwwwwwwwk..',
+    'kwwwwwwwwk.',
+    'kwwwwwkkkkk',
+    'kwwkwwk....',
+    'kwk.kwwk...',
+    'kk..kwwk...',
+    'k....kwwk..',
+    '.....kwwk..',
+    '......kwwk.',
+    '......kwwk.',
+    '.......kk..',
+  ],
+  hand: [
+    '.....kk..........',
+    '....kwwk.........',
+    '....kwwk.........',
+    '....kwwk.........',
+    '....kwwk.........',
+    '....kwwkkk.......',
+    '....kwwkwwkkk....',
+    '....kwwkwwkwwkk..',
+    '.kk.kwwkwwkwwkwk.',
+    'kwwkkwwwwwwwwkwwk',
+    'kwwwkwwwwwwwwwwwk',
+    '.kwwkwwwwwwwwwwwk',
+    '..kwwwwwwwwwwwwwk',
+    '..kwwwwwwwwwwwwk.',
+    '...kwwwwwwwwwwwk.',
+    '...kwwwwwwwwwwk..',
+    '....kwwwwwwwwwk..',
+    '....kwwwwwwwwk...',
+    '.....kwwwwwwwk...',
+    '.....kkkkkkkkk...',
+  ],
+};
+await mkdir('public/cursors', { recursive: true });
+for (const [name, rows] of Object.entries(CURSORS)) {
+  const w = rows[0].length;
+  const h = rows.length;
+  const cells = rows
+    .flatMap((row, y) =>
+      [...row].map((c, x) =>
+        c === '.' ? '' : `<rect x="${x}" y="${y}" width="1" height="1" fill="${c === 'k' ? '#000000' : '#ffffff'}"/>`,
+      ),
+    )
+    .join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" shape-rendering="crispEdges">${cells}</svg>`;
+  for (const scale of [1, 2]) {
+    await sharp(Buffer.from(svg), { density: 72 * scale * 4 })
+      .resize(w * scale, h * scale, { kernel: 'nearest' })
+      .png()
+      .toFile(`public/cursors/${name}${scale === 2 ? '@2x' : ''}.png`);
+  }
+}
+
+console.log('wrote favicon.svg, apple-touch-icon.png, cursors/');
