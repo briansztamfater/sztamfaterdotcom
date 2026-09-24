@@ -1,0 +1,14 @@
+{
+  "name": "Brian Sztamfater",
+  "short_name": "sztamfater",
+  "description": "The personal homepage of Brian Sztamfater.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#eeeecc",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

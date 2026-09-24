@@ -1,0 +1,16 @@
+/* TEAM */
+  Human: Brian Sztamfater
+  Role: opinions, taste, words
+  From: Buenos Aires, Argentina
+  GitHub: https://github.com/briansztamfater
+  X: @briansztamfater
+
+  AI: Claude (Anthropic)
+  Role: most of the typing, all of the pixel art
+
+/* SITE */
+  Built with: Astro, TypeScript, plain CSS
+  Hosted on: Netlify
+  Fonts: Verdana, Silkscreen
+  Standards: HTML, CSS, a pinch of JavaScript
+  Inspired by: the personal web, circa 2003

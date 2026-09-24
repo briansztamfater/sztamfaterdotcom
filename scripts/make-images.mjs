@@ -1,5 +1,5 @@
 /**
- * Regenerates public/favicon.svg, public/apple-touch-icon.png and the cursors in public/cursors/.
+ * Regenerates the favicons (svg, ico, touch + manifest icons) and the cursors in public/cursors/.
  * Run with: node scripts/make-images.mjs
  *
  * (Social preview images are generated at build time by src/pages/og/.)
@@ -54,6 +54,37 @@ await sharp(Buffer.from(touch), { density: 1200 })
   .resize(180, 180, { kernel: 'nearest' })
   .png()
   .toFile('public/apple-touch-icon.png');
+
+// square pixel icon at any size (whole-pixel scaling, so it stays crisp)
+const icon = (size) =>
+  sharp(Buffer.from(touch), { density: 72 * Math.ceil(size / 18) * 4 })
+    .resize(size, size, { kernel: 'nearest' })
+    .png()
+    .toBuffer();
+
+// favicon.ico: 16, 32 and 48 px PNGs inside an .ico container (browsers and crawlers still ask for it)
+const sizes = [16, 32, 48];
+const pngs = await Promise.all(sizes.map((n) => sharp(Buffer.from(favicon), { density: 72 * 16 }).resize(n, n, { kernel: 'nearest' }).png().toBuffer()));
+const dir = Buffer.alloc(6 + 16 * sizes.length);
+dir.writeUInt16LE(0, 0);
+dir.writeUInt16LE(1, 2);
+dir.writeUInt16LE(sizes.length, 4);
+let offset = dir.length;
+sizes.forEach((n, i) => {
+  const e = 6 + i * 16;
+  dir.writeUInt8(n, e);
+  dir.writeUInt8(n, e + 1);
+  dir.writeUInt16LE(1, e + 4);
+  dir.writeUInt16LE(32, e + 6);
+  dir.writeUInt32LE(pngs[i].length, e + 8);
+  dir.writeUInt32LE(offset, e + 12);
+  offset += pngs[i].length;
+});
+await writeFile('public/favicon.ico', Buffer.concat([dir, ...pngs]));
+
+// web app manifest icons
+await writeFile('public/icon-192.png', await icon(192));
+await writeFile('public/icon-512.png', await icon(512));
 
 // cursors: the classic arrow and the white-glove pointing hand, at 1x and 2x
 const CURSORS = {
@@ -121,4 +152,4 @@ for (const [name, rows] of Object.entries(CURSORS)) {
   }
 }
 
-console.log('wrote favicon.svg, apple-touch-icon.png, cursors/');
+console.log('wrote favicon.svg, favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png, cursors/');

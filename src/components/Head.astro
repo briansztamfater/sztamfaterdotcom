@@ -47,15 +47,18 @@ const imageUrl = new URL(image, Astro.site);
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-{noindex && <meta name="robots" content="noindex" />}
+<meta name="robots" content={noindex ? 'noindex' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
 <meta name="author" content={SITE.name} />
 <meta name="generator" content={Astro.generator} />
 <meta name="color-scheme" content="light" />
 <meta name="theme-color" content="#eeeecc" />
 
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="author" href="/humans.txt" type="text/plain" />
 <link rel="alternate" type="application/rss+xml" title={`${SITE.name}: thoughts`} href={new URL('/rss.xml', Astro.site)} />
 <link rel="sitemap" href="/sitemap-index.xml" />
 

@@ -24,18 +24,28 @@ export function thoughtUrl(thought: Thought): string {
   return `/thoughts/${thought.id}/`;
 }
 
-/** Excerpt from frontmatter, or the first real paragraph of the body. */
-export function excerptOf(thought: Thought, max = 180): string {
+/**
+ * Excerpt from frontmatter, or the opening prose of the body. Keeps adding
+ * paragraphs until there's enough to make a decent search/preview snippet.
+ */
+export function excerptOf(thought: Thought, max = 160, min = 100): string {
   if (thought.data.excerpt) return thought.data.excerpt;
-  const para =
-    (thought.body ?? '')
-      .split(/\n\s*\n/)
-      .map((p) => p.trim())
-      .find((p) => p && !/^(import|export|#|<|>|```|---|!\[)/.test(p)) ?? '';
-  const plain = para
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .replace(/[*_`~]/g, '')
-    .replace(/\s+/g, ' ');
+  const paras = (thought.body ?? '')
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter((p) => p && !/^(import|export|#|<|>|```|---|!\[|- |\* |\d+\. )/.test(p))
+    .map((p) =>
+      p
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/<[^>]+>/g, '')
+        .replace(/[*_`~]/g, '')
+        .replace(/\s+/g, ' '),
+    );
+  let plain = '';
+  for (const p of paras) {
+    plain = plain ? `${plain} ${p}` : p;
+    if (plain.length >= min) break;
+  }
   return plain.length > max ? `${plain.slice(0, max).replace(/\s+\S*$/, '')}…` : plain;
 }
 

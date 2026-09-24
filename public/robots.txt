@@ -1,5 +1,10 @@
 # hello, robot. be nice.
+# everything here is public and meant to be read, by people and machines alike.
 User-agent: *
 Allow: /
+
+# for AI assistants: a plain-text map of the site, and every post in full
+# https://sztamfater.com/llms.txt
+# https://sztamfater.com/llms-full.txt
 
 Sitemap: https://sztamfater.com/sitemap-index.xml

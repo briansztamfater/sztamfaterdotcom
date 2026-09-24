@@ -9,6 +9,9 @@ npm run build    # type-checks, then builds to dist/
 npm run preview
 ```
 
+> Working on this with an AI agent? See [AGENTS.md](AGENTS.md) for rules and the
+> "what to update when" checklists.
+
 ## Where things live
 
 | I want to…                        | Edit                                    |

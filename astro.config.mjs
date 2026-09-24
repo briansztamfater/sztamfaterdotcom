@@ -26,6 +26,15 @@ function thoughtDates() {
 
 const lastmod = thoughtDates();
 
+// pages that change when a thought is added, or when /now is updated
+const newest = Object.values(lastmod).sort().at(-1);
+if (newest) {
+  lastmod[`${SITE}/`] = newest;
+  lastmod[`${SITE}/thoughts/`] = newest;
+}
+const nowUpdated = readFileSync('./src/data/now.ts', 'utf8').match(/updated:\s*new Date\('([0-9-]+)'\)/)?.[1];
+if (nowUpdated) lastmod[`${SITE}/now/`] = new Date(nowUpdated).toISOString();
+
 export default defineConfig({
   site: SITE,
   integrations: [
