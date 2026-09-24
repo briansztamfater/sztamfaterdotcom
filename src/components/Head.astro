@@ -10,6 +10,13 @@ export interface Props {
   imageAlt?: string;
   type?: 'website' | 'article';
   publishedTime?: Date;
+  /** Articles only: when it was last revised. */
+  modifiedTime?: Date;
+  /** Articles only: Open Graph section and tags. */
+  section?: string;
+  tags?: string[];
+  /** Up to two label/value pairs that Slack, X and Discord show in link previews. */
+  labels?: { label: string; data: string }[];
   noindex?: boolean;
   /** schema.org structured data for this page. */
   jsonLd?: JsonLd;
@@ -22,6 +29,10 @@ const {
   imageAlt = `${SITE.domain}, the personal website of ${SITE.name}`,
   type = 'website',
   publishedTime,
+  modifiedTime,
+  section,
+  tags = [],
+  labels = [],
   noindex = false,
   jsonLd,
 } = Astro.props;
@@ -61,6 +72,9 @@ const imageUrl = new URL(image, Astro.site);
 <meta property="og:locale" content="en_US" />
 {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
 {publishedTime && <meta property="article:author" content={SITE.name} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+{section && <meta property="article:section" content={section} />}
+{tags.map((tag) => <meta property="article:tag" content={tag} />)}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content="@briansztamfater" />
@@ -68,5 +82,13 @@ const imageUrl = new URL(image, Astro.site);
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
 <meta name="twitter:image:alt" content={imageAlt} />
+{
+  labels.slice(0, 2).map((l, i) => (
+    <>
+      <meta name={`twitter:label${i + 1}`} content={l.label} />
+      <meta name={`twitter:data${i + 1}`} content={l.data} />
+    </>
+  ))
+}
 
 {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />}

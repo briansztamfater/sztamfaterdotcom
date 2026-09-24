@@ -39,8 +39,11 @@ export function excerptOf(thought: Thought, max = 180): string {
   return plain.length > max ? `${plain.slice(0, max).replace(/\s+\S*$/, '')}…` : plain;
 }
 
+export function wordCount(thought: Thought): number {
+  return (thought.body ?? '').split(/\s+/).filter(Boolean).length;
+}
+
 /** Rough reading time, because it's nice to know. */
 export function readingMinutes(thought: Thought): number {
-  const words = (thought.body ?? '').split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 230));
+  return Math.max(1, Math.round(wordCount(thought) / 230));
 }

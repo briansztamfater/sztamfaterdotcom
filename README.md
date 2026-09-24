@@ -30,6 +30,7 @@ A thought's frontmatter:
 ---
 title: The internet used to be more fun.
 date: 2026-09-08
+updated: 2026-09-12   # optional, when you revise it
 excerpt: Optional. Otherwise the first paragraph is used.
 tags: [internet]        # optional
 cover: ./cover.jpg      # optional, used for link previews
@@ -39,6 +40,10 @@ draft: true             # optional, hidden from the build
 ```
 
 Files starting with `_` are ignored.
+
+Each thought automatically gets its own social preview image (`/og/thoughts/<slug>.png`),
+Open Graph + X card tags (with reading time and date labels for Slack/X/Discord unfurls),
+`BlogPosting` structured data, and a sitemap `lastmod`. Nothing to do by hand.
 
 ## Visitor counter
 

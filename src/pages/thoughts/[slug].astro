@@ -5,8 +5,8 @@ import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { SITE, SOCIALS } from '../../site.config';
 import { graph, person } from '../../lib/seo';
-import { getThoughts, thoughtUrl, excerptOf, readingMinutes, type Thought } from '../../lib/thoughts';
-import { longDate, stamp, iso } from '../../lib/dates';
+import { getThoughts, thoughtUrl, excerptOf, readingMinutes, wordCount, type Thought } from '../../lib/thoughts';
+import { longDate, shortDate, stamp, iso } from '../../lib/dates';
 
 export const getStaticPaths = (async () => {
   const thoughts = await getThoughts();
@@ -24,7 +24,8 @@ interface Props {
 
 const { thought, newer, older } = Astro.props;
 const { Content } = await render(thought);
-const { title, date, tags, cover, coverAlt } = thought.data;
+const { title, date, updated, tags, cover, coverAlt } = thought.data;
+const minutes = readingMinutes(thought);
 
 const ogImage = cover
   ? (await getImage({ src: cover, width: 1200, height: 630, fit: 'cover', format: 'png' })).src
@@ -37,12 +38,18 @@ const jsonLd = graph(
     headline: title,
     description: excerptOf(thought),
     datePublished: date.toISOString(),
+    dateModified: (updated ?? date).toISOString(),
     url,
     mainEntityOfPage: url,
     image: new URL(ogImage, SITE.url).href,
     keywords: tags,
+    articleSection: 'Thoughts',
+    wordCount: wordCount(thought),
+    timeRequired: `PT${minutes}M`,
     inLanguage: 'en',
     author: { '@id': `${SITE.url}/#person` },
+    publisher: { '@id': `${SITE.url}/#person` },
+    isPartOf: { '@id': `${SITE.url}/thoughts/#blog` },
   },
   person(),
 );
@@ -54,8 +61,15 @@ const x = SOCIALS.find((s) => s.label === 'X');
   description={excerptOf(thought)}
   type="article"
   publishedTime={date}
+  modifiedTime={updated}
+  section="Thoughts"
+  tags={tags}
+  labels={[
+    { label: 'Reading time', data: `${minutes} min` },
+    { label: updated ? 'Updated' : 'Published', data: shortDate(updated ?? date) },
+  ]}
   image={ogImage}
-  imageAlt={cover ? coverAlt : `${title}, a thought by ${SITE.name}`}
+  imageAlt={cover ? coverAlt : `A thought by ${SITE.name}: ${title}`}
   jsonLd={jsonLd}
 >
   <article class="thought">
@@ -67,7 +81,14 @@ const x = SOCIALS.find((s) => s.label === 'X');
     <div class="margin-layout">
       <aside class="in-margin meta ui" aria-label="About this post">
         <time datetime={iso(date)} title={longDate(date)}>{stamp(date)}</time>
-        <span>{readingMinutes(thought)} min read</span>
+        {
+          updated && (
+            <span>
+              updated <time datetime={iso(updated)}>{stamp(updated)}</time>
+            </span>
+          )
+        }
+        <span>{minutes} min read</span>
         {tags.length > 0 && <span class="tags">{tags.map((t) => `#${t}`).join(' ')}</span>}
       </aside>
 

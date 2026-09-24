@@ -12,6 +12,8 @@ const thoughts = defineCollection({
     z.object({
       title: z.string(),
       date: z.coerce.date(),
+      /** Optional: when you last revised it. Shows on the page and in link metadata. */
+      updated: z.coerce.date().optional(),
       /** Short teaser for lists, RSS and link previews. Falls back to the first paragraph. */
       excerpt: z.string().optional(),
       tags: z.array(z.string()).default([]),

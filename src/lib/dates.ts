@@ -15,6 +15,11 @@ export function monthYear(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 }
 
+/** Sep 17, 2026 */
+export function shortDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+}
+
 export function iso(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
