@@ -56,8 +56,8 @@ ${books.join('\n')}
 
 ## Elsewhere
 
-- Email: ${EMAIL}
 ${SOCIALS.map((s) => `- [${s.label}](${s.href})`).join('\n')}
+- Email: ${EMAIL}
 
 Source: ${abs('/about/')}
 `;

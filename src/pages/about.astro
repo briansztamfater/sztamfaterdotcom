@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { BOOKS, EMAIL, SITE, SOCIALS } from '../site.config';
+import { BOOKS, EMAIL, EMAIL_PARTS, SITE, SOCIALS } from '../site.config';
 import { ABOUT } from '../data/about';
 import { graph, identity } from '../lib/seo';
 ---
@@ -49,10 +49,6 @@ import { graph, identity } from '../lib/seo';
 
     <h2 class="in-margin label pixel">elsewhere</h2>
     <ul class="links">
-      <li>
-        <span class="label-text">Email</span>
-        <span class="ui muted email">{EMAIL}</span>
-      </li>
       {
         SOCIALS.map((s) => (
           <li>
@@ -63,6 +59,10 @@ import { graph, identity } from '../lib/seo';
           </li>
         ))
       }
+      <li>
+        <a href="#" class="plain" data-mail-user={EMAIL_PARTS.user} data-mail-domain={EMAIL_PARTS.domain}>Email</a>
+        <span class="ui muted email">{EMAIL}</span>
+      </li>
     </ul>
 
     <h2 class="in-margin label pixel">this site</h2>
@@ -73,6 +73,19 @@ import { graph, identity } from '../lib/seo';
     </p>
   </div>
 </Base>
+
+<script is:inline>
+  // The real address is only put together when a person reaches for the link
+  // (hover, keyboard focus or touch), so it never sits in the HTML for scrapers.
+  document.querySelectorAll('[data-mail-user]').forEach(function (a) {
+    var arm = function () {
+      a.href = 'mailto:' + a.dataset.mailUser + '@' + a.dataset.mailDomain;
+    };
+    ['mouseenter', 'focus', 'touchstart'].forEach(function (ev) {
+      a.addEventListener(ev, arm, { once: true, passive: true });
+    });
+  });
+</script>
 
 <style>
   .about {
@@ -130,8 +143,7 @@ import { graph, identity } from '../lib/seo';
     border-bottom: 1px dotted var(--line);
   }
 
-  .links a,
-  .label-text {
+  .links a {
     font-size: var(--step-1);
   }
 
