@@ -146,7 +146,8 @@ a:active {
   color: var(--red);
 }
 
-a[href^='http']:not(.plain)::after {
+a[href^='http']:not(.plain)::after,
+a[data-mail-user]::after {
   content: '↗';
   font-size: 0.7em;
   margin-left: 0.1em;
