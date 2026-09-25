@@ -1,5 +1,6 @@
 ---
 import Pixel from './Pixel.astro';
+import EmailLink from './EmailLink.astro';
 import { SITE, SOCIALS } from '../site.config';
 
 const year = new Date().getFullYear();
@@ -34,6 +35,7 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
             </li>
           ))
         }
+        <li><EmailLink>email</EmailLink></li>
       </ul>
 
       <ul class="badges" aria-label="Badges">
@@ -60,32 +62,31 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
 
 <script is:inline>
   (function () {
-    // 1) Your personal visit count. Stored in your own browser, never sent anywhere.
+    // The footer greeting and the homepage counter show the same number: the site-wide
+    // visitor number (netlify/functions/hits.mts). One POST per browser session, no cookies,
+    // no ids: the server only ever stores a single number. Whether you've been here before
+    // is remembered only in your own browser.
     try {
       var el = document.querySelector('[data-visits]');
-      var n = Number(localStorage.getItem('sz:visits') || 0);
+      var odo = document.querySelector('[data-odometer]');
+      var seen = Number(localStorage.getItem('sz:visits') || 0);
       if (!sessionStorage.getItem('sz:counted')) {
-        n += 1;
-        localStorage.setItem('sz:visits', String(n));
+        seen += 1;
+        localStorage.setItem('sz:visits', String(seen));
         sessionStorage.setItem('sz:counted', '1');
       }
-      if (el && n > 0) {
-        el.textContent = n === 1 ? 'first time here? hi.' : 'welcome back. this is visit no. ' + String(n).padStart(4, '0') + '.';
-        el.hidden = false;
-      }
-    } catch (e) {}
-
-    // 2) The global visitor counter (netlify/functions/hits.mts). One POST per browser session,
-    //    no cookies, no ids: the server only ever stores a single number.
-    try {
-      var odo = document.querySelector('[data-odometer]');
       var show = function (count) {
-        if (odo && count > 0) odo.textContent = String(count).padStart(6, '0');
+        var no = count > 0 ? 'visitor no. ' + String(count).padStart(6, '0') : '';
+        if (odo && no) odo.textContent = String(count).padStart(6, '0');
+        if (el) {
+          el.textContent =
+            seen > 1 ? (no ? 'welcome back, ' + no + '.' : 'welcome back.') : no ? "first time here? hi. you're " + no + '.' : 'first time here? hi.';
+          el.hidden = false;
+        }
       };
       var mine = Number(sessionStorage.getItem('sz:visitor') || 0);
-      if (mine) {
-        show(mine);
-      } else if (!sessionStorage.getItem('sz:hit')) {
+      show(mine);
+      if (!mine && !sessionStorage.getItem('sz:hit')) {
         sessionStorage.setItem('sz:hit', '1');
         fetch('/api/hits', { method: 'POST' })
           .then(function (r) {
