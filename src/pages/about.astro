@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { BOOKS, SITE, SOCIALS } from '../site.config';
+import { BOOKS, EMAIL, SITE, SOCIALS } from '../site.config';
 import { ABOUT } from '../data/about';
 import { graph, identity } from '../lib/seo';
 ---
@@ -49,6 +49,10 @@ import { graph, identity } from '../lib/seo';
 
     <h2 class="in-margin label pixel">elsewhere</h2>
     <ul class="links">
+      <li>
+        <span class="label-text">Email</span>
+        <span class="ui email">{EMAIL}</span>
+      </li>
       {
         SOCIALS.map((s) => (
           <li>
@@ -126,8 +130,15 @@ import { graph, identity } from '../lib/seo';
     border-bottom: 1px dotted var(--line);
   }
 
-  .links a {
+  .links a,
+  .label-text {
     font-size: var(--step-1);
+  }
+
+  .email {
+    font-weight: 700;
+    color: var(--ink);
+    user-select: all;
   }
 
   .books {

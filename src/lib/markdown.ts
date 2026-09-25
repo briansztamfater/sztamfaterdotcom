@@ -1,5 +1,5 @@
 /** Plain-Markdown versions of pages, for AI assistants (/thoughts/<slug>.md, /about.md, /now.md, llms-full.txt). */
-import { BOOKS, SITE, SOCIALS } from '../site.config';
+import { BOOKS, EMAIL, SITE, SOCIALS } from '../site.config';
 import { ABOUT } from '../data/about';
 import { NOW } from '../data/now';
 import { thoughtUrl, type Thought } from './thoughts';
@@ -56,6 +56,7 @@ ${books.join('\n')}
 
 ## Elsewhere
 
+- Email: ${EMAIL}
 ${SOCIALS.map((s) => `- [${s.label}](${s.href})`).join('\n')}
 
 Source: ${abs('/about/')}

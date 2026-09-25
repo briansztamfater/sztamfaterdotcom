@@ -59,6 +59,9 @@ export const NAV = [
   { href: '/about/', label: 'about' },
 ] as const;
 
+/** Spelled out the old way on purpose, so spam bots don't pick it up. Never render it as a mailto: link. */
+export const EMAIL = 'brian09 [at] gmail [dot] com';
+
 export const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/briansztamfater', handle: '@briansztamfater' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/bstamfa/', handle: 'in/bstamfa' },
