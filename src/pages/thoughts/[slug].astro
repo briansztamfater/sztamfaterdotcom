@@ -4,7 +4,7 @@ import { render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { SITE, SOCIALS } from '../../site.config';
-import { graph, person } from '../../lib/seo';
+import { graph, identity } from '../../lib/seo';
 import { getThoughts, thoughtUrl, excerptOf, readingMinutes, wordCount, type Thought } from '../../lib/thoughts';
 import { longDate, shortDate, stamp, iso } from '../../lib/dates';
 
@@ -51,7 +51,7 @@ const jsonLd = graph(
     publisher: { '@id': `${SITE.url}/#person` },
     isPartOf: { '@id': `${SITE.url}/thoughts/#blog` },
   },
-  person(),
+  ...identity(),
 );
 const x = SOCIALS.find((s) => s.label === 'X');
 ---
@@ -69,6 +69,7 @@ const x = SOCIALS.find((s) => s.label === 'X');
     { label: updated ? 'Updated' : 'Published', data: shortDate(updated ?? date) },
   ]}
   image={ogImage}
+  markdown={`/thoughts/${thought.id}.md`}
   imageAlt={cover ? coverAlt : `A thought by ${SITE.name}: ${title}`}
   jsonLd={jsonLd}
 >

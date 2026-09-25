@@ -23,7 +23,7 @@ Always run `npm run build` after a change and fix anything it reports.
 
 ## Ground rules
 
-1. **Never write in Brian's voice without being asked.** Thoughts are his. Don't invent opinions, bios, job history, achievements, testimonials or metrics. If you're asked to draft a post, say it's a draft, and add `draft: true` unless told otherwise.
+1. **Never write in Brian's voice without being asked.** Thoughts are his. Don't invent opinions, bios, job history, achievements, testimonials or metrics. His role at Moby is **Mobile / Web Lead**, never "founder", "CEO" or "CTO". If you're asked to draft a post, say it's a draft, and add `draft: true` unless told otherwise.
 2. **Keep the credits honest.** The site says it was "built by a human and an AI" and "the opinions are all human". Never claim it's "handmade" or "built by hand".
 3. **No tracking.** The footer has a "ZERO TRACKERS" badge and the About page says "No cookies, no analytics, no tracking". If you're asked to add analytics or any third-party script, **also update those claims** (`src/components/Footer.astro`, `src/pages/about.astro`, and the ticker in `src/pages/index.astro`) and tell Brian.
 4. **No ripped copyrighted assets** (game sprites, music, logos). The GIFs are original tributes. Anything from elsewhere needs a `credit` in `src/data/gifs.ts`.
@@ -31,7 +31,9 @@ Always run `npm run build` after a change and fix anything it reports.
 
 ## What updates automatically
 
-For every thought: the post page, the `/thoughts` list, the homepage "Latest Thoughts" table, the NEW! badge (for 30 days, see `NEW_DAYS` in `src/lib/thoughts.ts`), its social preview image (`/og/thoughts/<slug>.png`), Open Graph/X tags, `BlogPosting` JSON-LD, the RSS feed (full text), the sitemap (+ `lastmod`), `/llms.txt`, `/llms-full.txt`, and the thought counts on the homepage and in OG images.
+For every thought: the post page, the `/thoughts` list, the homepage "Latest Thoughts" table, the NEW! badge (for 30 days, see `NEW_DAYS` in `src/lib/thoughts.ts`), its social preview image (`/og/thoughts/<slug>.png`), its Markdown copy (`/thoughts/<slug>.md`), the page `<title>` (format lives in `src/components/Head.astro`), Open Graph/X tags, `BlogPosting` JSON-LD, the RSS feed (full text), the sitemap (+ `lastmod`), `/llms.txt`, `/llms-full.txt`, and the thought counts on the homepage and in OG images.
+
+On every production deploy, the IndexNow plugin (`netlify/plugins/indexnow/`) pings Bing & co. with all sitemap URLs. Its key is in `netlify.toml` and must match the file `public/<key>.txt`; don't delete that file.
 
 Everything below is what does **not** happen by itself.
 
@@ -78,7 +80,7 @@ Sizes, dimensions and frame counts are read automatically.
 
 This is the one with the most hand-edits. Do all of them:
 
-1. The page(s) in `src/pages/`, using `<Base title description image jsonLd>`.
+1. The page(s) in `src/pages/`, using `<Base title description image jsonLd>` (and `markdown="/<section>.md"` if you add a Markdown copy, see `src/lib/markdown.ts`).
 2. `NAV` in `src/site.config.ts` (adds the header button).
 3. **Preview image:** add an entry in `getStaticPaths` in `src/pages/og/[...slug].png.ts`, and pass `image="/og/<section>.png"` from the page.
 4. **Preview nav buttons:** add the section to the button list *and* the `section` union type in `src/lib/og.ts` (the images draw the site's nav).
@@ -92,12 +94,16 @@ This is the one with the most hand-edits. Do all of them:
 | Change | Files |
 | --- | --- |
 | Moby name, URL, description | `src/site.config.ts` (`moby.blurb`, `moby.short`, `moby.url`), the Building note in `src/data/now.ts` |
+| Role at Moby | `moby.role` in `src/site.config.ts` (feeds JSON-LD `jobTitle`, `/llms.txt`, `/about.md`) |
+| Books | `BOOKS` in `src/site.config.ts` (feeds the About page's Books section, `Book` JSON-LD, `/llms.txt`, `/about.md`). Only verified facts: title, publisher, ISBN, links |
+| Topics he knows about | `BIO.topics` in `src/site.config.ts` (JSON-LD `knowsAbout`) |
 | Social links | `src/site.config.ts` (`SOCIALS`), `public/humans.txt` |
 | X/Twitter handle | `SOCIALS`, `twitter:creator` in `src/components/Head.astro`, `public/humans.txt` |
 | Location | `SITE.basedIn` in `src/site.config.ts`, `homeLocation` in `src/lib/seo.ts`, Based in in `src/data/now.ts` |
 | Header slogan ("…since 1991") | `src/components/Header.astro` **and** `src/lib/og.ts` (drawn into preview images) |
 | Site description | `SITE.description` in `src/site.config.ts` (keep it ≤160 characters) |
-| Bio | `src/pages/about.astro` (Brian's words; don't rewrite without being asked) |
+| Bio | `src/data/about.ts` (Brian's words; used by `/about` and `/about.md`; don't rewrite without being asked) |
+| Page title format | `fullTitle` in `src/components/Head.astro` (2000s-style, specific part first) |
 
 ### 🎨 Changing the design
 

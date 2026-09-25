@@ -44,7 +44,7 @@ draft: true             # optional, hidden from the build
 
 Files starting with `_` are ignored.
 
-Each thought automatically gets its own social preview image (`/og/thoughts/<slug>.png`),
+Each thought automatically gets its own social preview image (`/og/thoughts/<slug>.png`), a Markdown copy (`/thoughts/<slug>.md`),
 Open Graph + X card tags (with reading time and date labels for Slack/X/Discord unfurls),
 `BlogPosting` structured data, and a sitemap `lastmod`. Nothing to do by hand.
 

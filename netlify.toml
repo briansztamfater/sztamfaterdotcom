@@ -42,23 +42,31 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
-# plain-text files, with accents intact
+# plain-text and Markdown files (llms.txt, humans.txt, robots.txt, the .md copies), with accents intact
 [[headers]]
-  for = "/llms.txt"
+  for = "/*.txt"
   [headers.values]
     Content-Type = "text/plain; charset=utf-8"
 
 [[headers]]
-  for = "/llms-full.txt"
+  for = "/*.md"
   [headers.values]
-    Content-Type = "text/plain; charset=utf-8"
+    Content-Type = "text/markdown; charset=utf-8"
 
 [[headers]]
-  for = "/humans.txt"
+  for = "/thoughts/*.md"
   [headers.values]
-    Content-Type = "text/plain; charset=utf-8"
+    Content-Type = "text/markdown; charset=utf-8"
 
 [[headers]]
   for = "/rss.xml"
   [headers.values]
     Content-Type = "application/rss+xml; charset=utf-8"
+
+# --- plugins -----------------------------------------------------------------
+
+# after each production deploy: ping IndexNow (Bing/ChatGPT search, Yandex, ...) with the sitemap URLs
+[[plugins]]
+  package = "./netlify/plugins/indexnow"
+  [plugins.inputs]
+    key = "8e24897de49e60135ecacfb26f1742bc"

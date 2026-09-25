@@ -1,35 +1,24 @@
 /**
- * /llms-full.txt: every thought in full, as Markdown, for AI assistants (see llmstxt.org).
+ * /llms-full.txt: who Brian is, what he's doing now, and every thought in full (see llmstxt.org).
  */
 import type { APIRoute } from 'astro';
 import { SITE } from '../site.config';
-import { getThoughts, thoughtUrl } from '../lib/thoughts';
-import { iso } from '../lib/dates';
+import { getThoughts } from '../lib/thoughts';
+import { aboutMarkdown, nowMarkdown, thoughtMarkdown } from '../lib/markdown';
 
-/** MDX can contain imports and small bits of HTML; keep the prose, drop the plumbing. */
-const clean = (body: string) =>
-  body
-    .replace(/^(import|export)\s.*$/gm, '')
-    .replace(/<\/?(aside|div|span|mark)[^>]*>/g, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
+/** Push a Markdown document's headings down one level, so it nests under this file's sections. */
+const nest = (md: string) => md.replace(/^(#+) /gm, '#$1 ');
 
 export const GET: APIRoute = async () => {
   const thoughts = await getThoughts();
-  const posts = thoughts.map(
-    (t) => `## ${t.data.title}
-
-- URL: ${new URL(thoughtUrl(t), SITE.url).href}
-- Published: ${iso(t.data.date)}${t.data.updated ? `\n- Updated: ${iso(t.data.updated)}` : ''}${t.data.tags.length ? `\n- Tags: ${t.data.tags.join(', ')}` : ''}
-
-${clean(t.body ?? '')}`,
-  );
-
-  const body = `# ${SITE.name}: thoughts (full text)
+  const body = `# ${SITE.name}
 
 > ${SITE.description}
 
-${posts.join('\n\n---\n\n')}
-`;
+${nest(aboutMarkdown())}
+${nest(nowMarkdown())}
+## Thoughts (full text)
+
+${thoughts.map((t) => thoughtMarkdown(t, 3)).join('\n---\n\n')}`;
   return new Response(body, { headers: { 'content-type': 'text/plain; charset=utf-8' } });
 };

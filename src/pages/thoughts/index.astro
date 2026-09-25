@@ -4,7 +4,7 @@ import { getThoughts, thoughtUrl, excerptOf, isNew, newUntil } from '../../lib/t
 import NewBadge from '../../components/NewBadge.astro';
 import { stamp, iso } from '../../lib/dates';
 import { SITE } from '../../site.config';
-import { graph, person } from '../../lib/seo';
+import { graph, identity } from '../../lib/seo';
 
 const thoughts = await getThoughts();
 
@@ -26,7 +26,7 @@ const byYear = years.map((y) => ({ year: y, items: thoughts.filter((t) => t.data
       author: { '@id': `${SITE.url}/#person` },
       blogPost: thoughts.map((t) => ({ '@id': `${SITE.url}${thoughtUrl(t)}#post` })),
     },
-    person(),
+    ...identity(),
   )}
 >
   <header class="page-head margin-layout">

@@ -7,7 +7,7 @@ import { SITE, SOCIALS } from '../site.config';
 import { NOW } from '../data/now';
 import { getThoughts } from '../lib/thoughts';
 import { stamp, iso } from '../lib/dates';
-import { graph, person, website } from '../lib/seo';
+import { graph, identity, website } from '../lib/seo';
 
 const thoughts = await getThoughts();
 const recent = thoughts.slice(0, 8);
@@ -30,7 +30,7 @@ const ticker = [
 const soon = ['things', 'experiments', 'games', 'uses'];
 ---
 
-<Base jsonLd={graph(website(), person())}>
+<Base jsonLd={graph(website(), ...identity())}>
   <div class="portal">
     <!-- ============ main column ============ -->
     <div class="center">

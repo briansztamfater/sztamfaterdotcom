@@ -1,34 +1,51 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE, SOCIALS } from '../site.config';
-import { graph, person } from '../lib/seo';
+import { BOOKS, SITE, SOCIALS } from '../site.config';
+import { ABOUT } from '../data/about';
+import { graph, identity } from '../lib/seo';
 ---
 
 <Base
   title="About"
   description="Brian Sztamfater is a software engineer and builder from Buenos Aires. Currently building Moby."
   image="/og/about.png"
-  jsonLd={graph({ '@type': 'ProfilePage', url: `${SITE.url}/about/`, mainEntity: { '@id': `${SITE.url}/#person` } }, person())}
+  markdown="/about.md"
+  jsonLd={graph({ '@type': 'ProfilePage', url: `${SITE.url}/about/`, mainEntity: { '@id': `${SITE.url}/#person` } }, ...identity())}
 >
   <div class="about margin-layout">
     <p class="in-margin hi pixel" aria-hidden="true">hello!</p>
     <h1 class="sr-only">About</h1>
 
     <div class="words">
-      <p class="big">I'm Brian, a software engineer and builder from Buenos Aires.</p>
-      <p>
-        I've spent most of my life making things with computers, from mobile apps and startups to games, crypto products
-        and increasingly weird experiments with AI.
-      </p>
-      <p>
-        I like products with personality, interfaces that feel good to use, old games, new technology, and ideas that
-        are just slightly too ambitious.
-      </p>
+      <p class="big">{ABOUT.intro}</p>
+      {ABOUT.paragraphs.map((p) => <p>{p}</p>)}
       <p>
         Currently building{' '}
         <strong>{SITE.moby.url ? <a href={SITE.moby.url}>{SITE.moby.name}</a> : SITE.moby.name}</strong>.
       </p>
     </div>
+
+    <h2 class="in-margin label pixel">books</h2>
+    <ul class="books">
+      {
+        BOOKS.map((b) => (
+          <li>
+            <p class="book-title">
+              <cite>{b.title}</cite> <span class="ui muted">({b.languageLabel}, {b.publisher})</span>
+            </p>
+            <p class="book-desc">{b.description}</p>
+            <p class="ui book-links">
+              {b.links.map((l, i) => (
+                <>
+                  {i > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={l.href}>{l.label}</a>
+                </>
+              ))}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
 
     <h2 class="in-margin label pixel">elsewhere</h2>
     <ul class="links">
@@ -111,6 +128,33 @@ import { graph, person } from '../lib/seo';
 
   .links a {
     font-size: var(--step-1);
+  }
+
+  .books {
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .books li {
+    padding: 0.6rem 0;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .books p {
+    margin: 0 0 0.25rem;
+  }
+
+  .book-title cite {
+    font-style: normal;
+    font-weight: 700;
+    font-size: var(--step-1);
+    color: var(--red);
+  }
+
+  .book-desc {
+    font-size: 0.9375rem;
   }
 
   .colophon {

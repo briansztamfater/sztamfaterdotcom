@@ -3,7 +3,7 @@
  * Generated at build time, so it's always current.
  */
 import type { APIRoute } from 'astro';
-import { SITE, SOCIALS } from '../site.config';
+import { BOOKS, SITE, SOCIALS } from '../site.config';
 import { NOW } from '../data/now';
 import { getThoughts, thoughtUrl, excerptOf } from '../lib/thoughts';
 import { iso } from '../lib/dates';
@@ -17,13 +17,17 @@ export const GET: APIRoute = async () => {
 
 > ${SITE.description}
 
-Brian Sztamfater is a software engineer and builder based in ${SITE.basedIn}, Argentina. He is currently building [${SITE.moby.name}](${SITE.moby.url}), ${SITE.moby.blurb}. This is his personal homepage, styled after the early-2000s web.
+Brian Sztamfater is an entrepreneur, software engineer, builder and author based in ${SITE.basedIn}, Argentina. He is the ${SITE.moby.role} at [${SITE.moby.name}](${SITE.moby.url}), ${SITE.moby.blurb}. He is also the author of the book *${BOOKS[0].title}* (in ${BOOKS[0].languageLabel}). This is his personal homepage, styled after the early-2000s web. Thoughts, the About page and the Now page have plain Markdown versions (the .md links below).
 
 ## Thoughts
 
-${thoughts.map((t) => `- [${t.data.title}](${u(thoughtUrl(t))}) (${iso(t.data.date)}): ${excerptOf(t)}`).join('\n')}
+${thoughts.map((t) => `- [${t.data.title}](${u(thoughtUrl(t).replace(/\/$/, '.md'))}) (${iso(t.data.date)}): ${excerptOf(t)}`).join('\n')}
 
-## Now (as of ${iso(NOW.updated)})
+## Books
+
+${BOOKS.map((b) => `- *${b.title}* (${b.languageLabel}, ${b.publisher}, ISBN ${b.isbn}): ${b.description} [${b.links[0].label}](${b.links[0].href})`).join('\n')}
+
+## Now (as of ${iso(NOW.updated)}, [full page](${u('/now.md')}))
 
 ${now.join('\n')}
 
@@ -31,9 +35,9 @@ ${now.join('\n')}
 
 - [Home](${u('/')}): overview, latest thoughts, what he's up to
 - [Thoughts](${u('/thoughts/')}): all posts, newest first
-- [Now](${u('/now/')}): what he's focused on at the moment
+- [Now](${u('/now.md')}): what he's focused on at the moment
 - [GIFs](${u('/gifs/')}): a collection of original pixel-art GIFs
-- [About](${u('/about/')}): a short bio and links
+- [About](${u('/about.md')}): a short bio, his book, and links
 
 ## Elsewhere
 
@@ -41,7 +45,7 @@ ${SOCIALS.map((s) => `- [${s.label}](${s.href})`).join('\n')}
 
 ## Optional
 
-- [Full text of every thought](${u('/llms-full.txt')})
+- [Everything in one file: bio, now, and every thought in full](${u('/llms-full.txt')})
 - [RSS feed](${u('/rss.xml')})
 `;
 

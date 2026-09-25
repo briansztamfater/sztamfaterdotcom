@@ -1,5 +1,5 @@
 /** Structured data (schema.org JSON-LD) so search engines know who and what this is. */
-import { SITE, SOCIALS } from '../site.config';
+import { BIO, BOOKS, SITE, SOCIALS } from '../site.config';
 
 export type JsonLd = Record<string, unknown>;
 
@@ -12,9 +12,38 @@ export const person = (): JsonLd => ({
   '@id': `${SITE.url}/#person`,
   name: SITE.name,
   url: SITE.url,
+  description: BIO.headline,
+  jobTitle: SITE.moby.role,
+  worksFor: { '@id': `${SITE.url}/#moby` },
+  knowsAbout: BIO.topics,
   sameAs: SOCIALS.map((s) => s.href),
   homeLocation: { '@type': 'Place', name: 'Buenos Aires, Argentina' },
 });
+
+export const moby = (): JsonLd => ({
+  '@type': 'Organization',
+  '@id': `${SITE.url}/#moby`,
+  name: SITE.moby.name,
+  url: SITE.moby.url,
+  description: SITE.moby.blurb.replace(/^a /, 'A '),
+});
+
+export const books = (): JsonLd[] =>
+  BOOKS.map((b, i) => ({
+    '@type': 'Book',
+    '@id': `${SITE.url}/#book-${i + 1}`,
+    name: b.title,
+    description: b.description,
+    author: { '@id': `${SITE.url}/#person` },
+    publisher: { '@type': 'Organization', name: b.publisher },
+    inLanguage: b.language,
+    isbn: b.isbn,
+    url: b.links[0].href,
+    sameAs: b.links.map((l) => l.href),
+  }));
+
+/** Who Brian is: the person, where he works, and what he's written. Include wherever person is referenced. */
+export const identity = (): JsonLd[] => [person(), moby(), ...books()];
 
 export const website = (): JsonLd => ({
   '@type': 'WebSite',
