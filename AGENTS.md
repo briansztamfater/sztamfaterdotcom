@@ -97,7 +97,7 @@ This is the one with the most hand-edits. Do all of them:
 | Role at Moby | `moby.role` in `src/site.config.ts` (feeds JSON-LD `jobTitle`, `/llms.txt`, `/about.md`) |
 | Books | `BOOKS` in `src/site.config.ts` (feeds the About page's Books section, `Book` JSON-LD, `/llms.txt`, `/about.md`). Only verified facts: title, publisher, ISBN, links |
 | Topics he knows about | `BIO.topics` in `src/site.config.ts` (JSON-LD `knowsAbout`) |
-| Email | `EMAIL` / `EMAIL_PARTS` in `src/site.config.ts`. Keep it spelled out (`name [at] gmail [dot] com`); the real address must never appear in the HTML (the About page's link assembles it on click). Never put it in JSON-LD |
+| Email | `EMAIL` / `EMAIL_PARTS` in `src/site.config.ts`. Keep it spelled out (`name [at] gmail [dot] com`); the real address must never appear in the HTML (use `src/components/EmailLink.astro`, which assembles it when someone reaches for the link). Never put it in JSON-LD |
 | Social links | `src/site.config.ts` (`SOCIALS`), `public/humans.txt` |
 | X/Twitter handle | `SOCIALS`, `twitter:creator` in `src/components/Head.astro`, `public/humans.txt` |
 | Location | `SITE.basedIn` in `src/site.config.ts`, `homeLocation` in `src/lib/seo.ts`, Based in in `src/data/now.ts` |

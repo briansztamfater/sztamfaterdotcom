@@ -34,6 +34,18 @@ const hello = `
         <slot />
       </main>
       <Footer />
+    <script is:inline>
+      // Email links (src/components/EmailLink.astro): the real address is only put together when
+      // a person reaches for the link (hover, keyboard focus or touch), so it never sits in the HTML.
+      document.querySelectorAll('[data-mail-user]').forEach(function (a) {
+        var arm = function () {
+          a.href = 'mailto:' + a.dataset.mailUser + '@' + a.dataset.mailDomain;
+        };
+        ['mouseenter', 'focus', 'touchstart'].forEach(function (ev) {
+          a.addEventListener(ev, arm, { once: true, passive: true });
+        });
+      });
+    </script>
     </div>
   </body>
 </html>

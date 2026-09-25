@@ -1,0 +1,14 @@
+---
+/**
+ * A mailto link that never puts the real address in the HTML. The address is
+ * assembled when someone reaches for it (see the script in src/layouts/Base.astro).
+ */
+import { EMAIL_PARTS } from '../site.config';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<a href="#" class={className} data-mail-user={EMAIL_PARTS.user} data-mail-domain={EMAIL_PARTS.domain}><slot>Email</slot></a>

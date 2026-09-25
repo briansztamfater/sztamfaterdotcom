@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Pixel from '../components/Pixel.astro';
+import EmailLink from '../components/EmailLink.astro';
 import ThoughtIndex from '../components/ThoughtIndex.astro';
 import NowList from '../components/NowList.astro';
 import { SITE, SOCIALS } from '../site.config';
@@ -124,6 +125,7 @@ const soon = ['things', 'experiments', 'games', 'uses'];
               </li>
             ))
           }
+          <li><EmailLink class="plain" /></li>
         </ul>
       </section>
       <section class="about-site">
@@ -209,7 +211,7 @@ const soon = ['things', 'experiments', 'games', 'uses'];
     font-weight: 700;
   }
 
-  .links a {
+  .links :global(a) {
     font-weight: 700;
   }
 

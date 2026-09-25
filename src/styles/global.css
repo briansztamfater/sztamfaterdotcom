@@ -147,7 +147,7 @@ a:active {
 }
 
 a[href^='http']:not(.plain)::after,
-a[data-mail-user]::after {
+a[data-mail-user]:not(.plain)::after {
   content: '↗';
   font-size: 0.7em;
   margin-left: 0.1em;
