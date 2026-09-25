@@ -73,7 +73,7 @@ export const getStaticPaths = (async () => {
       og: {
         kicker: 'about',
         title: `Hi, I’m ${SITE.name.split(' ')[0]}.`,
-        subtitle: `A software engineer and builder from ${SITE.basedIn}. Currently building ${SITE.moby.name}.`,
+        subtitle: `An entrepreneur, software engineer, builder and author from ${SITE.basedIn}. Currently building ${SITE.moby.name}.`,
         section: 'about',
         sprite: 'mail.gif',
       },
