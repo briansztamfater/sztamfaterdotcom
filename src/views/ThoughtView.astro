@@ -100,7 +100,7 @@ const firstName = SITE.name.split(' ')[0];
           <p class="translation ui">
             {thought.translated
               ? parts(dict.thought.translated).map((p) =>
-                  typeof p === 'string' ? p : <a href={thoughtUrl(thought, DEFAULT_LANG)} hreflang="en">{dict.thought.original}</a>,
+                  typeof p === 'string' ? p : <a href={thoughtUrl(thought, DEFAULT_LANG)} hreflang="en" data-lang="en">{dict.thought.original}</a>,
                 )
               : dict.thought.untranslated}
           </p>
