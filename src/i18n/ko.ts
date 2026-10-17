@@ -1,0 +1,222 @@
+/** 한국어. 영어(src/i18n/en.ts)에서 AI가 번역했어요. */
+import type { Dict } from './en';
+
+export const ko: Dict = {
+  site: {
+    description:
+      'Brian Sztamfater의 개인 홈페이지: 부에노스아이레스 출신의 창업가, 소프트웨어 엔지니어, 빌더, 작가. 생각들, /now 페이지, GIF, 그 외 여러 가지.',
+    roles: ['창업가', '소프트웨어 엔지니어', '빌더', '작가'],
+    and: '&',
+    imageAlt: '{domain}, {name}의 개인 웹사이트',
+  },
+
+  a11y: {
+    skip: '본문으로 건너뛰기',
+    mainNav: '메인',
+    sidebar: '사이드바',
+    elsewhere: '다른 곳에서',
+    badges: '배지',
+    languages: '언어',
+    homepage: '{name}, 개인 홈페이지',
+  },
+
+  header: {
+    bookmark: '{{key}} 키를 눌러서 이 사이트를 즐겨찾기에 추가하세요!',
+    slogan: '1991년부터 인터넷 넘버원 brian sztamfater 공급처',
+    building: '지금 만들고 있는 것...',
+    checkItOut: '» 구경하기 «',
+    home: '홈',
+  },
+
+  nav: {
+    thoughts: '생각',
+    now: '지금',
+    gifs: 'gifs',
+    about: '소개',
+  },
+
+  footer: {
+    credits1: '사람 한 명과 AI 하나가 만들었어요.',
+    credits2: '의견은 전부 사람 거예요.',
+    email: '이메일',
+    anyBrowser: '어떤 브라우저에서도 볼 수 있어요. 그런 시절 기억나세요?',
+    first: '처음 오셨나요? 안녕하세요.',
+    firstNo: '처음 오셨나요? 안녕하세요. 당신은 {n}번째 방문자예요.',
+    back: '다시 오셨네요. 환영해요.',
+    backNo: '{n}번째 방문자님, 다시 오셨네요. 환영해요.',
+    languages: '이 페이지를 다른 언어로',
+  },
+
+  home: {
+    welcome: '제 홈페이지에 오신 걸 환영해요!',
+    tagline: '뭔가를 만들고, 뭔가를 생각하고, 가끔은 거기에 푹 빠져요. 그중 일부를 여기에 올려둬요.',
+    currently: '현재',
+    building: '만들고 있는 것:',
+    updated: '업데이트됨!',
+    lastUpdate: '마지막 업데이트:',
+    ticker: [
+      '제 작은 인터넷 구석에 오신 걸 환영해요',
+      '공사 중, 영원히',
+      '쿠키 없음, 팝업 없음, 뉴스레터 없음',
+      '생각은 생각날 때마다 추가',
+      '{city}에서 만들었어요',
+      '들러주셔서 고마워요',
+    ],
+    latestThoughts: '최근 생각',
+    viewAll: '전체 보기 »',
+    nothingYet: '아직 없어요. 곧.',
+    siteStats: '사이트 통계',
+    visitorNo: '당신의 방문자 번호',
+    oneNumber: '(숫자 하나뿐, 트래킹 없음)',
+    localTime: '현지 시간',
+    thoughts: '생각',
+    onlineSince: '온라인 시작',
+    inBA: 'BA 기준',
+    rightNow: '지금 이 순간',
+    moreNow: '/now 페이지에서 더 보기 »',
+    comingSoon: '곧 공개',
+    soon: ['것들', '실험', '게임', '쓰는 것들'],
+    underConstruction1: '이 섹션들은',
+    underConstruction2: '공사 중이에요',
+    elsewhere: '다른 곳에서',
+    aboutSite: '이 사이트에 대해',
+    aboutSiteText: '여기는 제 작은 인터넷 구석이에요. 특별한 목적은 없어요. 그냥 뭔가를 두는 곳이에요.',
+  },
+
+  thoughts: {
+    title: '생각',
+    description: 'Brian Sztamfater가 지금 생각하고 있는 것들, 마음이 바뀌기 전에 적어둔 글.',
+    kicker: '~/생각',
+    lede: '지금 생각하고 있는 것들을 마음이 바뀌기 전에 적어둬요. 소프트웨어, AI, 게임, 인터넷, 그리고 이번 주에 제 관심을 끈 그 밖의 무엇이든. 최신 글이 먼저 와요. {{rss}}도 있어요, 우리 같은 부류라면요.',
+    rssFeed: 'RSS 피드',
+    nothingYet: '아직 아무것도 없어요. 곧.',
+    read: '읽기 →',
+    date: '날짜',
+    thought: '생각',
+    new: '새 글!',
+    fresh: '키보드에서 갓 나온 글',
+  },
+
+  thought: {
+    back: '← 생각',
+    aboutPost: '이 글에 대해',
+    updated: '수정됨',
+    minRead: '{n}분 읽기',
+    readingTime: '읽는 시간',
+    published: '게시',
+    updatedLabel: '수정',
+    replyPrompt: '어떻게 생각하세요?',
+    replyLink: 'x에서 알려주세요',
+    keepReading: '계속 읽기',
+    moreThoughts: '다른 생각들',
+    older: '이전',
+    newer: '다음',
+    imageAlt: '{name}의 생각: {title}',
+    translated: 'AI가 영어에서 번역했어요. 의견은 여전히 사람의 것이에요. {{original}}',
+    original: '원문 읽기',
+    untranslated: '이 글은 아직 번역되지 않아서 영어로 보여드려요.',
+  },
+
+  now: {
+    title: '지금',
+    description: 'Brian Sztamfater가 지금 하고 있는 것들, {month} 기준.',
+    statusReport: '상황 보고',
+    lastUpdated: '마지막 업데이트',
+    stillDeciding: '(아직 고민 중)',
+    lastUpdatedLong: '마지막 업데이트: {date}.',
+    aboutNow:
+      '이건 {{nowPage}}예요. 제 인생의 이 시점에 무엇에 집중하고 있는지 찍은 스냅샷이죠. 오래된 것처럼 보이면, 아마 여기 적힌 것들을 하느라 바빠서 그런 거예요.',
+    nowPage: 'now 페이지',
+  },
+
+  gifs: {
+    title: 'GIF',
+    description: '움직이는 GIF 작은 모음: 컴퓨터, 콘솔, 게임, 그리고 옛날 웹. 오리지널 픽셀 아트.',
+    lede: '움직이는 GIF 작은 모음이에요. 옛날엔 홈페이지마다 하나씩 있었죠. 컴퓨터, 콘솔, 게임, 그리고 옛날 웹.',
+    fine: '여기 픽셀 아트는 이 사이트를 위해 그린 거예요 (연필은 AI가 잡았고요). 공식 스프라이트가 아니라 오마주예요. 하나를 클릭하면 파일을 볼 수 있어요.',
+    categories: 'GIF 카테고리',
+    top: '맨 위로 ↑',
+    open: '{file} 열기',
+    frames: '{n}프레임',
+    via: '출처',
+  },
+
+  about: {
+    title: '소개',
+    description:
+      'Brian Sztamfater는 부에노스아이레스 출신의 창업가, 소프트웨어 엔지니어, 빌더, 작가예요. 지금은 Moby를 만들고 있어요.',
+    hello: '안녕하세요!',
+    currentlyBuilding: '지금 만들고 있는 것',
+    books: '책',
+    elsewhere: '다른 곳에서',
+    thisSite: '이 사이트',
+    colophon:
+      '{{astro}}로 만들고, AI와 페어 프로그래밍했어요 (의견은 제가 냈고, 타이핑은 대부분 AI가 했어요). 2003년인 것처럼 Verdana로 조판했고, 작은 픽셀 부분엔 Silkscreen을 조금 썼어요. 쿠키도, 애널리틱스도, 트래킹도 없어요. HTML, CSS, 그리고 JavaScript 몇 줄뿐이에요 (그중 한 줄이 당신의 언어를 골라줘요).',
+  },
+
+  notFound: {
+    title: '찾을 수 없음',
+    description: '이 페이지는 어딘가로 가버렸어요.',
+    code: '오류 404',
+    heading: '이 페이지는 어딘가로 가버렸어요.',
+    body: '원래 없었던 페이지일 수도 있고, 제가 옮겨놓고 메모를 남기는 걸 잊었을 수도 있어요. 미안해요. {{home}} 또는 {{thoughts}} 쪽으로 가보세요.',
+    home: '첫 페이지',
+    thoughts: '생각들',
+  },
+
+  content: {
+    about: {
+      intro: '저는 Brian이에요. 부에노스아이레스 출신의 창업가, 소프트웨어 엔지니어, 빌더, 작가예요.',
+      paragraphs: [
+        '인생 대부분을 컴퓨터로 뭔가를 만들면서 보냈어요. 모바일 앱과 스타트업부터 게임, 크립토 제품, 그리고 점점 더 이상해지는 AI 실험까지.',
+        '개성 있는 제품, 쓰는 느낌이 좋은 인터페이스, 옛날 게임, 새로운 기술, 그리고 아주 조금 지나치게 야심찬 아이디어를 좋아해요.',
+      ],
+    },
+    moby: {
+      blurb: 'Solana, Robinhood Chain, Base, BNB Chain에서 스마트 머니를 추적하는 트레이딩 앱',
+      short: '스마트 머니 트레이딩 앱',
+    },
+    now: {
+      Building: { label: '만드는 중', note: 'Solana, Robinhood Chain, Base, BNB Chain에서 스마트 머니를 추적하는 트레이딩 앱.' },
+      'Thinking about': { label: '생각하는 것', value: 'AI 네이티브 소프트웨어', note: '그리고 만드는 게 싸지면 무슨 일이 일어날지.' },
+      Playing: { label: '플레이 중', note: '시간이 남을 때면요, ㅋㅋ.' },
+      Reading: { label: '읽는 중', note: 'Alejandro Dolina 지음.' },
+      'Experimenting with': { label: '실험 중', value: '자율 소프트웨어 회사', note: '운영은 전부 AI 에이전트가 해요.' },
+      'Based in': { label: '사는 곳', value: '아르헨티나 부에노스아이레스' },
+    },
+    gifCategories: {
+      computers: '컴퓨터와 소프트웨어',
+      consoles: '콘솔',
+      games: '게임',
+      web: '옛날 웹',
+    },
+    gifs: {
+      'vb6.gif': { note: 'Form1, 점 그리드, 그리고 방금 그린 Command1.', alt: '디자인 모드의 Visual Basic 6 폼: 십자 커서가 COMMAND1이라는 새 CommandButton을 드래그해서 그려요.' },
+      'computer.gif': { title: '베이지색 PC', alt: '녹색 글자 모니터가 달린 베이지색 컴퓨터가 DOS 프롬프트에 RUN을 입력하고 HI!!!라고 말해요.' },
+      'floppy.gif': { title: '3½인치 플로피', note: '1.44 MB 저장 용량.', alt: '금속 셔터가 열리고 닫히는 파란 3.5인치 플로피 디스크.' },
+      'cd.gif': { note: '52배속으로 회전 중.', alt: '무지개 광택을 내며 돌아가는 콤팩트 디스크.' },
+      'hourglass.gif': { title: '잠시만 기다려 주세요...', alt: '모래가 떨어지다가 뒤집히는 모래시계 커서.' },
+      'gamepad.gif': { title: '8비트 게임패드', note: 'Nintendo를 위해.', alt: '십자 버튼과 눌리는 빨간 버튼 두 개가 달린 회색 직사각형 게임패드.' },
+      'dualpad.gif': { title: '버튼 네 개짜리 패드', note: 'PlayStation을 위해.', alt: '그립이 두 개 달린 회색 게임패드; 색깔 버튼 네 개가 차례로 켜져요.' },
+      'cartridge.gif': { title: '16비트 카트리지', note: 'Sega를 위해. 먼저 후 불어주세요.', alt: '커넥터에 바람이 훅훅 불리는 검은 16비트 게임 카트리지.' },
+      'black-mage.gif': { title: '작은 흑마도사', note: 'Vivi Ornitier를 위해.', alt: '커다란 뾰족 밀짚모자를 쓰고 노란 눈이 빛나는 작은 흑마도사가 지팡이로 아주 작은 파이어 마법을 쏴요.' },
+      'mushroom.gif': { title: '버섯', note: 'Mario를 위해.', alt: '흰 점박이와 작은 눈이 있는 빨간 버섯이 통통 튀어요.' },
+      'coin.gif': { title: '코인', note: '이것도 Mario를 위해.', alt: '돌아가는 금색 코인.' },
+      'heart.gif': { title: '하트', note: 'Zelda를 위해.', alt: '두근거리는 빨간 픽셀 하트.' },
+      'sword.gif': { title: '돌에 박힌 검', note: '이것도 Zelda를 위해.', alt: '돌에 박힌 파란 손잡이의 검, 칼날을 따라 빛이 흘러요.' },
+      'barrel.gif': { title: '나무통', note: 'Donkey Kong을 위해.', alt: '굴러가는 나무통.' },
+      'bat.gif': { title: '박쥐', note: 'Castlevania를 위해.', alt: '빨간 눈의 보라색 박쥐가 날개를 펄럭여요.' },
+      'candle.gif': { title: '벽 촛불', note: '이것도 Castlevania를 위해. 채찍으로 쳐요.', alt: '금색 촛대 위의 촛불, 불꽃이 흔들려요.' },
+      'globe.gif': { title: '돌아가는 지구', note: '홈페이지마다 하나씩 있었죠.', alt: '픽셀 아트 지구가 돌아가요.' },
+      'construction.gif': { title: '공사 중', alt: '위에 주황색 불빛이 깜빡이는 노란 경고 표지판.' },
+      'mail.gif': { title: '메일이 왔어요', alt: '열리면서 편지가 미끄러져 나오는 봉투.' },
+      'fire.gif': { title: '불', note: '그 클래식.', alt: '움직이는 픽셀 불꽃.' },
+    },
+    books: {
+      '9789878241272': {
+        description: '독학에 관한 책: 대학 학위에 의존하지 않고 자기 방식대로 커리어를 쌓기 위한 마흔 가지 조언.',
+        languageLabel: '스페인어',
+      },
+    },
+  },
+};

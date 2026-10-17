@@ -1,0 +1,197 @@
+---
+/** The About page, in any language. The bio is src/data/about.ts; translations are in src/i18n/<lang>.ts -> content.about. */
+import Base from '../layouts/Base.astro';
+import { EMAIL, SITE, SOCIALS } from '../site.config';
+import EmailLink from '../components/EmailLink.astro';
+import { graph, identity } from '../lib/seo';
+import { t, type Lang, DEFAULT_LANG, localePath, localizedAbout, localizedBooks, parts } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const dict = t(lang);
+const about = localizedAbout(lang);
+const books = localizedBooks(lang);
+---
+
+<Base
+  lang={lang}
+  title={dict.about.title}
+  description={dict.about.description}
+  image="/og/about.png"
+  markdown={lang === DEFAULT_LANG ? '/about.md' : undefined}
+  jsonLd={graph(
+    { '@type': 'ProfilePage', url: `${SITE.url}${localePath(lang, '/about/')}`, mainEntity: { '@id': `${SITE.url}/#person` } },
+    ...identity(),
+  )}
+>
+  <div class="about margin-layout">
+    <p class="in-margin hi pixel" aria-hidden="true">{dict.about.hello}</p>
+    <h1 class="sr-only">{dict.about.title}</h1>
+
+    <div class="words">
+      <p class="big">{about.intro}</p>
+      {about.paragraphs.map((p) => <p>{p}</p>)}
+      <p>
+        {dict.about.currentlyBuilding}{' '}
+        <strong>{SITE.moby.url ? <a href={SITE.moby.url}>{SITE.moby.name}</a> : SITE.moby.name}</strong>.
+      </p>
+    </div>
+
+    <h2 class="in-margin label pixel">{dict.about.books}</h2>
+    <ul class="books">
+      {
+        books.map((b) => (
+          <li>
+            <p class="book-title">
+              <cite lang={b.language}>{b.title}</cite> <span class="ui muted">({b.languageLabel}, {b.publisher})</span>
+            </p>
+            <p class="book-desc">{b.description}</p>
+            <p class="ui book-links">
+              {b.links.map((l, i) => (
+                <>
+                  {i > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={l.href}>{l.label}</a>
+                </>
+              ))}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="in-margin label pixel">{dict.about.elsewhere}</h2>
+    <ul class="links">
+      {
+        SOCIALS.map((s) => (
+          <li>
+            <a href={s.href} rel="me">
+              {s.label}
+            </a>
+            <span class="ui muted">{s.handle}</span>
+          </li>
+        ))
+      }
+      <li>
+        <EmailLink />
+        <span class="ui muted email" dir="ltr">{EMAIL}</span>
+      </li>
+    </ul>
+
+    <h2 class="in-margin label pixel">{dict.about.thisSite}</h2>
+    <p class="colophon">
+      {parts(dict.about.colophon).map((p) => (typeof p === 'string' ? p : <a href="https://astro.build">Astro</a>))}
+    </p>
+  </div>
+</Base>
+
+<style>
+  .about {
+    padding-top: 0.25rem;
+    row-gap: 0;
+  }
+
+  .hi {
+    font-size: 0.7rem;
+    color: var(--accent-ink);
+    justify-self: start;
+    align-self: start;
+    margin-top: 0.8rem;
+    transform: rotate(-4deg);
+  }
+
+  .words {
+    margin-bottom: 3rem;
+  }
+
+  .words p {
+    font-size: var(--step-1);
+    line-height: 1.45;
+  }
+
+  .words .big {
+    font-family: var(--text);
+    font-size: var(--step-3);
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+  }
+
+  .label {
+    font-size: 0.6rem;
+    padding-top: 0.45rem;
+    color: var(--ink-2);
+  }
+
+  .links {
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .links :global(a) {
+    font-size: var(--step-1);
+  }
+
+  .email {
+    user-select: all;
+  }
+
+  .books {
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .books li {
+    padding: 0.6rem 0;
+    border-bottom: 1px dotted var(--line);
+  }
+
+  .books p {
+    margin: 0 0 0.25rem;
+  }
+
+  .book-title cite {
+    font-style: normal;
+    font-weight: 700;
+    font-size: var(--step-1);
+    color: var(--red);
+  }
+
+  .book-desc {
+    font-size: 0.9375rem;
+  }
+
+  .colophon {
+    font-size: 1rem;
+    color: var(--ink-2);
+    border-top: 1px solid var(--line);
+    padding-top: 0.5rem;
+  }
+
+  @media (max-width: 46rem) {
+    .hi {
+      margin-bottom: 1rem;
+    }
+
+    .label {
+      margin-bottom: 0.4rem;
+    }
+  }
+</style>

@@ -4,15 +4,19 @@
  * Pass `until` and it quietly disappears after that date, even if the site
  * hasn't been rebuilt since.
  */
+import { t, type Lang, DEFAULT_LANG } from '../i18n';
+
 interface Props {
+  lang?: Lang;
   label?: string;
   until?: Date;
   class?: string;
 }
-const { label = 'new!', until, class: className } = Astro.props;
+const { lang = DEFAULT_LANG, until, class: className } = Astro.props;
+const { label = t(lang).thoughts.new } = Astro.props;
 ---
 
-<span class:list={['burst', className]} title="fresh off the keyboard" data-new-until={until?.toISOString()}
+<span class:list={['burst', className]} title={t(lang).thoughts.fresh} data-new-until={until?.toISOString()}
   ><span class="txt">{label}</span></span
 >
 
@@ -34,7 +38,8 @@ const { label = 'new!', until, class: className } = Astro.props;
     place-items: center;
     width: 1.65rem;
     height: 1.65rem;
-    margin: -0.5rem 0 -0.5rem 0.2rem;
+    margin: -0.5rem 0 -0.5rem;
+    margin-inline-start: 0.2rem;
     vertical-align: middle;
     transform: rotate(-14deg);
     animation: wobble 2.4s ease-in-out infinite;

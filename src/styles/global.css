@@ -150,7 +150,7 @@ a[href^='http']:not(.plain)::after,
 a[data-mail-user]:not(.plain)::after {
   content: '↗';
   font-size: 0.7em;
-  margin-left: 0.1em;
+  margin-inline-start: 0.1em;
   vertical-align: 0.3em;
 }
 
@@ -180,7 +180,7 @@ a:focus-visible {
 
 .skip {
   position: absolute;
-  left: 0.5rem;
+  inset-inline-start: 0.5rem;
   top: -3rem;
   z-index: 10;
   padding: 0.3rem 0.6rem;
@@ -343,7 +343,7 @@ hr.dotted {
 }
 
 .prose ul {
-  padding-left: 1.4em;
+  padding-inline-start: 1.4em;
   list-style: square;
 }
 
@@ -357,7 +357,8 @@ hr.dotted {
 
 /* a list of short "Term. explanation" items gets a bit more air and a rule between */
 .prose ul:has(> li > strong:first-child) {
-  padding: 0.3em 1em 0.3em 2.2em;
+  padding: 0.3em 1em;
+  padding-inline-start: 2.2em;
   background: var(--cream);
   border: 1px solid var(--khaki-line);
 }
@@ -387,11 +388,11 @@ hr.dotted {
 }
 
 .prose ol {
-  padding-left: 1.6em;
+  padding-inline-start: 1.6em;
 }
 
 .prose blockquote {
-  margin-left: 0;
+  margin-inline-start: 0;
   padding: 0.6em 1em;
   border: 1px solid var(--khaki-line);
   background: var(--cream);
@@ -464,6 +465,22 @@ hr.dotted {
   color: var(--red);
   letter-spacing: 0.6em;
   font-weight: 700;
+}
+
+/* ---- right-to-left (Hebrew, Arabic) ----------------------------------- */
+
+/* the "margin notes" column sits on the right in RTL, which the grid does by itself;
+   things that are code-ish stay left-to-right */
+[dir='rtl'] .pixel,
+[dir='rtl'] kbd,
+[dir='rtl'] code,
+[dir='rtl'] pre {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+[dir='rtl'] .pixel {
+  display: inline-block;
 }
 
 /* ---- motion preferences ------------------------------------------------ */

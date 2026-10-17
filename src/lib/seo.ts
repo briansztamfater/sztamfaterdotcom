@@ -1,5 +1,6 @@
 /** Structured data (schema.org JSON-LD) so search engines know who and what this is. */
 import { BIO, BOOKS, SITE, SOCIALS } from '../site.config';
+import { type Lang, DEFAULT_LANG, localeOf, localePath } from '../i18n/locales';
 
 export type JsonLd = Record<string, unknown>;
 
@@ -45,13 +46,13 @@ export const books = (): JsonLd[] =>
 /** Who Brian is: the person, where he works, and what he's written. Include wherever person is referenced. */
 export const identity = (): JsonLd[] => [person(), moby(), ...books()];
 
-export const website = (): JsonLd => ({
+export const website = (lang: Lang = DEFAULT_LANG, description: string = SITE.description): JsonLd => ({
   '@type': 'WebSite',
-  '@id': `${SITE.url}/#website`,
+  '@id': `${SITE.url}${localePath(lang, '/')}#website`,
   name: SITE.domain,
-  url: SITE.url,
-  description: SITE.description,
-  inLanguage: 'en',
+  url: `${SITE.url}${localePath(lang, '/')}`,
+  description,
+  inLanguage: localeOf(lang).html,
   author: { '@id': `${SITE.url}/#person` },
 });
 

@@ -1,0 +1,90 @@
+---
+/**
+ * The same page in every language. `codes` shows two-letter buttons (header);
+ * `names` shows each language's own name (footer). Clicking one remembers the
+ * choice in the browser (see the script in src/layouts/Base.astro).
+ */
+import { t, type Lang, LOCALES, localePath, splitPath } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  variant: 'codes' | 'names';
+  class?: string;
+}
+
+const { lang, variant, class: className } = Astro.props;
+// the 404 page is served for any missing URL, so its language links go home
+const raw = splitPath(Astro.url.pathname).path;
+const path = /^\/404\/?$/.test(raw) ? '/' : raw;
+const dict = t(lang);
+---
+
+<nav class:list={['langs', variant, className]} aria-label={dict.a11y.languages}>
+  <ul>
+    {
+      LOCALES.map((l) => (
+        <li>
+          {l.code === lang ? (
+            <span class="cur" lang={l.html} aria-current="true" title={l.name}>
+              {variant === 'codes' ? l.short : l.name}
+            </span>
+          ) : (
+            <a href={localePath(l.code, path)} hreflang={l.html} lang={l.html} data-lang={l.code} title={l.name} class="plain">
+              {variant === 'codes' ? l.short : l.name}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* little raised buttons, like the nav's, only tinier */
+  .codes a,
+  .codes .cur {
+    display: inline-block;
+    padding: 0 0.3rem;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    text-decoration: none;
+    color: var(--ink);
+    background: #e8e8e8;
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+  }
+
+  .codes a:hover {
+    background: var(--hover);
+  }
+
+  .codes .cur {
+    border-color: #808080 #ffffff #ffffff #808080;
+    background: #d4d4d4;
+    color: var(--red);
+  }
+
+  .names {
+    font-size: var(--step--2);
+  }
+
+  .names ul {
+    gap: 0.2rem 0.8rem;
+  }
+
+  .names .cur {
+    font-weight: 700;
+    color: var(--red);
+  }
+</style>

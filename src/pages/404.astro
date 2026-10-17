@@ -1,17 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
 import Pixel from '../components/Pixel.astro';
+import { t, parts } from '../i18n';
+
+// Netlify serves this one page for every missing URL, so it's in English, with the
+// language links in the header and footer for everyone else.
+const dict = t('en');
 ---
 
-<Base title="Not found" description="This page wandered off." noindex>
+<Base title={dict.notFound.title} description={dict.notFound.description} noindex translated={false}>
   <div class="lost">
     <Pixel name="computer" scale={6} class="icon" />
-    <p class="pixel code">error 404</p>
-    <h1>This page wandered off.</h1>
+    <p class="pixel code">{dict.notFound.code}</p>
+    <h1>{dict.notFound.heading}</h1>
     <p>
-      It might have never existed, or I moved it and forgot to leave a note. Sorry about that. Try the <a href="/"
-        >front page</a
-      >, or the <a href="/thoughts/">thoughts</a>.
+      {
+        parts(dict.notFound.body).map((p) =>
+          typeof p === 'string' ? p : p.key === 'home' ? <a href="/">{dict.notFound.home}</a> : <a href="/thoughts/">{dict.notFound.thoughts}</a>,
+        )
+      }
     </p>
   </div>
 </Base>

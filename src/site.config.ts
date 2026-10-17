@@ -50,13 +50,14 @@ export const BOOKS = [
 
 /**
  * Main navigation. To add a section later (things, experiments, games, uses…)
- * create the page and add one line here.
+ * create the page and add one line here. `key` is the label's entry in
+ * `nav` in src/i18n/<lang>.ts (`label` is the English fallback).
  */
 export const NAV = [
-  { href: '/thoughts/', label: 'thoughts' },
-  { href: '/now/', label: 'now' },
-  { href: '/gifs/', label: 'gifs' },
-  { href: '/about/', label: 'about' },
+  { href: '/thoughts/', key: 'thoughts', label: 'thoughts' },
+  { href: '/now/', key: 'now', label: 'now' },
+  { href: '/gifs/', key: 'gifs', label: 'gifs' },
+  { href: '/about/', key: 'about', label: 'about' },
 ] as const;
 
 /**

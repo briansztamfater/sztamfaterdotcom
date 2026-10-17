@@ -1,12 +1,24 @@
 ---
 import Pixel from './Pixel.astro';
+import LangSwitcher from './LangSwitcher.astro';
 import { NAV, SITE } from '../site.config';
+import { t, type Lang, DEFAULT_LANG, localeOf, localePath, localizedMoby, parts } from '../i18n';
 
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = DEFAULT_LANG } = Astro.props;
+const dict = t(lang);
+const locale = localeOf(lang);
+const moby = localizedMoby(lang);
+
+const home = localePath(lang, '/');
 const path = Astro.url.pathname;
-const isHome = path === '/';
+const isHome = path === home || `${path}/` === home;
 const isCurrent = (href: string) => path.startsWith(href) || `${path}/` === href;
 const Logo = isHome ? 'h1' : 'p';
-const buildDate = new Date().toLocaleDateString('en-US', {
+const buildDate = new Date().toLocaleDateString(lang === 'en' ? 'en-US' : locale.intl, {
   weekday: 'long',
   month: 'long',
   day: 'numeric',
@@ -17,51 +29,55 @@ const buildDate = new Date().toLocaleDateString('en-US', {
 
 <header class="top frame">
   <div class="strip">
-    <span data-today>{buildDate}</span>
+    <span data-today={lang === 'en' ? 'en-US' : locale.intl}>{buildDate}</span>
     <span class="bookmark" aria-hidden="true">
-      press <kbd data-bookmark-key>ctrl-d</kbd> to bookmark this site!
+      {parts(dict.header.bookmark).map((p) => (typeof p === 'string' ? p : <kbd data-bookmark-key>ctrl-d</kbd>))}
     </span>
   </div>
 
   <div class="panel head">
-    <a class="brand plain" href="/">
+    <a class="brand plain" href={home}>
       <Pixel name="computer" scale={4} class="brand-icon" />
       <div class="words">
         <Logo class="logo">
           <span aria-hidden="true">{SITE.domain.toUpperCase()}</span>
-          <span class="sr-only">{SITE.name}, personal homepage</span>
+          <span class="sr-only">{dict.a11y.homepage.replace('{name}', SITE.name)}</span>
         </Logo>
-        <span class="slogan">the internet's #1 source of brian sztamfater since 1991</span>
+        <span class="slogan">{dict.header.slogan}</span>
       </div>
     </a>
 
     <div class="box callout">
-      <p class="cb">currently building...</p>
+      <p class="cb">{dict.header.building}</p>
       <p class="moby">{SITE.moby.name.toUpperCase()}</p>
-      <p class="blurb">{SITE.moby.short}</p>
+      <p class="blurb">{moby.short}</p>
       {
         SITE.moby.url && (
           <a class="plain go" href={SITE.moby.url}>
-            » CHECK IT OUT «
+            {dict.header.checkItOut}
           </a>
         )
       }
     </div>
   </div>
 
-  <nav aria-label="Main" class="nav">
+  <nav aria-label={dict.a11y.mainNav} class="nav">
     <ul>
-      <li><a href="/" aria-current={isHome ? 'page' : undefined}>HOME</a></li>
+      <li><a href={home} aria-current={isHome ? 'page' : undefined}>{dict.header.home}</a></li>
       {
-        NAV.map((item) => (
-          <li>
-            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
-              {item.label.toUpperCase()}
-            </a>
-          </li>
-        ))
+        NAV.map((item) => {
+          const href = localePath(lang, item.href);
+          return (
+            <li>
+              <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
+                {dict.nav[item.key].toUpperCase()}
+              </a>
+            </li>
+          );
+        })
       }
     </ul>
+    <LangSwitcher lang={lang} variant="codes" class="switch" />
   </nav>
 </header>
 
@@ -70,7 +86,7 @@ const buildDate = new Date().toLocaleDateString('en-US', {
     try {
       var d = document.querySelector('[data-today]');
       if (d)
-        d.textContent = new Date().toLocaleDateString('en-US', {
+        d.textContent = new Date().toLocaleDateString(d.getAttribute('data-today') || 'en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
@@ -176,6 +192,8 @@ const buildDate = new Date().toLocaleDateString('en-US', {
       4px 4px 0 #cc0000,
       5px 5px 0 #000;
     white-space: nowrap;
+    /* the domain reads left to right in every language */
+    direction: ltr;
   }
 
   .brand:hover .logo {
@@ -249,6 +267,11 @@ const buildDate = new Date().toLocaleDateString('en-US', {
   /* --- chunky raised buttons --- */
 
   .nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem 1rem;
     padding: 0.4rem 0.6rem;
     background: var(--khaki-line);
     border: 1px solid var(--khaki-line);
@@ -287,6 +310,13 @@ const buildDate = new Date().toLocaleDateString('en-US', {
     color: var(--red);
   }
 
+  /* the language buttons keep their own, smaller look */
+  .nav :global(.switch a) {
+    padding: 0 0.3rem;
+    border-width: 1px;
+    font-size: 0.5625rem;
+  }
+
   @media (max-width: 44rem) {
     .head {
       flex-direction: column;
@@ -298,7 +328,7 @@ const buildDate = new Date().toLocaleDateString('en-US', {
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
-      text-align: left;
+      text-align: start;
       column-gap: 0.8rem;
     }
 
@@ -315,8 +345,9 @@ const buildDate = new Date().toLocaleDateString('en-US', {
       grid-row: 1 / 4;
       margin: 0;
       padding: 0 0 0 0.8rem;
+      padding-inline-start: 0.8rem;
       border-top: 0;
-      border-left: 1px solid var(--line);
+      border-inline-start: 1px solid var(--line);
     }
 
     .brand :global(.brand-icon) {

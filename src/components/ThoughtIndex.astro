@@ -3,19 +3,22 @@
 import { stamp, iso } from '../lib/dates';
 import { thoughtUrl, isNew, newUntil, type Thought } from '../lib/thoughts';
 import NewBadge from './NewBadge.astro';
+import { t, type Lang, DEFAULT_LANG } from '../i18n';
 
 interface Props {
   thoughts: Thought[];
+  lang?: Lang;
 }
 
-const { thoughts } = Astro.props;
+const { thoughts, lang = DEFAULT_LANG } = Astro.props;
+const dict = t(lang);
 ---
 
 <table class="thought-table">
   <thead>
     <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Thought</th>
+      <th scope="col">{dict.thoughts.date}</th>
+      <th scope="col">{dict.thoughts.thought}</th>
     </tr>
   </thead>
   <tbody>
@@ -23,11 +26,11 @@ const { thoughts } = Astro.props;
       thoughts.map((t) => (
         <tr>
           <td class="d">
-            <time datetime={iso(t.data.date)}>{stamp(t.data.date)}</time>
+            <time datetime={iso(t.data.date)}>{stamp(t.data.date, lang)}</time>
           </td>
           <td>
             <a href={thoughtUrl(t)}>{t.data.title}</a>
-            {isNew(t) && <NewBadge until={newUntil(t)} />}
+            {isNew(t) && <NewBadge lang={lang} until={newUntil(t)} />}
             {t.data.tags.length > 0 && <span class="tags">{t.data.tags.map((tag) => `#${tag}`).join(' ')}</span>}
           </td>
         </tr>
@@ -49,7 +52,7 @@ const { thoughts } = Astro.props;
     background: #cccccc;
     border-bottom: 1px solid var(--line);
     font-size: 0.625rem;
-    text-align: left;
+    text-align: start;
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }

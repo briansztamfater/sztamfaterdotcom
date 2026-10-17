@@ -7,6 +7,7 @@ import { BOOKS, SITE, SOCIALS } from '../site.config';
 import { NOW } from '../data/now';
 import { getThoughts, thoughtUrl, excerptOf } from '../lib/thoughts';
 import { iso } from '../lib/dates';
+import { LOCALES } from '../i18n/locales';
 
 export const GET: APIRoute = async () => {
   const thoughts = await getThoughts();
@@ -42,6 +43,12 @@ ${now.join('\n')}
 ## Elsewhere
 
 ${SOCIALS.map((s) => `- [${s.label}](${s.href})`).join('\n')}
+
+## Languages
+
+English is the original. The site (and the thoughts, translated by an AI) is also available in: ${LOCALES.filter((l) => l.code !== 'en')
+    .map((l) => `[${l.name}](${u(`/${l.code}/`)})`)
+    .join(', ')}.
 
 ## Optional
 

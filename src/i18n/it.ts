@@ -1,0 +1,222 @@
+/** Italiano. Tradotto dall'inglese (src/i18n/en.ts) da un'IA. */
+import type { Dict } from './en';
+
+export const it: Dict = {
+  site: {
+    description:
+      'Pagina personale di Brian Sztamfater: imprenditore, ingegnere del software, builder e autore di Buenos Aires. Pensieri, una pagina /now, GIF e altro.',
+    roles: ['Imprenditore', 'Ingegnere del software', 'Builder', 'Autore'],
+    and: 'e',
+    imageAlt: '{domain}, il sito personale di {name}',
+  },
+
+  a11y: {
+    skip: 'salta al contenuto',
+    mainNav: 'Principale',
+    sidebar: 'Barra laterale',
+    elsewhere: 'Altrove',
+    badges: 'Badge',
+    languages: 'Lingue',
+    homepage: '{name}, pagina personale',
+  },
+
+  header: {
+    bookmark: 'premi {{key}} per aggiungere questo sito ai preferiti!',
+    slogan: 'la fonte n. 1 di brian sztamfater su internet dal 1991',
+    building: 'al momento sto costruendo...',
+    checkItOut: '» DAI UN\'OCCHIATA «',
+    home: 'HOME',
+  },
+
+  nav: {
+    thoughts: 'pensieri',
+    now: 'adesso',
+    gifs: 'gif',
+    about: 'chi sono',
+  },
+
+  footer: {
+    credits1: 'fatto da un umano e un\'IA.',
+    credits2: 'le opinioni sono tutte umane.',
+    email: 'email',
+    anyBrowser: 'Si vede con qualsiasi browser. Te lo ricordi?',
+    first: 'prima volta qui? ciao.',
+    firstNo: 'prima volta qui? ciao. sei il visitatore n. {n}.',
+    back: 'bentornato.',
+    backNo: 'bentornato, visitatore n. {n}.',
+    languages: 'questa pagina in altre lingue',
+  },
+
+  home: {
+    welcome: 'Benvenuto nella mia pagina!',
+    tagline: 'Costruisco cose, penso a cose e ogni tanto ci divento ossessionato. Qui ne lascio qualcuna.',
+    currently: 'ADESSO:',
+    building: 'sto costruendo',
+    updated: 'AGGIORNATO!',
+    lastUpdate: 'ultimo aggiornamento:',
+    ticker: [
+      'benvenuto nel mio angolino di internet',
+      'in costruzione, per sempre',
+      'niente cookie, niente pop-up, niente newsletter',
+      'pensieri aggiunti quando capita',
+      'fatto a {city}',
+      'grazie per essere passato',
+    ],
+    latestThoughts: 'Ultimi pensieri',
+    viewAll: 'vedi tutti »',
+    nothingYet: 'Ancora niente. Presto.',
+    siteStats: 'Statistiche',
+    visitorNo: 'sei il visitatore n.',
+    oneNumber: '(un solo numero, niente tracking)',
+    localTime: 'ora locale',
+    thoughts: 'pensieri',
+    onlineSince: 'online dal',
+    inBA: 'a BA',
+    rightNow: 'In questo momento',
+    moreNow: 'di più nella mia pagina /now »',
+    comingSoon: 'Prossimamente',
+    soon: ['cose', 'esperimenti', 'giochi', 'cosa uso'],
+    underConstruction1: 'queste sezioni sono',
+    underConstruction2: 'in costruzione',
+    elsewhere: 'Altrove',
+    aboutSite: 'Su questo sito',
+    aboutSiteText: 'Questo è il mio angolino di internet. Nessuno scopo particolare. Solo un posto dove mettere cose.',
+  },
+
+  thoughts: {
+    title: 'Pensieri',
+    description: 'Cose a cui Brian Sztamfater sta pensando, scritte prima che cambi idea.',
+    kicker: '~/pensieri',
+    lede: 'Cose a cui sto pensando, scritte prima che cambi idea. Software, IA, giochi, internet e qualsiasi altra cosa abbia la mia attenzione questa settimana. Prima i più recenti. C\'è un {{rss}}, se sei uno di noi.',
+    rssFeed: 'feed RSS',
+    nothingYet: 'Qui ancora niente. Presto.',
+    read: 'leggi →',
+    date: 'Data',
+    thought: 'Pensiero',
+    new: 'nuovo!',
+    fresh: 'appena uscito dalla tastiera',
+  },
+
+  thought: {
+    back: '← pensieri',
+    aboutPost: 'Su questo post',
+    updated: 'aggiornato',
+    minRead: '{n} min di lettura',
+    readingTime: 'Tempo di lettura',
+    published: 'Pubblicato',
+    updatedLabel: 'Aggiornato',
+    replyPrompt: 'che ne pensi?',
+    replyLink: 'dimmelo su x',
+    keepReading: 'continua a leggere',
+    moreThoughts: 'Altri pensieri',
+    older: 'precedente',
+    newer: 'successivo',
+    imageAlt: 'Un pensiero di {name}: {title}',
+    translated: 'Tradotto dall\'inglese da un\'IA; le opinioni restano umane. {{original}}',
+    original: 'Leggi l\'originale',
+    untranslated: 'Questo non è ancora stato tradotto, quindi eccolo in inglese.',
+  },
+
+  now: {
+    title: 'Adesso',
+    description: 'Cosa sta facendo Brian Sztamfater in questo momento, a {month}.',
+    statusReport: 'rapporto di situazione',
+    lastUpdated: 'ultimo aggiornamento',
+    stillDeciding: '(sto ancora decidendo)',
+    lastUpdatedLong: 'Ultimo aggiornamento: {date}.',
+    aboutNow:
+      'Questa è una {{nowPage}}: un\'istantanea di ciò su cui sono concentrato in questo momento della mia vita. Se sembra vecchia, probabilmente sono troppo occupato a fare le cose che ci sono scritte.',
+    nowPage: 'pagina now',
+  },
+
+  gifs: {
+    title: 'GIF',
+    description: 'Una piccola collezione di GIF animate: computer, console, giochi e il vecchio web. Pixel art originale.',
+    lede: 'Una piccola collezione di GIF animate, come quella che aveva ogni pagina personale. Computer, console, giochi e il vecchio web.',
+    fine: 'La pixel art qui è stata disegnata per questo sito (con un\'IA a tenere la matita). Sono omaggi, non sprite ufficiali. Cliccane una per vedere il file.',
+    categories: 'Categorie di GIF',
+    top: 'su ↑',
+    open: 'Apri {file}',
+    frames: '{n} fotogrammi',
+    via: 'via',
+  },
+
+  about: {
+    title: 'Chi sono',
+    description:
+      'Brian Sztamfater è un imprenditore, ingegnere del software, builder e autore di Buenos Aires. Al momento sta costruendo Moby.',
+    hello: 'ciao!',
+    currentlyBuilding: 'Al momento sto costruendo',
+    books: 'libri',
+    elsewhere: 'altrove',
+    thisSite: 'questo sito',
+    colophon:
+      'Fatto con {{astro}}, programmato in coppia con un\'IA (io ci ho messo le opinioni, lei ha battuto quasi tutto). Composto in Verdana, come se fosse il 2003, con un po\' di Silkscreen per i dettaglini in pixel. Niente cookie, niente analytics, niente tracking. Solo HTML, CSS e qualche riga di JavaScript (una di queste sceglie la tua lingua).',
+  },
+
+  notFound: {
+    title: 'Non trovata',
+    description: 'Questa pagina se n\'è andata a spasso.',
+    code: 'errore 404',
+    heading: 'Questa pagina se n\'è andata a spasso.',
+    body: 'Forse non è mai esistita, o l\'ho spostata e mi sono dimenticato di lasciare un biglietto. Scusa. Prova con la {{home}} o con i {{thoughts}}.',
+    home: 'pagina principale',
+    thoughts: 'pensieri',
+  },
+
+  content: {
+    about: {
+      intro: 'Sono Brian, imprenditore, ingegnere del software, builder e autore di Buenos Aires.',
+      paragraphs: [
+        'Ho passato quasi tutta la vita a fare cose con i computer: app mobile, startup, giochi, prodotti crypto ed esperimenti sempre più strani con l\'IA.',
+        'Mi piacciono i prodotti con personalità, le interfacce che è un piacere usare, i giochi vecchi, la tecnologia nuova e le idee giusto un po\' troppo ambiziose.',
+      ],
+    },
+    moby: {
+      blurb: 'un\'app di trading che segue lo smart money su Solana, Robinhood Chain, Base e BNB Chain',
+      short: 'app di trading con smart money',
+    },
+    now: {
+      Building: { label: 'Sto costruendo', note: 'Un\'app di trading che segue lo smart money su Solana, Robinhood Chain, Base e BNB Chain.' },
+      'Thinking about': { label: 'Sto pensando a', value: 'Software nativo per l\'IA', note: 'e a cosa succede quando costruire diventa economico.' },
+      Playing: { label: 'Sto giocando a', note: 'Quando mi resta tempo libero, lol.' },
+      Reading: { label: 'Sto leggendo', note: 'di Alejandro Dolina.' },
+      'Experimenting with': { label: 'Sto sperimentando con', value: 'Aziende di software autonome', note: 'gestite interamente da agenti IA.' },
+      'Based in': { label: 'Vivo a' },
+    },
+    gifCategories: {
+      computers: 'Computer e software',
+      consoles: 'Console',
+      games: 'Giochi',
+      web: 'Il vecchio web',
+    },
+    gifs: {
+      'vb6.gif': { note: 'Form1, una griglia di puntini e un Command1 appena disegnato.', alt: 'Un form di Visual Basic 6 in modalità design: un mirino trascina un nuovo CommandButton con l\'etichetta COMMAND1.' },
+      'computer.gif': { title: 'PC beige', alt: 'Un computer beige con un monitor a testo verde che scrive RUN a un prompt DOS e poi dice HI!!!' },
+      'floppy.gif': { title: 'Floppy da 3½"', note: '1,44 MB di spazio.', alt: 'Un floppy disk blu da 3,5 pollici il cui sportellino metallico si apre e si chiude.' },
+      'cd.gif': { note: 'Gira a 52x.', alt: 'Un compact disc che gira con un riflesso arcobaleno.' },
+      'hourglass.gif': { title: 'Attendere prego...', alt: 'Un cursore a clessidra con la sabbia che scende e che poi si capovolge.' },
+      'gamepad.gif': { title: 'Gamepad a 8 bit', note: 'Per Nintendo.', alt: 'Un gamepad grigio rettangolare con una croce direzionale e due tasti rossi che vengono premuti.' },
+      'dualpad.gif': { title: 'Pad a quattro tasti', note: 'Per PlayStation.', alt: 'Un gamepad grigio con due impugnature; quattro tasti colorati si accendono uno dopo l\'altro.' },
+      'cartridge.gif': { title: 'Cartuccia a 16 bit', note: 'Per Sega. Prima soffiaci dentro.', alt: 'Una cartuccia nera a 16 bit con soffi d\'aria sul connettore.' },
+      'black-mage.gif': { title: 'Piccolo mago nero', note: 'Per Vivi Ornitier.', alt: 'Un piccolo mago nero con un grande cappello di paglia a punta e occhi gialli luminosi, che lancia un minuscolo incantesimo di fuoco dal bastone.' },
+      'mushroom.gif': { title: 'Fungo', note: 'Per Mario.', alt: 'Un fungo rosso a pois bianchi con due occhietti, che rimbalza.' },
+      'coin.gif': { title: 'Moneta', note: 'Anche questa per Mario.', alt: 'Una moneta d\'oro che gira.' },
+      'heart.gif': { title: 'Cuore', note: 'Per Zelda.', alt: 'Un cuore rosso di pixel che pulsa.' },
+      'sword.gif': { title: 'La spada nella roccia', note: 'Anche questa per Zelda.', alt: 'Una spada con l\'elsa blu infilata in una roccia, con un bagliore che scorre lungo la lama.' },
+      'barrel.gif': { title: 'Barile', note: 'Per Donkey Kong.', alt: 'Un barile di legno che rotola.' },
+      'bat.gif': { title: 'Pipistrello', note: 'Per Castlevania.', alt: 'Un pipistrello viola con gli occhi rossi che sbatte le ali.' },
+      'candle.gif': { title: 'Candela a muro', note: 'Anche questa per Castlevania. Dalle una frustata.', alt: 'Una candela su un portacandele dorato con una fiamma che tremola.' },
+      'globe.gif': { title: 'Globo che gira', note: 'Ogni pagina personale ne aveva uno.', alt: 'Una Terra in pixel art che gira.' },
+      'construction.gif': { title: 'In costruzione', alt: 'Un cartello giallo di pericolo con una luce arancione lampeggiante in cima.' },
+      'mail.gif': { title: 'Hai una nuova email', alt: 'Una busta che si apre mentre ne esce una lettera.' },
+      'fire.gif': { title: 'Fuoco', note: 'Il classico.', alt: 'Fiamme di pixel animate.' },
+    },
+    books: {
+      '9789878241272': {
+        description: 'Un libro sull\'imparare da soli: quaranta consigli per costruirsi una carriera alle proprie condizioni, senza dipendere da una laurea.',
+        languageLabel: 'spagnolo',
+      },
+    },
+  },
+};

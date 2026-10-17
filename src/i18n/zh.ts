@@ -1,0 +1,222 @@
+/** 简体中文。由 AI 从英文（src/i18n/en.ts）翻译。 */
+import type { Dict } from './en';
+
+export const zh: Dict = {
+  site: {
+    description:
+      'Brian Sztamfater 的个人主页：来自布宜诺斯艾利斯的创业者、软件工程师、builder 和作者。想法、一个 /now 页面、GIF，还有更多。',
+    roles: ['创业者', '软件工程师', 'Builder', '作者'],
+    and: '和',
+    imageAlt: '{domain}，{name} 的个人网站',
+  },
+
+  a11y: {
+    skip: '跳到正文',
+    mainNav: '主导航',
+    sidebar: '侧栏',
+    elsewhere: '其他地方',
+    badges: '徽章',
+    languages: '语言',
+    homepage: '{name}，个人主页',
+  },
+
+  header: {
+    bookmark: '按 {{key}} 把这个网站加入收藏夹！',
+    slogan: '自 1991 年起全互联网排名第一的 brian sztamfater 信息来源',
+    building: '正在打造...',
+    checkItOut: '» 来看看 «',
+    home: '首页',
+  },
+
+  nav: {
+    thoughts: '想法',
+    now: '现在',
+    gifs: 'gif',
+    about: '关于',
+  },
+
+  footer: {
+    credits1: '由一个人类和一个 AI 搭建。',
+    credits2: '观点全是人类的。',
+    email: '邮件',
+    anyBrowser: '任何浏览器都能看。还记得那种日子吗？',
+    first: '第一次来？你好。',
+    firstNo: '第一次来？你好。你是第 {n} 位访客。',
+    back: '欢迎回来。',
+    backNo: '欢迎回来，第 {n} 位访客。',
+    languages: '本页的其他语言版本',
+  },
+
+  home: {
+    welcome: '欢迎来到我的主页！',
+    tagline: '我做东西，想东西，偶尔还会对它们着迷。这里放着其中一部分。',
+    currently: '目前：',
+    building: '正在打造',
+    updated: '已更新！',
+    lastUpdate: '最后更新：',
+    ticker: [
+      '欢迎来到我在互联网上的小角落',
+      '永远在施工中',
+      '没有 cookie，没有弹窗，没有 newsletter',
+      '想法想到就加',
+      '{city} 制造',
+      '感谢来访',
+    ],
+    latestThoughts: '最新想法',
+    viewAll: '查看全部 »',
+    nothingYet: '还没有。快了。',
+    siteStats: '站点统计',
+    visitorNo: '你是访客编号',
+    oneNumber: '（就一个数字，没有追踪）',
+    localTime: '当地时间',
+    thoughts: '想法',
+    onlineSince: '上线于',
+    inBA: 'BA 时间',
+    rightNow: '此刻',
+    moreNow: '更多见我的 /now 页面 »',
+    comingSoon: '即将推出',
+    soon: ['东西', '实验', '游戏', '工具'],
+    underConstruction1: '这些板块',
+    underConstruction2: '正在施工中',
+    elsewhere: '其他地方',
+    aboutSite: '关于本站',
+    aboutSiteText: '这是我在互联网上的小角落。没什么特别的目的。就是个放东西的地方。',
+  },
+
+  thoughts: {
+    title: '想法',
+    description: 'Brian Sztamfater 正在思考的事情，趁他还没改主意先写下来。',
+    kicker: '~/thoughts',
+    lede: '我正在思考的事情，趁还没改主意先写下来。软件、AI、游戏、互联网，以及这周占据我注意力的随便什么。最新的在前面。有一个 {{rss}}，如果你也是同道中人的话。',
+    rssFeed: 'RSS 订阅',
+    nothingYet: '这里还没有东西。快了。',
+    read: '阅读 →',
+    date: '日期',
+    thought: '想法',
+    new: '新！',
+    fresh: '刚从键盘上下来',
+  },
+
+  thought: {
+    back: '← 想法',
+    aboutPost: '关于这篇',
+    updated: '更新于',
+    minRead: '{n} 分钟读完',
+    readingTime: '阅读时间',
+    published: '发布于',
+    updatedLabel: '更新于',
+    replyPrompt: '对此有想法？',
+    replyLink: '来 x 上告诉我',
+    keepReading: '继续读',
+    moreThoughts: '更多想法',
+    older: '较早',
+    newer: '较新',
+    imageAlt: '{name} 的一则想法：{title}',
+    translated: '由 AI 从英文翻译；观点依然是人类的。{{original}}',
+    original: '阅读原文',
+    untranslated: '这篇还没翻译，所以先放英文原版。',
+  },
+
+  now: {
+    title: '现在',
+    description: 'Brian Sztamfater 现在在忙什么，截至 {month}。',
+    statusReport: '状态报告',
+    lastUpdated: '最后更新',
+    stillDeciding: '（还在想）',
+    lastUpdatedLong: '最后更新于 {date}。',
+    aboutNow:
+      '这是一个 {{nowPage}}：我人生这个阶段正在专注的事情的快照。如果看起来过时了，那我大概正忙着做上面写的那些事。',
+    nowPage: 'now 页面',
+  },
+
+  gifs: {
+    title: 'GIF',
+    description: '一个小小的动态 GIF 收藏：电脑、游戏机、游戏和旧时代的网络。原创像素画。',
+    lede: '一个小小的动态 GIF 收藏，就像以前每个主页都会有的那种。电脑、游戏机、游戏，还有旧时代的网络。',
+    fine: '这里的像素画是为本站画的（由 AI 握着铅笔）。它们是致敬，不是官方精灵图。点一个看文件。',
+    categories: 'GIF 分类',
+    top: '回到顶部 ↑',
+    open: '打开 {file}',
+    frames: '{n} 帧',
+    via: '来自',
+  },
+
+  about: {
+    title: '关于',
+    description:
+      'Brian Sztamfater 是来自布宜诺斯艾利斯的创业者、软件工程师、builder 和作者。目前正在打造 Moby。',
+    hello: '你好！',
+    currentlyBuilding: '目前正在打造',
+    books: '书',
+    elsewhere: '其他地方',
+    thisSite: '本站',
+    colophon:
+      '用 {{astro}} 搭建，和一个 AI 结对编程（观点是我的，字大部分是它敲的）。字体用 Verdana，就像 2003 年那样，小像素部分用了一点 Silkscreen。没有 cookie，没有分析，没有追踪。只有 HTML、CSS 和几行 JavaScript（其中一行负责挑你的语言）。',
+  },
+
+  notFound: {
+    title: '未找到',
+    description: '这个页面溜走了。',
+    code: '错误 404',
+    heading: '这个页面溜走了。',
+    body: '它可能从来就不存在，或者是我把它挪走了又忘了留个条。抱歉。试试{{home}}，或者{{thoughts}}。',
+    home: '首页',
+    thoughts: '想法',
+  },
+
+  content: {
+    about: {
+      intro: '我是 Brian，来自布宜诺斯艾利斯的创业者、软件工程师、builder 和作者。',
+      paragraphs: [
+        '我这辈子大部分时间都在用电脑做东西：从移动应用和创业公司，到游戏、加密产品，以及越来越奇怪的 AI 实验。',
+        '我喜欢有个性的产品、用起来舒服的界面、老游戏、新技术，以及那些稍微有点过于野心的点子。',
+      ],
+    },
+    moby: {
+      blurb: '一款在 Solana、Robinhood Chain、Base 和 BNB Chain 上追踪聪明钱的交易应用',
+      short: '聪明钱交易应用',
+    },
+    now: {
+      Building: { label: '正在打造', note: '一款在 Solana、Robinhood Chain、Base 和 BNB Chain 上追踪聪明钱的交易应用。' },
+      'Thinking about': { label: '正在思考', value: 'AI 原生软件', note: '以及当构建变得廉价之后会发生什么。' },
+      Playing: { label: '正在玩', note: '有空的时候才玩，lol。' },
+      Reading: { label: '正在读', note: 'Alejandro Dolina 著。' },
+      'Experimenting with': { label: '正在试验', value: '自主运行的软件公司', note: '完全由 AI 智能体管理。' },
+      'Based in': { label: '住在', value: '阿根廷布宜诺斯艾利斯' },
+    },
+    gifCategories: {
+      computers: '电脑与软件',
+      consoles: '游戏机',
+      games: '游戏',
+      web: '旧时代的网络',
+    },
+    gifs: {
+      'vb6.gif': { note: 'Form1、一片点阵网格，还有一个刚画好的 Command1。', alt: '设计模式下的 Visual Basic 6 窗体：十字光标拖出一个标着 COMMAND1 的新 CommandButton。' },
+      'computer.gif': { title: '米色 PC', alt: '一台米色电脑，绿字显示器在 DOS 提示符下输入 RUN，然后显示 HI!!!' },
+      'floppy.gif': { title: '3½ 英寸软盘', note: '1.44 MB 的存储空间。', alt: '一张蓝色 3.5 英寸软盘，金属滑盖滑开又合上。' },
+      'cd.gif': { note: '以 52 倍速旋转。', alt: '一张旋转的光盘，泛着彩虹光泽。' },
+      'hourglass.gif': { title: '请稍候...', alt: '一个沙漏光标，沙子流下，然后翻转过来。' },
+      'gamepad.gif': { title: '8 位手柄', note: '献给 Nintendo。', alt: '一个灰色长方形手柄，带方向键和两个被按下的红色按钮。' },
+      'dualpad.gif': { title: '四键手柄', note: '献给 PlayStation。', alt: '一个带两个握把的灰色手柄；四个彩色按钮依次亮起。' },
+      'cartridge.gif': { title: '16 位卡带', note: '献给 Sega。先吹一吹。', alt: '一个黑色 16 位游戏卡带，有气流吹向它的接口。' },
+      'black-mage.gif': { title: '小黑魔法师', note: '献给 Vivi Ornitier。', alt: '一个戴着大尖草帽、黄眼睛发光的小黑魔法师，用法杖施放一个小小的火焰魔法。' },
+      'mushroom.gif': { title: '蘑菇', note: '献给 Mario。', alt: '一个带白点和小眼睛的红蘑菇，上下弹跳。' },
+      'coin.gif': { title: '金币', note: '也献给 Mario。', alt: '一枚旋转的金币。' },
+      'heart.gif': { title: '心', note: '献给 Zelda。', alt: '一颗跳动的红色像素心。' },
+      'sword.gif': { title: '石中剑', note: '也献给 Zelda。', alt: '一把蓝色剑柄的剑插在石头里，剑身上有光芒滑过。' },
+      'barrel.gif': { title: '木桶', note: '献给 Donkey Kong。', alt: '一个滚动的木桶。' },
+      'bat.gif': { title: '蝙蝠', note: '献给 Castlevania。', alt: '一只红眼睛的紫色蝙蝠扑着翅膀。' },
+      'candle.gif': { title: '壁烛', note: '也献给 Castlevania。用鞭子抽它。', alt: '金色烛台上的一支蜡烛，火苗摇曳。' },
+      'globe.gif': { title: '旋转地球', note: '以前每个主页都有一个。', alt: '一个旋转的像素画地球。' },
+      'construction.gif': { title: '施工中', alt: '一个黄色警示牌，顶上有一盏闪烁的橙色灯。' },
+      'mail.gif': { title: '你有新邮件', alt: '一个信封打开，一封信滑出来。' },
+      'fire.gif': { title: '火', note: '经典款。', alt: '动态像素火焰。' },
+    },
+    books: {
+      '9789878241272': {
+        description: '一本关于自学的书：四十条建议，教你按自己的方式打造职业生涯，不依赖大学文凭。',
+        languageLabel: '西班牙语',
+      },
+    },
+  },
+};

@@ -1,12 +1,15 @@
 ---
 /** Label ........ value, like a table of contents from 1998. */
 import type { NowItem } from '../data/now';
+import { t, type Lang, DEFAULT_LANG } from '../i18n';
 
 interface Props {
   items: NowItem[];
+  lang?: Lang;
 }
 
-const { items } = Astro.props;
+const { items, lang = DEFAULT_LANG } = Astro.props;
+const tbd = t(lang).now.stillDeciding.replace(/^\(|\)$/g, '');
 ---
 
 <dl class="now-list">
@@ -17,7 +20,7 @@ const { items } = Astro.props;
         <span class="leader" aria-hidden="true" />
         <dd>
           {item.value === null ? (
-            <span class="tbd" title="still deciding what to put here">…</span>
+            <span class="tbd" title={tbd}>…</span>
           ) : item.href ? (
             <a href={item.href}>{item.value}</a>
           ) : (
@@ -58,7 +61,7 @@ const { items } = Astro.props;
 
   dd {
     margin: 0;
-    text-align: right;
+    text-align: end;
   }
 
   .tbd {

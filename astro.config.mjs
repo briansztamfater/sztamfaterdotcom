@@ -7,6 +7,13 @@ import sitemap from '@astrojs/sitemap';
 const SITE = 'https://sztamfater.com';
 
 /**
+ * Languages. Mirrors src/i18n/locales.ts (this file can't import it): English at the root,
+ * the rest under /<code>/. `hreflang` values feed the sitemap's alternate links.
+ */
+const LOCALES = { en: 'en', es: 'es', pt: 'pt', it: 'it', fr: 'fr', de: 'de', ru: 'ru', he: 'he', ar: 'ar', ja: 'ja', zh: 'zh-Hans', ko: 'ko' };
+const OTHER_LANGS = Object.keys(LOCALES).filter((l) => l !== 'en');
+
+/**
  * lastmod for each thought in the sitemap: its `updated` date, or else `date`,
  * read straight from the frontmatter (content collections aren't available here).
  */
@@ -35,11 +42,22 @@ if (newest) {
 const nowUpdated = readFileSync('./src/data/now.ts', 'utf8').match(/updated:\s*new Date\('([0-9-]+)'\)/)?.[1];
 if (nowUpdated) lastmod[`${SITE}/now/`] = new Date(nowUpdated).toISOString();
 
+// the same pages in every other language share the English dates
+for (const [url, date] of Object.entries(lastmod)) {
+  for (const lang of OTHER_LANGS) lastmod[url.replace(`${SITE}/`, `${SITE}/${lang}/`)] = date;
+}
+
 export default defineConfig({
   site: SITE,
+  i18n: {
+    defaultLocale: 'en',
+    locales: Object.keys(LOCALES),
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [
     mdx(),
     sitemap({
+      i18n: { defaultLocale: 'en', locales: LOCALES },
       serialize(item) {
         if (lastmod[item.url]) item.lastmod = lastmod[item.url];
         return item;

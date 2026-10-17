@@ -1,0 +1,222 @@
+/** 日本語。英語版（src/i18n/en.ts）からAIが翻訳しました。 */
+import type { Dict } from './en';
+
+export const ja: Dict = {
+  site: {
+    description:
+      'ブエノスアイレス出身の起業家・ソフトウェアエンジニア・ビルダー・著者、Brian Sztamfaterの個人ホームページ。考えたこと、/nowページ、GIFなど。',
+    roles: ['起業家', 'ソフトウェアエンジニア', 'ビルダー', '著者'],
+    and: '＆',
+    imageAlt: '{domain}、{name}の個人サイト',
+  },
+
+  a11y: {
+    skip: '本文へスキップ',
+    mainNav: 'メイン',
+    sidebar: 'サイドバー',
+    elsewhere: 'ほかの場所',
+    badges: 'バッジ',
+    languages: '言語',
+    homepage: '{name}の個人ホームページ',
+  },
+
+  header: {
+    bookmark: '{{key}}を押してこのサイトをお気に入りに登録！',
+    slogan: '1991年から続く、インターネットで一番のbrian sztamfater情報源',
+    building: 'いま作っているもの...',
+    checkItOut: '» チェックしてね «',
+    home: 'ホーム',
+  },
+
+  nav: {
+    thoughts: '考え',
+    now: 'いま',
+    gifs: 'gif',
+    about: '自己紹介',
+  },
+
+  footer: {
+    credits1: '人間ひとりとAIが作りました。',
+    credits2: '意見はすべて人間のものです。',
+    email: 'メール',
+    anyBrowser: 'どのブラウザでも見られます。昔そんな表示、ありましたよね。',
+    first: 'はじめまして？こんにちは。',
+    firstNo: 'はじめまして？こんにちは。あなたは{n}人目の訪問者です。',
+    back: 'おかえりなさい。',
+    backNo: 'おかえりなさい、{n}人目の訪問者さん。',
+    languages: 'このページを他の言語で',
+  },
+
+  home: {
+    welcome: 'ぼくのホームページへようこそ！',
+    tagline: 'ものを作って、ものを考えて、ときどきそれに夢中になります。そのいくつかをここに置いています。',
+    currently: 'いま：',
+    building: '作っているもの',
+    updated: '更新！',
+    lastUpdate: '最終更新：',
+    ticker: [
+      'インターネットの小さな片隅へようこそ',
+      '工事中、永遠に',
+      'クッキーなし、ポップアップなし、ニュースレターなし',
+      '考えは気が向いたときに追加',
+      '{city}で作りました',
+      '来てくれてありがとう',
+    ],
+    latestThoughts: '最近の考え',
+    viewAll: 'すべて見る »',
+    nothingYet: 'まだ何もありません。近日公開。',
+    siteStats: 'サイト統計',
+    visitorNo: 'あなたの訪問者番号は',
+    oneNumber: '（数字ひとつだけ、トラッキングなし）',
+    localTime: '現地時間',
+    thoughts: '考え',
+    onlineSince: '公開開始',
+    inBA: 'ブエノスアイレス時間',
+    rightNow: 'いまこの瞬間',
+    moreNow: '詳しくは/nowページで »',
+    comingSoon: '近日公開',
+    soon: ['もの', '実験', 'ゲーム', '愛用品'],
+    underConstruction1: 'これらのセクションは',
+    underConstruction2: '工事中です',
+    elsewhere: 'ほかの場所',
+    aboutSite: 'このサイトについて',
+    aboutSiteText: 'ここはインターネットのぼくの小さな片隅です。特に目的はありません。ただ、ものを置いておく場所。',
+  },
+
+  thoughts: {
+    title: '考え',
+    description: 'Brian Sztamfaterが考えていることを、気が変わる前に書き留めたもの。',
+    kicker: '~/考え',
+    lede: 'いま考えていることを、気が変わる前に書き留めています。ソフトウェア、AI、ゲーム、インターネット、それからその週に気になっていること。新しいものが先。{{rss}}もあります、仲間のあなたへ。',
+    rssFeed: 'RSSフィード',
+    nothingYet: 'まだ何もありません。近日公開。',
+    read: '読む →',
+    date: '日付',
+    thought: '考え',
+    new: 'new!',
+    fresh: 'キーボードから出てきたばかり',
+  },
+
+  thought: {
+    back: '← 考え',
+    aboutPost: 'この記事について',
+    updated: '更新',
+    minRead: '読了まで{n}分',
+    readingTime: '読了時間',
+    published: '公開日',
+    updatedLabel: '更新日',
+    replyPrompt: 'どう思いました？',
+    replyLink: 'xで教えてください',
+    keepReading: '続けて読む',
+    moreThoughts: 'ほかの考え',
+    older: '前へ',
+    newer: '次へ',
+    imageAlt: '{name}の考え：{title}',
+    translated: '英語版からAIが翻訳しました。意見はいまも人間のものです。{{original}}',
+    original: '原文を読む',
+    untranslated: 'この記事はまだ翻訳されていないので、英語のままお届けします。',
+  },
+
+  now: {
+    title: 'いま',
+    description: 'Brian Sztamfaterがいま何をしているか、{month}時点。',
+    statusReport: '状況報告',
+    lastUpdated: '最終更新',
+    stillDeciding: '（まだ決めかねています）',
+    lastUpdatedLong: '最終更新：{date}。',
+    aboutNow:
+      'これは{{nowPage}}です。人生のこの時点で、ぼくが何に集中しているかのスナップショット。古く見えるなら、たぶんここに書いてあることをやるのに忙しいんだと思います。',
+    nowPage: 'nowページ',
+  },
+
+  gifs: {
+    title: 'GIF',
+    description: 'アニメーションGIFの小さなコレクション：コンピュータ、ゲーム機、ゲーム、昔のウェブ。オリジナルのピクセルアート。',
+    lede: 'アニメーションGIFの小さなコレクション。昔はどのホームページにもありましたよね。コンピュータ、ゲーム機、ゲーム、それから昔のウェブ。',
+    fine: 'ここのピクセルアートはこのサイトのために描いたものです（鉛筆を持っていたのはAI）。公式スプライトではなく、オマージュです。クリックするとファイルが開きます。',
+    categories: 'GIFのカテゴリ',
+    top: '上へ ↑',
+    open: '{file}を開く',
+    frames: '{n}フレーム',
+    via: '出典',
+  },
+
+  about: {
+    title: '自己紹介',
+    description:
+      'Brian Sztamfaterはブエノスアイレス出身の起業家、ソフトウェアエンジニア、ビルダー、著者。現在はMobyを作っています。',
+    hello: 'こんにちは！',
+    currentlyBuilding: 'いま作っているもの',
+    books: '本',
+    elsewhere: 'ほかの場所',
+    thisSite: 'このサイト',
+    colophon:
+      '{{astro}}で作り、AIとペアプログラミングしました（意見を出したのはぼく、タイピングはほとんどAI）。フォントはVerdana、2003年のつもりで。小さなピクセル部分には少しだけSilkscreen。クッキーなし、アナリティクスなし、トラッキングなし。HTMLとCSSと、数行のJavaScriptだけ（そのうち一行があなたの言語を選んでいます）。',
+  },
+
+  notFound: {
+    title: 'ページが見つかりません',
+    description: 'このページはどこかへ行ってしまいました。',
+    code: 'エラー 404',
+    heading: 'このページはどこかへ行ってしまいました。',
+    body: 'もともと存在しなかったのか、ぼくが移動させてメモを残し忘れたのか。すみません。{{home}}か{{thoughts}}を試してみてください。',
+    home: 'トップページ',
+    thoughts: '考えのページ',
+  },
+
+  content: {
+    about: {
+      intro: 'Brianです。ブエノスアイレス出身の起業家、ソフトウェアエンジニア、ビルダー、著者です。',
+      paragraphs: [
+        '人生の大半を、コンピュータでものを作って過ごしてきました。モバイルアプリやスタートアップから、ゲーム、暗号資産のプロダクト、そしてだんだん奇妙になっていくAIの実験まで。',
+        '個性のあるプロダクト、使って気持ちのいいインターフェース、古いゲーム、新しいテクノロジー、そしてほんの少しだけ野心的すぎるアイデアが好きです。',
+      ],
+    },
+    moby: {
+      blurb: 'Solana、Robinhood Chain、Base、BNB Chain上のスマートマネーを追跡するトレーディングアプリ',
+      short: 'スマートマネー追跡のトレーディングアプリ',
+    },
+    now: {
+      Building: { label: '作っているもの', note: 'Solana、Robinhood Chain、Base、BNB Chain上のスマートマネーを追跡するトレーディングアプリ。' },
+      'Thinking about': { label: '考えていること', value: 'AIネイティブなソフトウェア', note: 'そして、作ることが安くなったら何が起きるのか。' },
+      Playing: { label: '遊んでいるゲーム', note: '暇なときにね、lol。' },
+      Reading: { label: '読んでいる本', note: 'Alejandro Dolina著。' },
+      'Experimenting with': { label: '実験していること', value: '自律型ソフトウェア企業', note: 'AIエージェントだけで運営されるもの。' },
+      'Based in': { label: '拠点', value: 'アルゼンチン、ブエノスアイレス' },
+    },
+    gifCategories: {
+      computers: 'コンピュータとソフトウェア',
+      consoles: 'ゲーム機',
+      games: 'ゲーム',
+      web: '昔のウェブ',
+    },
+    gifs: {
+      'vb6.gif': { note: 'Form1、ドットのグリッド、そして描いたばかりのCommand1。', alt: 'デザインモードのVisual Basic 6のフォーム。十字カーソルがCOMMAND1というラベルの新しいCommandButtonをドラッグして描いている。' },
+      'computer.gif': { title: 'ベージュのPC', alt: 'ベージュのコンピュータ。緑色の文字のモニターがDOSプロンプトにRUNと打ち込み、それからHI!!!と表示する。' },
+      'floppy.gif': { title: '3.5インチフロッピー', note: '容量1.44MB。', alt: '青い3.5インチのフロッピーディスク。金属のシャッターが開いたり閉じたりする。' },
+      'cd.gif': { note: '52倍速で回転中。', alt: '虹色に光りながら回転するコンパクトディスク。' },
+      'hourglass.gif': { title: 'しばらくお待ちください...', alt: '砂時計のカーソル。砂が落ちきると、ひっくり返る。' },
+      'gamepad.gif': { title: '8ビットのゲームパッド', note: 'Nintendoに。', alt: '十字キーと赤いボタン2つがついた灰色の長方形のゲームパッド。ボタンが押されている。' },
+      'dualpad.gif': { title: '4ボタンのパッド', note: 'PlayStationに。', alt: 'グリップが2つある灰色のゲームパッド。4つの色付きボタンが順番に光る。' },
+      'cartridge.gif': { title: '16ビットのカートリッジ', note: 'Segaに。まず端子を吹いて。', alt: '黒い16ビットのゲームカートリッジ。端子にふっと息が吹きかけられている。' },
+      'black-mage.gif': { title: '小さな黒魔道士', note: 'Vivi Ornitierに。', alt: '大きなとんがり麦わら帽子をかぶり、黄色く光る目をした小さな黒魔道士。杖から小さな火の魔法を放っている。' },
+      'mushroom.gif': { title: 'キノコ', note: 'Marioに。', alt: '白い斑点と小さな目のついた赤いキノコが跳ねている。' },
+      'coin.gif': { title: 'コイン', note: 'こちらもMarioに。', alt: '回転する金色のコイン。' },
+      'heart.gif': { title: 'ハート', note: 'Zeldaに。', alt: '赤いピクセルのハートが脈打っている。' },
+      'sword.gif': { title: '石に刺さった剣', note: 'こちらもZeldaに。', alt: '青い柄の剣が石に刺さり、刃に沿って光が走る。' },
+      'barrel.gif': { title: 'タル', note: 'Donkey Kongに。', alt: '木のタルが転がっている。' },
+      'bat.gif': { title: 'コウモリ', note: 'Castlevaniaに。', alt: '赤い目をした紫のコウモリが羽ばたいている。' },
+      'candle.gif': { title: '壁のろうそく', note: 'こちらもCastlevaniaに。ムチで叩いて。', alt: '金色の燭台に立つろうそく。炎が揺れている。' },
+      'globe.gif': { title: '回る地球', note: 'どのホームページにもあった。', alt: 'ピクセルアートの地球が回転している。' },
+      'construction.gif': { title: '工事中', alt: '黄色い警告標識。上でオレンジのライトが点滅している。' },
+      'mail.gif': { title: 'メールが届きました', alt: '封筒が開き、手紙が滑り出てくる。' },
+      'fire.gif': { title: '炎', note: '定番のやつ。', alt: 'アニメーションするピクセルの炎。' },
+    },
+    books: {
+      '9789878241272': {
+        description: '独学についての本。大学の学位に頼らず、自分の条件でキャリアを築くための40のヒント。',
+        languageLabel: 'スペイン語',
+      },
+    },
+  },
+};

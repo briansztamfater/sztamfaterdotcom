@@ -7,7 +7,7 @@ import { z } from 'astro/zod';
  * The filename becomes the URL: my-post.md -> /thoughts/my-post/
  */
 const thoughts = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/thoughts' }),
+  loader: glob({ pattern: '[^_]*.{md,mdx}', base: './src/content/thoughts' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -25,4 +25,18 @@ const thoughts = defineCollection({
     }),
 });
 
-export const collections = { thoughts };
+/**
+ * Translations of thoughts: src/content/thoughts-i18n/<lang>/<same-slug>.md (or .mdx).
+ * Only the title, the excerpt and the body are translated; date, tags, cover and draft
+ * status come from the English original. A thought without a translation is shown in
+ * English on the translated site, with a note.
+ */
+const translations = defineCollection({
+  loader: glob({ pattern: '*/[^_]*.{md,mdx}', base: './src/content/thoughts-i18n' }),
+  schema: z.object({
+    title: z.string(),
+    excerpt: z.string().optional(),
+  }),
+});
+
+export const collections = { thoughts, translations };

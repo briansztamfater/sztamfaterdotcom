@@ -1,6 +1,6 @@
 # sztamfater.com
 
-My little corner of the internet. Astro, static, built by a human and an AI.
+My little corner of the internet. Astro, static, built by a human and an AI. In twelve languages (English is the original; the rest are AI translations under `/es/`, `/ja/`, …).
 
 ```sh
 npm install
@@ -17,6 +17,9 @@ npm run preview
 | I want to…                        | Edit                                    |
 | --------------------------------- | --------------------------------------- |
 | write a thought                   | add `src/content/thoughts/my-slug.md` (or `.mdx`) |
+| translate a thought               | `src/content/thoughts-i18n/<lang>/my-slug.md` (title, excerpt, body) |
+| change or translate site text     | `src/i18n/<lang>.ts` (`en.ts` is the source and the type) |
+| add a language                    | `src/i18n/locales.ts`, `src/i18n/<code>.ts`, `LOCALES` in `astro.config.mjs` |
 | update the /now page              | `src/data/now.ts` (bump `updated`)      |
 | change name, links, Moby URL      | `src/site.config.ts`                    |
 | add a section (things, uses, …)   | new page in `src/pages/`, one line in `NAV` |
@@ -43,6 +46,9 @@ draft: true             # optional, hidden from the build
 ```
 
 Files starting with `_` are ignored.
+
+Translations live next to it: `src/content/thoughts-i18n/<lang>/the-internet-used-to-be-more-fun.md`, with only `title` (and
+`excerpt`) in the frontmatter. A thought without a translation shows up in English on the translated site, with a note.
 
 Each thought automatically gets its own social preview image (`/og/thoughts/<slug>.png`), a Markdown copy (`/thoughts/<slug>.md`),
 Open Graph + X card tags (with reading time and date labels for Slack/X/Discord unfurls),

@@ -1,0 +1,169 @@
+---
+/** The /thoughts list, in any language. */
+import Base from '../layouts/Base.astro';
+import { getThoughts, thoughtUrl, excerptOf, isNew, newUntil } from '../lib/thoughts';
+import NewBadge from '../components/NewBadge.astro';
+import { stamp, iso } from '../lib/dates';
+import { SITE } from '../site.config';
+import { graph, identity } from '../lib/seo';
+import { t, type Lang, localeOf, localePath, parts } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const dict = t(lang);
+const thoughts = await getThoughts(lang);
+const base = `${SITE.url}${localePath(lang, '/thoughts/')}`;
+
+// group by year, newest first
+const years = [...new Set(thoughts.map((t) => t.data.date.getUTCFullYear()))];
+const byYear = years.map((y) => ({ year: y, items: thoughts.filter((t) => t.data.date.getUTCFullYear() === y) }));
+---
+
+<Base
+  lang={lang}
+  title={dict.thoughts.title}
+  description={dict.thoughts.description}
+  image="/og/thoughts.png"
+  jsonLd={graph(
+    {
+      '@type': 'Blog',
+      '@id': `${base}#blog`,
+      name: `${SITE.name}: ${dict.thoughts.title.toLowerCase()}`,
+      url: base,
+      inLanguage: localeOf(lang).html,
+      author: { '@id': `${SITE.url}/#person` },
+      blogPost: thoughts.map((t) => ({ '@id': `${SITE.url}${thoughtUrl(t)}#post` })),
+    },
+    ...identity(),
+  )}
+>
+  <header class="page-head margin-layout">
+    <p class="in-margin kicker ui">{dict.thoughts.kicker}</p>
+    <h1>{dict.thoughts.title}</h1>
+    <p class="lede">
+      {parts(dict.thoughts.lede).map((p) => (typeof p === 'string' ? p : <a href="/rss.xml">{dict.thoughts.rssFeed}</a>))}
+    </p>
+  </header>
+
+  {
+    byYear.map(({ year, items }) => (
+      <section class="year margin-layout" aria-labelledby={`y${year}`}>
+        <h2 id={`y${year}`} class="in-margin year-label pixel">
+          {year}
+        </h2>
+        <ol class="entries">
+          {items.map((t) => (
+            <li>
+              <article>
+                <time class="ui" datetime={iso(t.data.date)}>
+                  {stamp(t.data.date, lang)}
+                </time>
+                <h3>
+                  <a href={thoughtUrl(t)}>{t.data.title}</a>
+                  {isNew(t) && <NewBadge lang={lang} until={newUntil(t)} />}
+                </h3>
+                <p class="excerpt">{excerptOf(t)}</p>
+                <p class="foot ui">
+                  <a href={thoughtUrl(t)} class="read" aria-hidden="true" tabindex="-1">
+                    {dict.thoughts.read}
+                  </a>
+                  {t.data.tags.length > 0 && <span class="tags">{t.data.tags.map((tag) => `#${tag}`).join(' ')}</span>}
+                </p>
+              </article>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
+
+  {thoughts.length === 0 && <p class="muted">{dict.thoughts.nothingYet}</p>}
+</Base>
+
+<style>
+  .page-head {
+    padding: 0.25rem 0 1.5rem;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .kicker {
+    color: var(--ink-2);
+    padding-top: 1.1rem;
+    margin: 0;
+    direction: ltr;
+  }
+
+  h1 {
+    font-size: var(--step-4);
+    color: var(--red);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+
+  .lede {
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  .year {
+    margin-bottom: 2rem;
+  }
+
+  .year-label {
+    font-size: 0.75rem;
+    padding-top: 0.4rem;
+    color: var(--accent-ink);
+  }
+
+  .entries {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entries li + li {
+    margin-top: 1.8rem;
+  }
+
+  article time {
+    display: block;
+    color: var(--ink-2);
+    margin-bottom: 0.35rem;
+  }
+
+  h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
+  }
+
+  .excerpt {
+    margin-bottom: 0.5rem;
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+    margin: 0;
+  }
+
+  .read {
+    color: var(--link);
+  }
+
+  .tags {
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 46rem) {
+    .kicker {
+      padding: 0;
+    }
+  }
+</style>

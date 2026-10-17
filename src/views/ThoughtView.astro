@@ -1,0 +1,264 @@
+---
+/** One thought, in any language. Untranslated ones show the English text with a note. */
+import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { SITE, SOCIALS } from '../site.config';
+import { graph, identity } from '../lib/seo';
+import { thoughtUrl, excerptOf, readingMinutes, wordCount, type Thought } from '../lib/thoughts';
+import { longDate, shortDate, stamp, iso } from '../lib/dates';
+import { t, type Lang, DEFAULT_LANG, localeOf, localePath, fmt, parts } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  thought: Thought;
+  newer?: Thought;
+  older?: Thought;
+}
+
+const { lang, thought, newer, older } = Astro.props;
+const dict = t(lang);
+const { Content } = await render(thought.entry);
+const { title, date, updated, tags, cover, coverAlt } = thought.data;
+const minutes = readingMinutes(thought);
+const isOriginal = lang === DEFAULT_LANG;
+/** The language the text is actually in (English, when there's no translation yet). */
+const textLang = thought.translated ? lang : DEFAULT_LANG;
+
+const ogImage = cover
+  ? (await getImage({ src: cover, width: 1200, height: 630, fit: 'cover', format: 'png' })).src
+  : `/og/thoughts/${thought.id}.png`;
+const url = `${SITE.url}${thoughtUrl(thought)}`;
+const originalUrl = `${SITE.url}${thoughtUrl(thought, DEFAULT_LANG)}`;
+const jsonLd = graph(
+  {
+    '@type': 'BlogPosting',
+    '@id': `${url}#post`,
+    headline: title,
+    description: excerptOf(thought),
+    datePublished: date.toISOString(),
+    dateModified: (updated ?? date).toISOString(),
+    url,
+    mainEntityOfPage: url,
+    image: new URL(ogImage, SITE.url).href,
+    keywords: tags,
+    articleSection: 'Thoughts',
+    wordCount: wordCount(thought),
+    timeRequired: `PT${minutes}M`,
+    inLanguage: localeOf(textLang).html,
+    ...(isOriginal ? {} : { translationOfWork: { '@id': `${originalUrl}#post` } }),
+    author: { '@id': `${SITE.url}/#person` },
+    publisher: { '@id': `${SITE.url}/#person` },
+    isPartOf: { '@id': `${SITE.url}${localePath(lang, '/thoughts/')}#blog` },
+  },
+  ...identity(),
+);
+const x = SOCIALS.find((s) => s.label === 'X');
+const firstName = SITE.name.split(' ')[0];
+---
+
+<Base
+  lang={lang}
+  title={title}
+  description={excerptOf(thought)}
+  type="article"
+  publishedTime={date}
+  modifiedTime={updated}
+  section="Thoughts"
+  tags={tags}
+  labels={[
+    { label: dict.thought.readingTime, data: `${minutes} min` },
+    { label: updated ? dict.thought.updatedLabel : dict.thought.published, data: shortDate(updated ?? date, lang) },
+  ]}
+  image={ogImage}
+  markdown={isOriginal ? `/thoughts/${thought.id}.md` : undefined}
+  imageAlt={cover ? coverAlt : fmt(dict.thought.imageAlt, { name: SITE.name, title })}
+  jsonLd={jsonLd}
+>
+  <article class="thought">
+    <header class="margin-layout head">
+      <p class="in-margin crumbs ui"><a href={localePath(lang, '/thoughts/')}>{dict.thought.back}</a></p>
+      <h1 lang={thought.translated ? undefined : 'en'}>{title}</h1>
+    </header>
+
+    <div class="margin-layout">
+      <aside class="in-margin meta ui" aria-label={dict.thought.aboutPost}>
+        <time datetime={iso(date)} title={longDate(date, lang)}>{stamp(date, lang)}</time>
+        {
+          updated && (
+            <span>
+              {dict.thought.updated} <time datetime={iso(updated)}>{stamp(updated, lang)}</time>
+            </span>
+          )
+        }
+        <span>{fmt(dict.thought.minRead, { n: minutes })}</span>
+        {tags.length > 0 && <span class="tags">{tags.map((t) => `#${t}`).join(' ')}</span>}
+      </aside>
+
+      {
+        !isOriginal && (
+          <p class="translation ui">
+            {thought.translated
+              ? parts(dict.thought.translated).map((p) =>
+                  typeof p === 'string' ? p : <a href={thoughtUrl(thought, DEFAULT_LANG)} hreflang="en">{dict.thought.original}</a>,
+                )
+              : dict.thought.untranslated}
+          </p>
+        )
+      }
+
+      <div class="prose" lang={thought.translated ? undefined : 'en'} dir={thought.translated ? undefined : 'ltr'}>
+        <Content />
+      </div>
+
+      <footer class="end">
+        <p class="sign">
+          <span aria-hidden="true">—</span> {firstName}, {longDate(date, lang)}
+        </p>
+        {
+          x && (
+            <p class="reply ui">
+              {dict.thought.replyPrompt} <a href={x.href}>{dict.thought.replyLink}</a>
+            </p>
+          )
+        }
+      </footer>
+    </div>
+  </article>
+
+  {
+    (newer || older) && (
+      <nav class="more margin-layout" aria-label={dict.thought.moreThoughts}>
+        <h2 class="in-margin pixel">{dict.thought.keepReading}</h2>
+        <ul>
+          {older && (
+            <li>
+              <span class="ui muted">{dict.thought.older} · {stamp(older.data.date, lang)}</span>
+              <a href={thoughtUrl(older)}>{older.data.title}</a>
+            </li>
+          )}
+          {newer && (
+            <li>
+              <span class="ui muted">{dict.thought.newer} · {stamp(newer.data.date, lang)}</span>
+              <a href={thoughtUrl(newer)}>{newer.data.title}</a>
+            </li>
+          )}
+        </ul>
+      </nav>
+    )
+  }
+</Base>
+
+<style>
+  .head {
+    padding: 0.25rem 0 1.5rem;
+  }
+
+  .crumbs {
+    margin: 0;
+    padding-top: 0.9rem;
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.35rem;
+    color: var(--ink-2);
+    font-size: var(--step--2);
+    line-height: 1.4;
+    border-top: 1px solid var(--line);
+    align-self: start;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .meta time {
+    color: var(--ink);
+    font-size: var(--step--1);
+  }
+
+  .tags {
+    color: var(--ink-3);
+  }
+
+  /* the little "translated by an AI" box above translated posts */
+  .translation {
+    margin: 0 0 1.2rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px dashed var(--khaki-line);
+    background: var(--cream);
+    color: var(--ink-2);
+  }
+
+  .end {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .sign {
+    font-family: var(--text);
+    font-style: italic;
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
+  }
+
+  .reply {
+    color: var(--ink-2);
+  }
+
+  .more {
+    margin-top: 3.5rem;
+  }
+
+  .more h2 {
+    font-size: 0.65rem;
+    padding-top: 0.3rem;
+  }
+
+  .more ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .more li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .more a {
+    font-family: var(--text);
+    font-size: var(--step-1);
+    line-height: 1.25;
+  }
+
+  @media (max-width: 46rem) {
+    .crumbs {
+      padding: 0 0 1rem;
+    }
+
+    .meta {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.25rem 1rem;
+      margin-bottom: 1.6rem;
+      padding-top: 0.5rem;
+    }
+
+    .more h2 {
+      margin-bottom: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ThoughtView from '../../../views/ThoughtView.astro';
+import { getThoughts, type Thought } from '../../../lib/thoughts';
+import { OTHER_LANGS, type Lang } from '../../../i18n';
+
+export const getStaticPaths = (async () => {
+  const paths = [];
+  for (const lang of OTHER_LANGS) {
+    const thoughts = await getThoughts(lang);
+    paths.push(
+      ...thoughts.map((thought, i) => ({
+        params: { lang, slug: thought.id },
+        props: { lang, thought, newer: thoughts[i - 1], older: thoughts[i + 1] },
+      })),
+    );
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+interface Props {
+  lang: Lang;
+  thought: Thought;
+  newer?: Thought;
+  older?: Thought;
+}
+---
+
+<ThoughtView {...Astro.props} />

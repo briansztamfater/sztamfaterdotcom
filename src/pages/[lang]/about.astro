@@ -1,0 +1,10 @@
+---
+import type { GetStaticPaths } from 'astro';
+import AboutView from '../../views/AboutView.astro';
+import { OTHER_LANGS, type Lang } from '../../i18n';
+
+export const getStaticPaths = (() => OTHER_LANGS.map((lang) => ({ params: { lang } }))) satisfies GetStaticPaths;
+const lang = Astro.params.lang as Lang;
+---
+
+<AboutView lang={lang} />

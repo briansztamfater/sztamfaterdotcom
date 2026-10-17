@@ -17,7 +17,7 @@ export async function GET(context: APIContext) {
 
   const items = await Promise.all(
     thoughts.map(async (t) => {
-      const { Content } = await render(t);
+      const { Content } = await render(t.entry);
       const html = absolutize(await container.renderToString(Content));
       return {
         title: t.data.title,

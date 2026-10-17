@@ -1,7 +1,16 @@
 ---
 import Pixel from './Pixel.astro';
 import EmailLink from './EmailLink.astro';
+import LangSwitcher from './LangSwitcher.astro';
 import { SITE, SOCIALS } from '../site.config';
+import { t, type Lang, DEFAULT_LANG } from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = DEFAULT_LANG } = Astro.props;
+const dict = t(lang);
 
 const year = new Date().getFullYear();
 const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
@@ -17,15 +26,24 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
         <span class="muted">{SITE.basedIn} · {years}</span>
       </p>
       <p class="handmade">
-        built by a human and an AI.<br />
-        the opinions are all human.
+        {dict.footer.credits1}<br />
+        {dict.footer.credits2}
         <Pixel name="heart" scale={2} class="heart" />
       </p>
-      <p class="visits ui muted" data-visits hidden></p>
+      <p
+        class="visits ui muted"
+        data-visits
+        data-first={dict.footer.first}
+        data-first-no={dict.footer.firstNo}
+        data-back={dict.footer.back}
+        data-back-no={dict.footer.backNo}
+        hidden
+      >
+      </p>
     </div>
 
     <div class="elsewhere">
-      <ul class="socials ui" aria-label="Elsewhere">
+      <ul class="socials ui" aria-label={dict.a11y.elsewhere}>
         {
           SOCIALS.map((s) => (
             <li>
@@ -35,10 +53,10 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
             </li>
           ))
         }
-        <li><EmailLink>email</EmailLink></li>
+        <li><EmailLink>{dict.footer.email}</EmailLink></li>
       </ul>
 
-      <ul class="badges" aria-label="Badges">
+      <ul class="badges" aria-label={dict.a11y.badges}>
         <li>
           <a class="badge plain" href="/rss.xml">
             <span class="l">RSS</span><span class="r">feed</span>
@@ -51,12 +69,17 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
           <span class="badge"><span class="l">zero</span><span class="r">trackers</span></span>
         </li>
         <li>
-          <span class="badge" title="Viewable with any browser. Remember those?">
+          <span class="badge" title={dict.footer.anyBrowser}>
             <span class="l">any</span><span class="r">browser</span>
           </span>
         </li>
       </ul>
     </div>
+  </div>
+
+  <div class="languages">
+    <p class="pixel muted">{dict.footer.languages}</p>
+    <LangSwitcher lang={lang} variant="names" />
   </div>
 </footer>
 
@@ -76,11 +99,12 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
         sessionStorage.setItem('sz:counted', '1');
       }
       var show = function (count) {
-        var no = count > 0 ? 'visitor no. ' + String(count).padStart(6, '0') : '';
-        if (odo && no) odo.textContent = String(count).padStart(6, '0');
+        var no = count > 0 ? String(count).padStart(6, '0') : '';
+        if (odo && no) odo.textContent = no;
         if (el) {
-          el.textContent =
-            seen > 1 ? (no ? 'welcome back, ' + no + '.' : 'welcome back.') : no ? "first time here? hi. you're " + no + '.' : 'first time here? hi.';
+          var d = el.dataset;
+          var text = seen > 1 ? (no ? d.backNo : d.back) : no ? d.firstNo : d.first;
+          el.textContent = text.replace('{n}', no);
           el.hidden = false;
         }
       };
@@ -139,7 +163,7 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
 
   .handmade :global(.heart) {
     display: inline-block;
-    margin-left: 0.3rem;
+    margin-inline-start: 0.3rem;
     vertical-align: -1px;
     animation: beat 2.4s ease-in-out infinite;
   }
@@ -204,6 +228,7 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
       inset 1px 1px 0 color-mix(in srgb, var(--paper) 50%, white),
       inset -1px -1px 0 color-mix(in srgb, var(--ink) 25%, transparent);
     user-select: none;
+    direction: ltr;
   }
 
   .badge .l,
@@ -236,6 +261,16 @@ const years = year > SITE.since ? `${SITE.since}–${year}` : `${year}`;
   a.badge:hover {
     transform: translate(-1px, -1px);
     box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .languages {
+    margin-top: 2rem;
+    padding-top: 0.8rem;
+    border-top: 1px dotted var(--line);
+  }
+
+  .languages .pixel {
+    margin: 0 0 0.5rem;
   }
 
   @media (max-width: 40rem) {
